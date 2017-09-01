@@ -11,7 +11,7 @@ var should = require('./utilities/assertions'),
 (utilities.isIOS() ? describe.skip : describe)('Titanium.Media.Sound', function () {
 	it.skip('apiName', function () { // FIXME This only works on an instance of a proxy now
 		should(Ti.Media.Sound).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.Media.Sound.apiName).be.eql('Titanium.Media.Sound');
+		should(Ti.Media.Sound.apiName).be.eql('Ti.Media.Sound');
 	});
 
 	it('STATE_BUFFERING', function () {
