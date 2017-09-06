@@ -143,20 +143,20 @@ describe('Titanium.App', function () {
 		should(Ti.App.getName()).be.a.String;
 	});
 
-	(utilities.isWindows() ? it.skip : it)('proximityDetection', function () {
+	it('proximityDetection', function () {
 		should(Ti.App.proximityDetection).be.a.Boolean;
 	});
 
-	(utilities.isWindows() ? it.skip : it)('getProximityDetection()', function () {
+	it('getProximityDetection()', function () {
 		should(Ti.App.getProximityDetection).be.a.Function;
 		should(Ti.App.getProximityDetection()).be.a.Boolean;
 	});
 
-	(utilities.isWindows() ? it.skip : it)('proximityState', function () {
+	it('proximityState', function () {
 		should(Ti.App.proximityState).be.a.Boolean;
 	});
 
-	(utilities.isWindows() ? it.skip : it)('getProximityState()', function () {
+	it('getProximityState()', function () {
 		should(Ti.App.getProximityState).be.a.Function;
 		should(Ti.App.getProximityState()).be.a.Boolean;
 	});

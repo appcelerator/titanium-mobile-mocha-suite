@@ -8,7 +8,7 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.EmailDialog', function () {
-	(utilities.isWindowsDesktop() ? it.skip : it)('apiName', function () {
+	 it('apiName', function () {
 		var emailDialog = Ti.UI.createEmailDialog({
 			subject: 'this is some text'
 		});
@@ -36,7 +36,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		should(Ti.UI.EmailDialog).have.constant('CANCELLED').which.is.a.Number;
 	});
 
-	(utilities.isWindowsDesktop() ? it.skip : it)('subject', function () {
+	it('subject', function () {
 		var email = Ti.UI.createEmailDialog({
 			subject: 'this is some text'
 		});
@@ -49,7 +49,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		should(email.getSubject()).eql('other text');
 	});
 
-	(utilities.isWindowsDesktop() ? it.skip : it)('messageBody', function () {
+	it('messageBody', function () {
 		var email = Ti.UI.createEmailDialog({
 			messageBody: 'this is some text'
 		});
@@ -62,7 +62,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		should(email.getMessageBody()).eql('other text');
 	});
 
-	(utilities.isWindowsDesktop() ? it.skip : it)('toRecipients', function () {
+	it('toRecipients', function () {
 		var email = Ti.UI.createEmailDialog({
 			toRecipients: ['me@example.com']
 		});
@@ -75,7 +75,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		should(email.getToRecipients()).eql(['other@example.com']);
 	});
 
-	(utilities.isWindowsDesktop() ? it.skip : it)('ccRecipients', function () {
+	it('ccRecipients', function () {
 		var email = Ti.UI.createEmailDialog({
 			ccRecipients: ['me@example.com']
 		});
@@ -88,7 +88,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		should(email.getCcRecipients()).eql(['other@example.com']);
 	});
 
-	(utilities.isWindowsDesktop() ? it.skip : it)('bccRecipients', function () {
+	it('bccRecipients', function () {
 		var email = Ti.UI.createEmailDialog({
 			bccRecipients: ['me@example.com']
 		});

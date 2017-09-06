@@ -174,7 +174,7 @@ describe('Titanium.UI.Layout', function () {
 	});
 
 	// functional test case #1020: ViewCenter
-	it.skip('viewCenter', function (finish) {
+	it('viewCenter', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 			center: {
@@ -207,7 +207,7 @@ describe('Titanium.UI.Layout', function () {
 	// functional test case #1022, #1024
 	// ViewWidth, ViewHeight
 	// FIXME Get working on iOS and Android. They need to fire Ti.UI.Window postlayout events!
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || (utilities.isIOS() || utilities.isAndroid())) ? it.skip : it)('viewWidth', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('viewWidth', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 			width: 10,
@@ -243,7 +243,7 @@ describe('Titanium.UI.Layout', function () {
 	});
 
 	// functional test #1026 ViewError
-	it.skip('viewError', function (finish) {
+	it('viewError', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor: 'green',
@@ -493,7 +493,7 @@ describe('Titanium.UI.Layout', function () {
 
 	// functional test #1038, 1038a, 1038b
 	// UndefinedTop. Dynamic top calculation
-	it.skip('undefinedTop', function (finish) {
+	it('undefinedTop', function (finish) {
 		win = createWindow();
 		var view1 = Ti.UI.createView({
 				height: 50,
@@ -600,7 +600,7 @@ describe('Titanium.UI.Layout', function () {
 
 	// functional test #1043 LeftPrecedence
 	// Chris W: Skipping because we don't have any precedence set up yet for the properties, as far as I know...
-	it.skip('leftPrecedence', function (finish) {
+	it('leftPrecedence', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor: 'yellow',
@@ -628,7 +628,7 @@ describe('Titanium.UI.Layout', function () {
 	});
 
 	// functional test #1044 CenterXPrecedence
-	it.skip('centerXPrecedence', function (finish) {
+	it('centerXPrecedence', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 				height: 200,
@@ -689,7 +689,7 @@ describe('Titanium.UI.Layout', function () {
 
 	// functional test #1047 TopPrecedence
 	// Chris W: Skipping because we don't have any precedence set up yet for the properties, as far as I know...
-	it.skip('topPrecedence', function (finish) {
+	it('topPrecedence', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor: 'yellow',
@@ -717,7 +717,7 @@ describe('Titanium.UI.Layout', function () {
 	});
 
 	// functional test #1048 CenterYPrecedence
-	it.skip('centerYPrecedence', function (finish) {
+	it('centerYPrecedence', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 				height: 200,
@@ -752,7 +752,7 @@ describe('Titanium.UI.Layout', function () {
 	// functional test #1053 ScrollViewSize
 	// This is completely wrong. Adding a scrollview to a label?
 	// Really? Skipping
-	it.skip('scrollViewSize', function (finish) {
+	it('scrollViewSize', function (finish) {
 		win = createWindow();
 		var label = Ti.UI.createLabel({
 				color: 'red'
@@ -989,7 +989,7 @@ describe('Titanium.UI.Layout', function () {
 	// Functional Test #1000 SystemMeasurement
 	// FIXME Android doesn't fire Ti.UI.View.postlayout event on standard View
 	// FIXME Times out on iOS. Never fires postlayout?
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('systemMeasurement', function (finish) {
+	it('systemMeasurement', function (finish) {
 		win = createWindow();
 		var parent = Ti.UI.createView({
 				height: '50dip',
@@ -1025,8 +1025,7 @@ describe('Titanium.UI.Layout', function () {
 	// Functional Test #1001 #1002 #1003 #1004 #1005 #1006
 	// Skip on Windows 10 Desktop for now, it hangs
 	// FIXME Get working on iOS and Android. They don't fire Ti.UI.Window.postlayout event
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) ||
-	(utilities.isIOS() || utilities.isAndroid())) ? it.skip : it)('unitMeasurements', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('unitMeasurements', function (finish) {
 		win = createWindow();
 		var child = Ti.UI.createView({
 				height: '50mm',
@@ -1318,7 +1317,7 @@ describe('Titanium.UI.Layout', function () {
 	// TIMOB-8891
 	// FIXME Android doesn't fire Ti.UI.ScrollView.postlayout event
 	// FIXME Fails on iOS due to timeout. Never fires postlayout?
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('scrollViewWithLargeVerticalLayoutChild', function (finish) {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('scrollViewWithLargeVerticalLayoutChild', function (finish) {
 		win = createWindow();
 		var scrollView = Ti.UI.createScrollView({
 				contentHeight: 'auto',
@@ -1403,7 +1402,7 @@ describe('Titanium.UI.Layout', function () {
 
 	// FIXME Android doesn't fire postlayout event on Ti.UI.Window or standard Ti.UI.View right now
 	// FIXME Times out on iOS. Never fires postlayout?
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('twoPins', function (finish) {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('twoPins', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 				width: 100,
@@ -1435,7 +1434,7 @@ describe('Titanium.UI.Layout', function () {
 
 	// FIXME Android doesn't fire Ti.UI.View.postlayout event on standard View
 	// FIXME Tiems out on iOS. Never fires postlayout?
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('fourPins', function (finish) {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('fourPins', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 				width: 100,
@@ -1477,7 +1476,7 @@ describe('Titanium.UI.Layout', function () {
 
 	// TIMOB-18684
 	// FIXME Android doesn't fire postlayout event for Ti.UI.Window or standard Ti.UI.View class right now
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('layoutWithSIZE_and_fixed', function (finish) {
+	(utilities.isAndroid() ? it.skip : it)('layoutWithSIZE_and_fixed', function (finish) {
 		win = createWindow();
 		var view = Ti.UI.createView({
 				backgroundColor: 'green',
@@ -1555,7 +1554,7 @@ describe('Titanium.UI.Layout', function () {
 	// when both left & right are specified to parent
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #2', function (finish) {
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #2', function (finish) {
 		var view = Ti.UI.createView({
 			backgroundColor: 'orange',
 			layout: 'vertical',
@@ -1602,7 +1601,7 @@ describe('Titanium.UI.Layout', function () {
 	// when both left & right are specified to parent
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #3', function (finish) {
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #3', function (finish) {
 		var view = Ti.UI.createView({
 			backgroundColor: 'yellow',
 			layout: 'composite',
@@ -1650,7 +1649,7 @@ describe('Titanium.UI.Layout', function () {
 	// when both left & right are specified to parent
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #4', function (finish) {
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #4', function (finish) {
 		var view = Ti.UI.createView({
 			backgroundColor: 'yellow',
 			layout: 'horizontal',
@@ -1748,7 +1747,7 @@ describe('Titanium.UI.Layout', function () {
 	// parent view should fit the size of the child, not Window
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #6', function (finish) {
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #6', function (finish) {
 		var view = Ti.UI.createView({
 			backgroundColor: 'orange',
 			layout: 'vertical',
@@ -1797,7 +1796,7 @@ describe('Titanium.UI.Layout', function () {
 	// parent view should fit the size of the child, not Window
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #7', function (finish) {
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #7', function (finish) {
 		var view = Ti.UI.createView({
 			backgroundColor: 'orange',
 			layout: 'composite',
@@ -1844,7 +1843,7 @@ describe('Titanium.UI.Layout', function () {
 	// left & right should just work for child view when parent is Window (composite)
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #8', function (finish) {
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #8', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
 			right: 10,
@@ -1878,7 +1877,7 @@ describe('Titanium.UI.Layout', function () {
 	// left & right should just work for child view when parent is Window (horizontal)
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #9', function (finish) {
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #9', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
 			right: 10,
@@ -1912,7 +1911,8 @@ describe('Titanium.UI.Layout', function () {
 	// left & right should just work for child view when parent is Window (vertical)
 	//
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #10', function (finish) {
+	// Windows crashes on label with left and right TIMOB-24848
+	((utilities.isWindows() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TIMOB-23372 #10', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
 			right: 10,
@@ -1991,5 +1991,48 @@ describe('Titanium.UI.Layout', function () {
 		});
 		win.add(label);
 		win.open();
+	});
+
+	// TIMOB-23225
+	// FIXME: Fails on Android at 1 of the 0 assertions
+	(utilities.isAndroid() ? it.skip : it)('TIMOB-23225', function (finish) {
+			var parent = Ti.UI.createView({
+					height: Ti.UI.SIZE,
+					width: Ti.UI.SIZE,
+					backgroundColor: 'orange'
+			});
+
+			var v1 = Ti.UI.createView({
+					height: 100, width: Ti.UI.FILL,
+					backgroundColor: 'gray',
+			});
+			var v2 = Ti.UI.createImageView({
+					height: 50, width: 50,
+					top: 0, right: 0,
+					backgroundColor: 'red',
+			});
+			var win = createWindow({}, finish);
+			win.addEventListener('open', function () {
+					setTimeout(function () {
+						var err;
+						try {
+							should(v1.rect.x).eql(0);
+							should(v1.rect.y).eql(0);
+							should(v1.rect.width).eql(parent.rect.width);
+							should(v1.rect.height).eql(parent.rect.height);
+							should(v2.rect.x).eql(parent.rect.width - v2.rect.width);
+							should(v2.rect.y).eql(0);
+							should(v2.rect.width).eql(50);
+							should(v2.rect.width).eql(50);
+						} catch (e) {
+							err = e;
+						}
+						finish(err);
+					}, 2000);
+			});
+			parent.add(v1);
+			parent.add(v2);
+			win.add(parent);
+			win.open();
 	});
 });

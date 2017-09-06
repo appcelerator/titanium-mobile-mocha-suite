@@ -86,9 +86,9 @@ describe('Titanium.UI.Button', function () {
 		win.open();
 	});
 
-	// Skip on Windows 10 and 8.1 desktop for now, it hangs
 	// FIXME iOS getFile().read() returns null for Logo.png
-	(utilities.isWindows10() || (utilities.isWindows8_1() && utilities.isWindowsDesktop() || utilities.isIOS()) ? it.skip : it)('image(Blob)', function (finish) {
+	// FIXME: Windows crashes when setting image prop to blob TIMOB-25014
+	(utilities.isIOS() || utilities.isWindows() ? it.skip : it)('image(Blob)', function (finish) {
 		this.slow(1000);
 		this.timeout(20000);
 
@@ -114,7 +114,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	((utilities.isWindowsDesktop() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundColor/Image', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundColor/Image', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -141,7 +141,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -168,7 +168,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -195,7 +195,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -222,7 +222,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('backgroundGradient', function (finish) {
+	(utilities.isIOS() ? it.skip : it)('backgroundGradient', function (finish) {
 		this.slow(1000);
 		this.timeout(20000);
 
@@ -256,7 +256,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -284,7 +284,7 @@ describe('Titanium.UI.Button', function () {
 
 	// FIXME Intermittently failing on Android build machine - I think due to test timeout!
 	// FIXME Fails on iOS due to timeout. Never fires postlayout?
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('rect and size', function (finish) {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('rect and size', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);

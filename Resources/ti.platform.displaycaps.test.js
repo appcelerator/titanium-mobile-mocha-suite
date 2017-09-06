@@ -28,7 +28,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	// FIXME Get working on IOS
-	(utilities.isIOS() ? it.skip : it)('dpi', function () {
+	(utilities.isIOS()? it.skip : it)('dpi', function () {
 		should(Ti.Platform.displayCaps).have.readOnlyProperty('dpi').which.is.a.Number;
 		should(Ti.Platform.displayCaps.dpi).be.above(0);
 	});

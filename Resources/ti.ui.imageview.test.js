@@ -137,8 +137,8 @@ describe('Titanium.UI.ImageView', function () {
 
 		imageView.image = 'ms-appdata:///local/TIMOB-20609.png';
 	});
-
-	(utilities.isWindows() ? it : it.skip)('image (File)', function (finish) {
+	//TIMOB-24985
+	(utilities.isWindows() ? it.skip : it)('image (File)', function (finish) {
 		var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'Logo.png');
 
 		var imageView = Ti.UI.createImageView();
@@ -154,8 +154,8 @@ describe('Titanium.UI.ImageView', function () {
 
 		imageView.image = fromFile;
 	});
-
-	(utilities.isWindows() ? it : it.skip)('image (Blob)', function (finish) {
+	//TIMOB-24985
+	(utilities.isWindows() ? it.skip : it)('image (Blob)', function (finish) {
 		var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'Logo.png'),
 			blob = fromFile.read();
 		var imageView = Ti.UI.createImageView();
@@ -172,7 +172,7 @@ describe('Titanium.UI.ImageView', function () {
 		imageView.image = blob;
 	});
 
-	(utilities.isWindows() ? it : it.skip)('images', function (finish) {
+	it('images', function (finish) {
 		this.timeout(6e4);
 
 		win = Ti.UI.createWindow();

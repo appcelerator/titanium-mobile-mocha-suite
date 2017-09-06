@@ -7,7 +7,9 @@
 var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
-describe('Titanium.Geolocation', function () {
+// Skip on Windows 10 Mobile device family due to prompt,
+// however we might be able to run some tests?
+(utilities.isWindowsEmulator() ? describe.skip : describe)('Titanium.Geolocation', function () {
 	it('apiName', function () {
 		should(Ti.Geolocation).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Geolocation.apiName).be.eql('Ti.Geolocation');
@@ -84,6 +86,7 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation.getLocationServicesEnabled).be.a.Function;
 		should(Ti.Geolocation.getLocationServicesEnabled()).be.a.Boolean;
 	});
+
 
 	it('forwardGeocoder', function (finish) {
 		this.timeout(6e4); // 60 sec

@@ -9,7 +9,7 @@ var should = require('./utilities/assertions'),
 
 // FIXME These constants are on instances of iOS proxies, not on module itself
 (utilities.isIOS() ? describe.skip : describe)('Titanium.Media.AudioPlayer', function () {
-	it.skip('apiName', function () { // FIXME This only works on an instance of a proxy now
+	it('apiName', function () { // FIXME This only works on an instance of a proxy now
 		should(Ti.Media.AudioPlayer).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Media.AudioPlayer.apiName).be.eql('Ti.Media.AudioPlayer');
 	});

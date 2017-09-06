@@ -9,7 +9,7 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities'),
 	assert = require('./utilities/assertions');
 
-describe('Titanium', function () {
+describe('Titanium.UI', function () {
 
 	// TIMOB-23542 test previewContext
 	(utilities.isIOS() ? it : it.skip)('previewContext', function () {

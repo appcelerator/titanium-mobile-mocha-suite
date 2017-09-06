@@ -37,6 +37,7 @@ describe('Titanium.API', function () {
 		should(Ti.API.debug('log')).be.undefined;
 	});
 
+	// This API is iOS only
 	(utilities.isIOS() ? it : it.skip)('timestamp()', function () {
 		should(Ti.API.timestamp).be.a.Function;
 		should(Ti.API.debug('timestamp')).be.undefined;

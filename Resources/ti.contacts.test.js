@@ -47,6 +47,7 @@ describe('Titanium.Contacts', function() {
 		should(Ti.Contacts).have.constant('CONTACTS_SORT_LAST_NAME').which.is.a.Number;
 	});
 
+	// TODO: This should be hasContactsPermissions?
 	it('contactsAuthorization', function () {
 		should(function () {
 			should(Ti.Contacts.contactsAuthorization).not.be.undefined;
@@ -87,7 +88,7 @@ describe('Titanium.Contacts', function() {
 	// FIXME Skip on Windows 10.0 for now: https://jira.appcelerator.org/browse/TIMOB-23332
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says "Contacts permissions missing"
-	((utilities.isWindows10() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('getAllPeople()', function() {
+	(utilities.isIOS || utilities.isAndroid() || utilities.isWindows ? it.skip : it)('getAllPeople()', function() {
 		should(Ti.Contacts.getAllPeople).be.a.Function;
 		var people = Ti.Contacts.getAllPeople();
 		should(people).be.an.Array;
@@ -164,10 +165,11 @@ describe('Titanium.Contacts', function() {
 		should(noPerson).be.null;
 	});
 
-	// Skip on Windows 8.1
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says "Contacts permissions missing"
-	((utilities.isWindows8_1() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('Person add/remove', function () {
+	// FIXME: Windows gets killed on the should(queriedPerson).not.be.null; TIMOB-23332
+
+	(utilities.isIOS || utilities.isAndroid() || utilities.isWindows ? it.skip : it)('Person add/remove', function () {
 		// TODO Remove Arthur first if he already exists!
 
 		// create a person
@@ -204,8 +206,8 @@ describe('Titanium.Contacts', function() {
 		// We exercise removal in Person add/remove
 	});
 
-	it('requestAuthorization()', function() {
-		should(Ti.Contacts.requestAuthorization).be.a.Function;
+	it('requestContactsPermissions()', function() {
+		should(Ti.Contacts.requestContactsPermissions).be.a.Function;
 		// TODO Test the method
 	});
 

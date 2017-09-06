@@ -15,7 +15,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// FIXME iOS gives us an ELEMENT_NODE, not DOCUMENT_NODE
-	((utilities.isWindowsDesktop() || utilities.isIOS()) ? it.skip : it)('responseXML', function (finish) {
+	(utilities.isIOS() ? it.skip : it)('responseXML', function (finish) {
 		this.timeout(6e4);
 
 		var xhr = Ti.Network.createHTTPClient();
@@ -41,7 +41,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// Test for TIMOB-4513
-	it.skip('secureValidateProperty', function (finish) {
+	it('secureValidateProperty', function (finish) {
 		var xhr = Ti.Network.createHTTPClient();
 		should(xhr).be.an.Object;
 
@@ -165,7 +165,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	//https://appcelerator.lighthouseapp.com/projects/32238/tickets/2339
-	it.skip('responseHeadersBug', function (finish) {
+	it('responseHeadersBug', function (finish) {
 		this.timeout(3e4);
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
@@ -238,7 +238,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// Confirms that only the selected cookie is deleted
-	it.skip('clearCookiePositiveTest', function (finish) {
+	it('clearCookiePositiveTest', function (finish) {
 		this.timeout(3e4);
 		var timer = 0;
 		var second_cookie_fn = function (e) {
@@ -268,7 +268,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// Confirms that only the selected cookie is deleted
-	it.skip('clearCookieUnaffectedCheck', function (finish) {
+	it('clearCookieUnaffectedCheck', function (finish) {
 		this.timeout(3e4);
 		var timer = 0;
 		var second_cookie_fn = function (e) {
@@ -299,7 +299,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// https://jira.appcelerator.org/browse/TIMOB-2849
-	it.skip('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
+	it('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
 		this.timeout(3e4);
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
@@ -325,7 +325,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// https://jira.appcelerator.org/browse/TIMOB-11751
 	// https://jira.appcelerator.org/browse/TIMOB-17403
-	it.skip('callbackTestForGETMethod', function (finish) {
+	it('callbackTestForGETMethod', function (finish) {
 		this.timeout(30000);
 
 		var xhr = Ti.Network.createHTTPClient();
@@ -356,7 +356,7 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.send();
 	});
 
-	it.skip('callbackTestForPOSTMethod', function (finish) {
+	it('callbackTestForPOSTMethod', function (finish) {
 		this.timeout(3e4);
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
@@ -385,7 +385,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// FIXME Tests pass locally for me, but fail on Windows 8.1 and Win 10 desktop build agents
 	// FIXME iOS doesn't work. I think because of app thinning removing Logo.png
-	((utilities.isWindowsDesktop() || utilities.isWindows8_1() || utilities.isIOS()) ? it.skip : it)('POST multipart/form-data containing Ti.Blob', function (finish) {
+	(utilities.isIOS() ? it.skip : it)('POST multipart/form-data containing Ti.Blob', function (finish) {
 		this.timeout(6e4);
 
 		var xhr = Ti.Network.createHTTPClient(),

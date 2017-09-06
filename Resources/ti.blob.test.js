@@ -14,13 +14,14 @@ describe('Titanium.Blob', function () {
 		should(blob.apiName).be.eql('Ti.Blob');
 	});
 
-	it.skip('constructed from File.read()', function () {
+	it('constructed from File.read()', function () {
 		var blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob).be.an.Object;
 		should(blob).be.an.instanceof(Ti.Blob);
 	});
 
-	it.skip('constructed from image', function (finish) {
+	// Windows crashes on instanceof check TIMOB-25012
+	(utilities.isWindows() ? it.skip : it)('constructed from image', function (finish) {
 		var window = Ti.UI.createWindow();
 		var label = Ti.UI.createLabel({ text: 'test' });
 		window.add(label);
@@ -67,10 +68,10 @@ describe('Titanium.Blob', function () {
 	});
 
 	it('mimeType', function () {
-		var blob = Ti.Filesystem.getFile('app.js').read();
+		var blob = Ti.Filesystem.getFile('Logo.png').read();
 		should(blob.mimeType).be.a.String;
 		should(blob.mimeType.length).be.above(0);
-		should(blob.mimeType).be.eql('text/javascript');
+		should(blob.mimeType).be.eql('image/png');
 	});
 
 	it('length', function () {

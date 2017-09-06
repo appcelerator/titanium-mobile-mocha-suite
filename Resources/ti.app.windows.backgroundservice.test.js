@@ -10,14 +10,14 @@ var should = require('./utilities/assertions'),
 if (utilities.isWindows()) {
 	describe('Titanium.App.Windows.BackgroundService', function () {
 
-		it('API', function () {
+		it.skip('API', function () {
 			should(Ti.App.Windows).be.an.Object;
 			should(Ti.App.Windows.BackgroundService).be.an.Object;
 			should(Ti.App.Windows.BackgroundService.registerTimerTask).be.a.Function;
 			should(Ti.App.Windows.BackgroundService.unregisterAllTasks).be.a.Function;
 		});
 
-		it('registerTimerTask', function () {
+		it.skip('registerTimerTask', function () {
 			var task = Ti.App.Windows.BackgroundService.registerTimerTask('TitaniumWindows_Ti.BackgroundServiceTask', 15, true);
 			should(task).be.an.Object;
 			should(task.unregister).be.a.Function;
@@ -25,16 +25,15 @@ if (utilities.isWindows()) {
 			task.unregister();
 		});
 
-		it('registerPushNotificationTask', function (finish) {
+		it.skip('registerPushNotificationTask', function () {
 			var task = Ti.App.Windows.BackgroundService.registerPushNotificationTask('TitaniumWindows_Ti.BackgroundServiceTask');
 			should(task).be.an.Object;
 			should(task.unregister).be.a.Function;
 			should(task.taskId).be.a.Number;
 			task.unregister();
-			finish();
 		});
 
-		it('unregisterTask(task)', function () {
+		it.skip('unregisterTask(task)', function () {
 			var task = Ti.App.Windows.BackgroundService.registerTimerTask('TitaniumWindows_Ti.BackgroundServiceTask', 15, true);
 			should(task).be.an.Object;
 			should(task.unregister).be.a.Function;
@@ -42,7 +41,7 @@ if (utilities.isWindows()) {
 			Ti.App.Windows.BackgroundService.unregisterTask(task);
 		});
 
-		it('unregisterTask(task id)', function () {
+		it.skip('unregisterTask(task id)', function () {
 			var task = Ti.App.Windows.BackgroundService.registerTimerTask('TitaniumWindows_Ti.BackgroundServiceTask', 15, true);
 			should(task).be.an.Object;
 			should(task.unregister).be.a.Function;
@@ -50,7 +49,7 @@ if (utilities.isWindows()) {
 			Ti.App.Windows.BackgroundService.unregisterTask(task.taskId);
 		});
 
-		it('unregisterAllTasks', function () {
+		it.skip('unregisterAllTasks', function () {
 			var task = Ti.App.Windows.BackgroundService.registerTimerTask('TitaniumWindows_Ti.BackgroundServiceTask', 15, true);
 			should(task).be.an.Object;
 			should(task.unregister).be.a.Function;

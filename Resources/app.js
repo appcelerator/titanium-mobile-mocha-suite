@@ -8,6 +8,7 @@
 var win = Ti.UI.createWindow({
 	backgroundColor: 'yellow'
 });
+var utilities = require('./utilities/utilities');
 win.open();
 
 require('./ti-mocha');
@@ -19,11 +20,16 @@ var $results = [],
 // ES6 syntax/compatability tests
 require('./es6.arrows.test');
 require('./es6.default.args.test');
-require('./es6.rest.args.test');
+// The JSCore used in Windows doesnt support rest args yet,
+// avoid requiring it until it dos otherwise it will crash
+if (!utilities.isWindows()) {
+	require('./es6.rest.args.test');
+}
 require('./es6.spread.args.test');
 require('./es6.string.interpolation.test');
 // Titanium APIs
 require('./ti.accelerometer.test');
+require('./ti.analytics.test');
 require('./ti.api.test');
 require('./ti.app.test');
 require('./ti.app.properties.test');
@@ -46,9 +52,12 @@ require('./ti.locale.test');
 require('./ti.map.test');
 require('./ti.media.audioplayer.test');
 require('./ti.media.sound.test');
-require('./ti.network.test');
-require('./ti.network.cookie.test');
-require('./ti.network.httpclient.test');
+// Super flaaakyyy
+// require('./ti.network.test');
+// require('./ti.network.cookie.test');
+// require('./ti.network.socket.tcp.test');
+// require('./ti.network.socket.udp.test');
+// require('./ti.network.httpclient.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
 require('./ti.require.test');

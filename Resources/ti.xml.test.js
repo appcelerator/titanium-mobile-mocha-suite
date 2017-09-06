@@ -113,8 +113,7 @@ describe('Titanium.XML', function () {
 
 	// FIXME Get working on iOS - doesn't throw exception on parsing empty string
 	// FIXME: new V8 changes have prevented exceptions from throwing?
-	// (utilities.isIOS() ? it.skip : it)('documentParsing', function(finish) {
-	it.skip('documentParsing', function(finish) {
+	it('documentParsing', function(finish) {
 		var localSources = testSource;
 		var localInvalid = invalidSource;
 		// Parse valid documents
@@ -149,7 +148,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: dom-parser.js doesn't throw exception when it 'corrects' end tag
-	it.skip('invalidDocumentParsing', function (finish) {
+	it('invalidDocumentParsing', function (finish) {
 		var localSources = testSource;
 		var localInvalid = invalidSource;
 		should(function() {
@@ -176,7 +175,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// SKIP: because XPath is not a part of DOM level2 CORE
-	it.skip('xpath', function(finish) {
+	it('xpath', function(finish) {
 		var xml = Ti.XML.parseString(testSource['xpath.xml']);
 		var fooBarList = xml.documentElement.getElementsByTagName('FooBar');
 		should(fooBarList === null).be.eql(false);
@@ -257,7 +256,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: some functions should throw exception on out-of-bounds error
-	it.skip('xmlCData', function(finish) {
+	it('xmlCData', function(finish) {
 		var xml = Ti.XML.parseString(testSource['cdata.xml']);
 		var scriptList = xml.documentElement.getElementsByTagName('script');
 		should(scriptList.length).eql(1);
@@ -428,7 +427,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: splitText function should throw exception on out-of-bounds error
-	it.skip('apiXMLTextSplitText', function(finish) {
+	it('apiXMLTextSplitText', function(finish) {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		var firstString = 'first part|';
 		var secondString = 'second part';
@@ -458,7 +457,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// SKIP: textContent is not a part of DOM level2 CORE
-	it.skip('apiXMLTextGetText', function(finish) {
+	it('apiXMLTextGetText', function(finish) {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		var textValue = 'this is some test';
 		should(doc.createTextNode).be.a.Function;
@@ -485,7 +484,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: doctype support
-	it.skip('apiXmlDocumentProperties', function(finish) {
+	it('apiXmlDocumentProperties', function(finish) {
 		// File with DTD
 		var doc = Ti.XML.parseString(testSource['with_dtd.xml']);
 		should(doc.documentElement).not.be.type('undefined');
@@ -505,7 +504,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: value property should return empty string according to spec
-	it.skip('apiXmlDocumentCreateAttribute', function() {
+	it('apiXmlDocumentCreateAttribute', function() {
 		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createAttribute).be.a.Function;
 		var attr = doc.createAttribute('myattr');
@@ -734,7 +733,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: some properties should be null if it is unspecified
-	it.skip('apiXmlNodeProperties', function(finish) {
+	it('apiXmlNodeProperties', function(finish) {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		var nodesList = doc.getElementsByTagName('nodes');
 		should(nodesList === null).be.eql(false);
@@ -924,7 +923,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: isSupported should not throw exception
-	it.skip('apiXmlNodeIsSupported', function(finish) {
+	it('apiXmlNodeIsSupported', function(finish) {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		should(doc.isSupported).be.a.Function;
 		var results;
@@ -1022,7 +1021,7 @@ describe('Titanium.XML', function () {
 		finish();
 	});
 
-	it.skip('xmlNodeListRange', function(finish) {
+	it('xmlNodeListRange', function(finish) {
 		var xml = Ti.XML.parseString(testSource['nodes.xml']);
 		should(xml === null).be.eql(false);
 		var nodes = xml.getElementsByTagName('node');
@@ -1033,7 +1032,7 @@ describe('Titanium.XML', function () {
 		finish();
 	});
 
-	it.skip('apiXmlAttr', function (finish) {
+	it('apiXmlAttr', function (finish) {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		var node = doc.getElementsByTagName('node').item(0);
 		var attr;

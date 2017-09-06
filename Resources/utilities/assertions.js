@@ -32,7 +32,7 @@ should.Assertion.add('readOnlyProperty', function (propName) {
 		}
 	}
 
-	if (!utilities.isIOS()) { // FIXME read-only properties should also be non-configurable on iOS!
+	if (!utilities.isIOS() && !utilities.isWindows()) { // FIXME read-only properties should also be non-configurable on iOS!
 		props.configurable = false;
 	}
 	should(target).have.propertyWithDescriptor(propName, props);

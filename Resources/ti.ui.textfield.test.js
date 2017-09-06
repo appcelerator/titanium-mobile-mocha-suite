@@ -35,8 +35,8 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getValue()).eql('other text');
 	});
 
-	// Skip on Windows Phone since not available, yet
-	(!(utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('padding', function () {
+	// Skip on Windows Phone since not available, yet - review this comment EH
+	it('padding', function () {
 		var textfield = Ti.UI.createTextField({
 			value: 'this is some text',
 			padding: {
@@ -154,7 +154,7 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintTextColor()).eql('blue');
 	});
 
-	it.skip('width', function (finish) {
+	it('width', function (finish) {
 		this.timeout(5000);
 		var textfield = Ti.UI.createTextField({
 			value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

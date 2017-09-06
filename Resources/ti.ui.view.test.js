@@ -55,7 +55,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Get working on iOS and Android
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
@@ -80,7 +80,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Get working on iOS
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
@@ -105,7 +105,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Get working on iOS and Android
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
@@ -130,6 +130,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Get working on iOS
+
 	(((utilities.isIOS()) ? it.skip : it)('backgroundGradient', function (finish) {
 		this.timeout(10000);
 
@@ -161,7 +162,7 @@ describe('Titanium.UI.View', function () {
 	}));
 
 	// FIXME Get working on iOS and Android
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
@@ -187,7 +188,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME fails on Android because Ti.UI.View doesn't fire postlayout
 	// FIXME Times out on iOS. Never fires postlayout?
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('rect and size', function (finish) {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('rect and size', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL }),
 			error;
@@ -218,7 +219,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Get working on iOS! After #hide() call, visible still returns true)
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('hide() and show() change visible property value', function (finish) {
+	((utilities.isIOS()) ? it.skip : it)('hide() and show() change visible property value', function (finish) {
 		this.slow(2000);
 		this.timeout(7500);
 
@@ -246,9 +247,9 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.  - Works fine locally, to investigate EH
 	// FIXME Android reports view.rect.y to be 100, others report 150
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (top)', function (finish) {
+	((utilities.isAndroid()) ? it.skip : it)('animate (top)', function (finish) {
 		win = Ti.UI.createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor:'red',
@@ -285,9 +286,9 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.  - Works fine locally, to investigate EH
 	// FIXME Android reports view.rect.x to be 100, others report 150
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (left)', function (finish) {
+	((utilities.isAndroid()) ? it.skip : it)('animate (left)', function (finish) {
 		win = Ti.UI.createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor:'red',
@@ -325,9 +326,9 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.  - Works fine locally, to investigate EH
 	// FIXME Android reports value of 200 for one of the comparisons to 100
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('TIMOB-20598', function (finish) {
+	((utilities.isAndroid()) ? it.skip : it)('TIMOB-20598', function (finish) {
 		win = Ti.UI.createWindow();
 		var view = Ti.UI.createView({
 				backgroundColor:'red',
@@ -374,9 +375,9 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.  - Works fine locally, to investigate EH
 	// FIXME Android reports 90% for one of comparisons to 0 (view.left?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (left %)', function (finish) {
+	((utilities.isAndroid()) ? it.skip : it)('animate (left %)', function (finish) {
 		win = Ti.UI.createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor: 'red',
@@ -409,9 +410,9 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.  - Works fine locally, to investigate EH
 	// FIXME Android reports 90% for one of comparisons to 0 (view.top?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (top %)', function (finish) {
+	(( utilities.isAndroid()) ? it.skip : it)('animate (top %)', function (finish) {
 		win = Ti.UI.createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor: 'red',
@@ -444,9 +445,9 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.  - Works fine locally, to investigate EH
 	// FIXME Android reports 90% for one of comparisons to 10% (view.width?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (width %)', function (finish) {
+	((utilities.isAndroid()) ? it.skip : it)('animate (width %)', function (finish) {
 		win = Ti.UI.createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor: 'red',
@@ -480,9 +481,9 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.  - Works fine locally, to investigate EH
 	// FIXME Android reports 90% for one of comparisons to 10% (view.height?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (height %)', function (finish) {
+	((utilities.isAndroid()) ? it.skip : it)('animate (height %)', function (finish) {
 		win = Ti.UI.createWindow();
 		var view = Ti.UI.createView({
 			backgroundColor: 'red',

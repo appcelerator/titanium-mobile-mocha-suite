@@ -56,7 +56,7 @@ describe('Titanium.UI.Window', function () {
 
 	// FIXME Get working on iOS. iOS reports size of 100, which seems right...
 	// FIXME Get working on Android. Also reports size of 100...
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('window_size_is_read_only', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('window_size_is_read_only', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue',
 			width: 100,
@@ -80,7 +80,7 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	// FIXME Get working on iOS. reports left of 100, which seems right!
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('window_position_is_read_only', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('window_position_is_read_only', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'green',
 			left: 100,
@@ -104,7 +104,7 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	// FIXME https://jira.appcelerator.org/browse/TIMOB-23640
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('postlayout event gets fired', function (finish) {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('postlayout event gets fired', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'yellow' });
 
 		// Confirms that Ti.UI.Window fires postlayout event
@@ -302,7 +302,7 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it.skip('window_to_string', function () {
+	it('window_to_string', function () {
 		win = Ti.UI.createWindow();
 		should(win.toString()).be.eql('[object Window]');
 		should(win.apiName).be.a.String;
@@ -332,7 +332,7 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it.skip('window_navigation', function (finish) {
+	it('window_navigation', function (finish) {
 		var rootWindowFocus = 0;
 		var rootWindowBlur = 0;
 		var rootWindowOpen = 0;

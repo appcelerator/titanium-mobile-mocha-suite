@@ -6,8 +6,7 @@
  */
 
 var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	assert = require('./utilities/assertions');
+	utilities = require('./utilities/utilities');
 
 describe('Titanium', function () {
 

@@ -26,7 +26,8 @@ describe('Titanium.UI.WebView', function () {
 		win = null;
 	});
 
-	(utilities.isAndroid() ? it.skip : it)('loading', function (finish) {
+	// FIXME: iOS errors on should(webView.loading).be.eql(true); in the beforeLoad
+	(utilities.isAndroid() || utilities.isIOS() ? it.skip : it)('loading', function (finish) {
 		this.slow(5000);
 		this.timeout(10000);
 
@@ -54,7 +55,7 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('url', function (finish) {
+	it('url', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -152,11 +153,11 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	// Skip this on desktop Windows apps because it crashes the app now.
+	// Skip this on desktop Windows apps because it crashes the app now. - Works fine locally, to investigate EH
 	// FIXME Parity issue! Windows require second argument which is callback function. Other platforms return value sync!
 	// FIXME Android returns null?
 	// FIXME Sometimes times out on iOS. Not really sure why...
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('evalJS', function (finish) {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('evalJS', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -202,6 +203,82 @@ describe('Titanium.UI.WebView', function () {
 
 		win.add(webview);
 		win.open();
+	});
+
+	(utilities.isWindows() ? it : it.skip)('url (ms-appx)', function (finish) {
+	    this.timeout(10000);
+	    var w = Ti.UI.createWindow({
+	        backgroundColor: 'blue'
+	    });
+	    var webview = Ti.UI.createWebView();
+
+	    webview.addEventListener('load', function () {
+	        w.close();
+	        finish();
+	    });
+	    w.addEventListener('open', function () {
+	        should(function () {
+	            webview.url = 'ms-appx:///ti.ui.webview.test.html';
+	        }).not.throw();
+	    });
+
+	    w.add(webview);
+	    w.open();
+	});
+
+	(utilities.isWindows() ? it : it.skip)('url (ms-appx-web)', function (finish) {
+	    this.timeout(10000);
+	    var w = Ti.UI.createWindow({
+	        backgroundColor: 'blue'
+	    });
+	    var webview = Ti.UI.createWebView();
+
+	    webview.addEventListener('load', function () {
+	        w.close();
+	        finish();
+	    });
+	    w.addEventListener('open', function () {
+	        should(function () {
+	            webview.url = 'ms-appx-web:///ti.ui.webview.test.html';
+	        }).not.throw();
+	    });
+
+	    w.add(webview);
+	    w.open();
+	});
+
+	(utilities.isWindows() ? it : it.skip)('url (ms-appx-data)', function (finish) {
+	    this.timeout(10000);
+	    function prepare(files) {
+	        var webroot = Ti.Filesystem.applicationDataDirectory + 'webroot';
+	        var webroot_file = Ti.Filesystem.getFile(webroot);
+	        if (!webroot_file.exists()) {
+	            webroot_file.createDirectory();
+	        }
+	        for (var i = 0; i < files.length; i++) {
+	            var file = files[i];
+	            var from = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, file);
+	            var to = webroot + Ti.Filesystem.separator + file;
+	            from.copy(to)
+	        }
+	    }
+	    var w = Ti.UI.createWindow({
+	        backgroundColor: 'blue'
+	    });
+	    var webview = Ti.UI.createWebView();
+	    webview.addEventListener('load', function () {
+	        w.close();
+	        finish();
+	    });
+	    w.addEventListener('open', function () {
+	        prepare(['ti.ui.webview.test.html'])
+	        should(function () {
+	            webview.url = 'ms-appdata:///local/webroot/ti.ui.webview.test.html';
+	        }).not.throw();
+	    });
+
+	    w.add(webview);
+	    w.open();
 	});
 
 });

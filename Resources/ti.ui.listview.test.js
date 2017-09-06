@@ -554,11 +554,11 @@ describe('Titanium.UI.ListView', function () {
 		win.add(listView);
 		win.open();
 	});
-	
+
 	// Since the tested API is iOS only, we will skipp all other platforms
-	((!utilities.isIOS()) ? it.skip : it)('ListItem.properties', function () {	
+	((!utilities.isIOS()) ? it.skip : it)('ListItem.properties', function () {
 		var win = Ti.UI.createWindow();
-		 
+
 		var list = Ti.UI.createListView({
 			sections: [Ti.UI.createListSection({
 				items: [{
@@ -572,21 +572,21 @@ describe('Titanium.UI.ListView', function () {
 				}]
 			})]
 		});
-		 
+
 		win.add(list);
 		win.open();
-	
+
 		// Validate list and section
 		should(list.apiName).be.eql('Ti.UI.ListView');
 		var section = list.sections[0];
 		should(section.apiName).be.eql('Ti.UI.ListSection');
-		
+
 		// Validate items
 		var items = section.items;
 		should(items).be.an.Array;
 		should(items.length).be.a.Number;
 		should(items.length).be.eql(1);
-		
+
 		// Validate single item
 		var item = items[0];
 		var template = item.template;
@@ -597,12 +597,12 @@ describe('Titanium.UI.ListView', function () {
 		should(template).not.be.undefined;
 		should(template).be.a.Number;
 		should(template).eql(Ti.UI.LIST_ITEM_TEMPLATE_CONTACTS);
-		
+
 		// Validate item properties
 		should(item.hasOwnProperty('properties')).be.true;
 		should(properties).not.be.undefined;
 		should(properties).be.an.Object;
-		
+
 		// Validate properties subtitleColor and selectedSubtitleColor
 		should(properties.hasOwnProperty('subtitleColor')).be.true;
 		should(properties.subtitleColor).be.a.String;
@@ -618,5 +618,143 @@ describe('Titanium.UI.ListView', function () {
 		should(properties.hasOwnProperty('subtitle')).be.true;
 		should(properties.subtitle).be.a.String;
 		should(properties.subtitle).be.eql('My Subtitle');
+	});
+
+	it('fireListSectionEvent', function (finish) {
+		var section = Ti.UI.createListSection({
+		        items: [
+		            { properties: { title: 'B' } },
+		            { properties: { title: 'A' } },
+		            { properties: { title: 'E' } },
+		            { properties: { title: 'G' } }
+		        ]
+		    }),
+		    listView = Ti.UI.createListView({ sections: [section] }),
+		    items_a = [
+		        { properties: { title: 'A' } },
+		    ],
+		    items_b = [
+		        { properties: { title: 'C' } },
+		        { properties: { title: 'D' } }
+		    ],
+		    items_c = [
+		        { properties: { title: 'E' } },
+		        { properties: { title: 'F' } },
+		    ],
+		    validation = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+		section.updateItemAt(0, { properties: { title: 'A' } });
+		section.updateItemAt(1, { properties: { title: 'B' } });
+		section.updateItemAt(3, { properties: { title: 'F' } });
+		section.insertItemsAt(2, items_b);
+		section.deleteItemsAt(0, 1);
+		section.deleteItemsAt(3, 2);
+		section.appendItems(items_c);
+		section.insertItemsAt(0, items_a);
+
+		var items = section.getItems();
+		should(items.length).be.eql(6);
+		for (var i = 0; i < items.length; i++) {
+		    var item = items[i].properties.title;
+		    should(item).be.eql(validation[i]);
+		}
+
+		finish();
+	});
+
+	it('fireListSectionEvent (header and footer)', function (finish) {
+		var section = Ti.UI.createListSection({
+				headerTitle: 'HEADER',
+        		footerTitle: 'FOOTER',
+		        items: [
+		            { properties: { title: 'B' } },
+		            { properties: { title: 'A' } },
+		            { properties: { title: 'E' } },
+		            { properties: { title: 'G' } }
+		        ]
+		    }),
+		    listView = Ti.UI.createListView({ sections: [section] }),
+		    items_a = [
+		        { properties: { title: 'A' } },
+		    ],
+		    items_b = [
+		        { properties: { title: 'C' } },
+		        { properties: { title: 'D' } }
+		    ],
+		    items_c = [
+		        { properties: { title: 'E' } },
+		        { properties: { title: 'F' } },
+		    ],
+		    validation = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+		section.updateItemAt(0, { properties: { title: 'A' } });
+		section.updateItemAt(1, { properties: { title: 'B' } });
+		section.updateItemAt(3, { properties: { title: 'F' } });
+		section.insertItemsAt(2, items_b);
+		section.deleteItemsAt(0, 1);
+		section.deleteItemsAt(3, 2);
+		section.appendItems(items_c);
+		section.insertItemsAt(0, items_a);
+
+		var items = section.getItems();
+		should(items.length).be.eql(6);
+		for (var i = 0; i < items.length; i++) {
+		    var item = items[i].properties.title;
+		    should(item).be.eql(validation[i]);
+		}
+
+		finish();
+	});
+
+	// Making sure sections data is saved even when it's filtered (TIMOB-24019)
+	it('TIMOB-24019', function (finish) {
+	    var win = Ti.UI.createWindow({ backgroundColor: 'green' });
+	    var listView = Ti.UI.createListView({ width: Ti.UI.FILL, height: Ti.UI.FILL, caseInsensitiveSearch: true });
+
+	    var fruitSection = Ti.UI.createListSection({ headerTitle: 'Fruits' });
+	    var fruitDataSet = [
+			{ properties: { title: 'Apple', searchableText: 'Apple' } },
+			{ properties: { title: 'Banana', searchableText: 'Banana' } },
+	    ];
+	    fruitSection.setItems(fruitDataSet);
+
+	    var vegSection = Ti.UI.createListSection({ headerTitle: 'Vegetables' });
+	    var vegDataSet = [
+			{ properties: { title: 'Carrots', searchableText: 'Carrots' } },
+			{ properties: { title: 'Potatoes', searchableText: 'Potatoes' } },
+	    ];
+	    vegSection.setItems(vegDataSet);
+
+	    listView.sections = [fruitSection, vegSection];
+
+	    win.addEventListener('open', function () {
+	        should(listView.sectionCount).be.eql(2);
+	        should(listView.sections[0].items.length).be.eql(2);
+	        should(listView.sections[0].items[0].properties.title).be.eql('Apple');
+	        should(listView.sections[0].items[1].properties.title).be.eql('Banana');
+	        should(listView.sections[1].items.length).be.eql(2);
+	        should(listView.sections[1].items[0].properties.title).be.eql('Carrots');
+	        should(listView.sections[1].items[1].properties.title).be.eql('Potatoes');
+
+	        // This should show 'Apple' and 'Potatoes'
+	        listView.searchText = 'p';
+
+	        setTimeout(function () {
+	            // Make sure ListView reserves original data
+	            should(listView.sectionCount).be.eql(2);
+	            should(listView.sections[0].items.length).be.eql(2);
+	            should(listView.sections[0].items[0].properties.title).be.eql('Apple');
+	            should(listView.sections[0].items[1].properties.title).be.eql('Banana');
+	            should(listView.sections[1].items.length).be.eql(2);
+	            should(listView.sections[1].items[0].properties.title).be.eql('Carrots');
+	            should(listView.sections[1].items[1].properties.title).be.eql('Potatoes');
+
+	            win.close();
+	            finish();
+	        }, 2000);
+	    });
+
+	    win.add(listView);
+	    win.open();
 	});
 });

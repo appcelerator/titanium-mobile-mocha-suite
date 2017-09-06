@@ -7,7 +7,7 @@
 var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
-describe('Titanium.UI', function () {
+describe('Titanium.UI constants', function () {
 
 	// TODO Use the JSCA file to generate tests!
 	var ALL = ['iphone', 'ipad', 'android', 'mobileweb', 'windowsstore', 'windowsphone'],

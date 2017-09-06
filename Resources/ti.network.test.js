@@ -73,7 +73,7 @@ describe('Titanium.Network', function () {
 	});
 
 	// Methods
-	it('encodeURIComponent()', function () {
+	((utilities.isWindowsPhone() && utilities.isWindows8_1()) ? it.skip : it)('encodeURIComponent()', function () {
 		should(Ti.Network.encodeURIComponent).be.a.Function;
 		var text = Ti.Network.encodeURIComponent('Look what I found! I like this:');
 		// TODO Open a JIRA ticket for parity! iOS encodes exclamation points, Windows/Android do not
@@ -84,7 +84,7 @@ describe('Titanium.Network', function () {
 		}
 	});
 
-	it('decodeURIComponent()', function () {
+	((utilities.isWindowsPhone() && utilities.isWindows8_1()) ? it.skip : it)('decodeURIComponent()', function () {
 		should(Ti.Network.decodeURIComponent).be.a.Function;
 		var text = Ti.Network.decodeURIComponent('Look%20what%20I%20found!%20I%20like%20this%3A');
 		text.should.eql('Look what I found! I like this:');

@@ -9,7 +9,7 @@ var should = require('./utilities/assertions'),
 
 // FIXME Every test here fails on Android, likely due to permissions
 // FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
-((utilities.isAndroid() || utilities.isIOS()) ? describe.skip : describe)('Titanium.Contacts.Person', function() {
+(utilities.isAndroid() || utilities.isIOS() ? describe.skip : describe)('Titanium.Contacts.Person', function() {
 
 	it('apiName', function () {
 		should(Ti.Contacts.Person).have.a.readOnlyProperty('apiName').which.is.a.String;
