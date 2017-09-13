@@ -56,7 +56,7 @@ describe('Titanium.UI.ListView', function () {
 		should(section_0.items.length).be.eql(2);
 
 		// Append item to section
-		section_0.appendItems([{ properties: { title: 'Purple' } }]);
+		section_0.appendItems([ { properties: { title: 'Purple' } } ]);
 
 		// Validate section items length
 		should(section_0.items.length).be.eql(3);
@@ -210,8 +210,8 @@ describe('Titanium.UI.ListView', function () {
 
 	//
 	// Making sure custom template doesn't throw exception
-	//
-	it('Custom template', function (finish) {
+	// FIXME Windows desktop crashes on this test
+	it.windowsDesktopBroken('Custom template', function (finish) {
 		var win = Ti.UI.createWindow({ backgroundColor: 'green' }),
 			myTemplate = {
 				childTemplates: [
@@ -611,7 +611,7 @@ describe('Titanium.UI.ListView', function () {
 		var win = Ti.UI.createWindow(),
 			list = Ti.UI.createListView({
 				sections: [ Ti.UI.createListSection({
-					items: [{
+					items: [ {
 						template: Ti.UI.LIST_ITEM_TEMPLATE_CONTACTS,
 						properties: {
 							title: 'My Title',
@@ -619,7 +619,7 @@ describe('Titanium.UI.ListView', function () {
 							subtitleColor: 'red',
 							selectedSubtitleColor: 'green'
 						}
-					}]
+					} ]
 				}) ]
 			}),
 			section,
