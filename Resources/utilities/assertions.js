@@ -30,11 +30,13 @@ should.Assertion.add('readOnlyProperty', function (propName) {
 	while (!Object.prototype.hasOwnProperty.call(target, propName)) {
 		target = Object.getPrototypeOf(target); // go up the prototype chain
 		if (!target) {
-			return this.fail();
+			this.fail();
+			break;
 		}
 	}
 
-	if (!utilities.isIOS() && !utilities.isWindows()) { // FIXME read-only properties should also be non-configurable on iOS and Windows (JSC)!
+	// FIXME read-only properties should also be non-configurable on iOS and Windows (JSC)!
+	if (!utilities.isIOS() && !utilities.isWindows()) {
 		props.configurable = false;
 	}
 	should(target).have.propertyWithDescriptor(propName, props);

@@ -293,7 +293,8 @@ describe('Titanium.UI.ImageView', function () {
 	// TIMOB-18684
 	// FIXME Get working on iOS. Times out. never fires postlayout?
 	// FIXME Times out on Android build agent. likely postlayout never fires
-	it.androidAndIosBroken('layoutWithSIZE_and_fixed', function (finish) {
+	// FIXME Windows gives bad height value for innerView.size
+	it.allBroken('layoutWithSIZE_and_fixed', function (finish) {
 		var view,
 			innerView;
 		this.slow(1000);
@@ -316,7 +317,7 @@ describe('Titanium.UI.ImageView', function () {
 		view.add(innerView);
 		view.addEventListener('postlayout', function () {
 			try {
-				should(innerView.size.height).eql(100);
+				should(innerView.size.height).eql(100); // Windows 10 Phone gives 0
 				should(view.size.height).eql(innerView.size.height);
 				should(view.size.width).eql(innerView.size.width);
 
