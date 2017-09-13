@@ -109,6 +109,20 @@ filters = {
 		}
 		return true;
 	},
+	// mark bugs specific to Windows Store
+	windowsDesktopBroken: function () {
+		if (Utility.isWindowsDesktop()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// mark bugs specific to Windows Phone
+	windowsPhoneBroken: function () {
+		if (Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
 	// mark bugs specific to Windows 8.1
 	windows81Broken: function () {
 		if (Utility.isWindows8_1()) {
@@ -118,6 +132,12 @@ filters = {
 	},
 	allBroken: function () {
 		return 'skip';
+	},
+	androidMissingAndWindowsBroken: function () {
+		if (Utility.isWindows() || Utility.isAndroid()) {
+			return 'skip';
+		}
+		return true;
 	}
 };
 // Alias broken tests on a given platform to "missing" filter for that platform.

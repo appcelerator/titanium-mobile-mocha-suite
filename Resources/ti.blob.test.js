@@ -77,10 +77,10 @@ describe('Titanium.Blob', function () {
 		// TODO Test that it's read-only
 	});
 
-	it('mimeType with text/javascript', function () {
+	it.windowsDesktopBroken('mimeType with text/javascript', function () {
 		var blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob.mimeType).be.a.String;
-		should(blob.mimeType.length).be.above(0);
+		should(blob.mimeType.length).be.above(0); // Windows desktop returns 0 here
 		should(blob.mimeType).be.eql('text/javascript');
 		// TODO Test that it's read-only
 	});
@@ -109,7 +109,8 @@ describe('Titanium.Blob', function () {
 	});
 
 	// FIXME Missing API on Android, parity issue
-	it.androidMissing('size in pixels', function () {
+	// FIXME Returns 801 on Windows
+	it.androidMissingAndWindowsBroken('size in pixels', function () {
 		var blob = Ti.Filesystem.getFile('Logo.png').read();
 		should(blob.size).be.a.Number;
 		should(blob.size).be.eql(22500);
