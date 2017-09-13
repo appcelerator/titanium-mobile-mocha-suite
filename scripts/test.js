@@ -526,11 +526,17 @@ if (module.id === '.') {
 			}
 
 			async.eachSeries(platforms, function (platform, next) {
+				let prefix;
+				if (program.target) {
+					prefix = platform + '.' + program.target;
+				} else {
+					prefix = platform;
+				}
 				console.log();
 				console.log('=====================================');
-				console.log(platform.toUpperCase());
+				console.log(prefix.toUpperCase());
 				console.log('-------------------------------------');
-				outputResults(results[platform].results, next);
+				outputResults(results[prefix].results, next);
 			}, function (err) {
 				if (err) {
 					console.error(err.toString());
