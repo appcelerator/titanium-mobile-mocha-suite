@@ -21,16 +21,15 @@ win.open();
 // ============================================================================
 // Add the tests here using "require"
 // ES6 syntax/compatability tests
-// require('./es6.arrows.test');
-// require('./es6.default.args.test');
-// require('./es6.rest.args.test');
-// // The JSCore used in Windows doesnt support rest args yet,
-// // avoid requiring it until it dos otherwise it will crash
-// if (!utilities.isWindows()) {
-// 	require('./es6.rest.args.test');
-// }
-// require('./es6.spread.args.test');
-// require('./es6.string.interpolation.test');
+require('./es6.arrows.test');
+require('./es6.default.args.test');
+// The JSCore used in Windows doesnt support rest args yet,
+// avoid requiring it until it does otherwise it will crash
+if (!utilities.isWindows()) {
+	require('./es6.rest.args.test');
+}
+require('./es6.spread.args.test');
+require('./es6.string.interpolation.test');
 // Titanium APIs
 require('./ti.accelerometer.test');
 require('./ti.analytics.test');
