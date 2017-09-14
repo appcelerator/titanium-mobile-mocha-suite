@@ -164,7 +164,8 @@ describe('requireJS', function () {
 		should(with_index_json.name).be.eql('index.json');
 	});
 
-	it('loads exact match JS file', function () {
+	// Windows Phone 10 crashes before even starting this test!
+	it.windowsPhoneBroken('loads exact match JS file', function () {
 		var exact_js = require('./with_package/index.js');
 		should(exact_js).have.property('name');
 		should(exact_js.name).be.eql('index.js');

@@ -1623,7 +1623,7 @@ describe('Titanium.UI.Layout', function () {
 	// left & right should just work for child view (vertical)
 	// when both left & right are specified to parent
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #2', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'orange',
@@ -1643,13 +1643,7 @@ describe('Titanium.UI.Layout', function () {
 			});
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1672,7 +1666,7 @@ describe('Titanium.UI.Layout', function () {
 	// left & right should just work for child view (composite)
 	// when both left & right are specified to parent
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #3', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'yellow',
@@ -1694,13 +1688,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1722,7 +1710,7 @@ describe('Titanium.UI.Layout', function () {
 	// left & right should just work for child view (horizontal)
 	// when both left & right are specified to parent
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #4', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'yellow',
@@ -1744,13 +1732,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1773,7 +1755,7 @@ describe('Titanium.UI.Layout', function () {
 	// even when parent view doesn't have right value.
 	// parent view should fit the size of the child, not Window
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #5', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'orange',
@@ -1793,13 +1775,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1824,7 +1800,7 @@ describe('Titanium.UI.Layout', function () {
 	// even when parent view doesn't have right value.
 	// parent view should fit the size of the child, not Window
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #6', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'orange',
@@ -1844,13 +1820,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1875,7 +1845,7 @@ describe('Titanium.UI.Layout', function () {
 	// even when parent view doesn't have right value.
 	// parent view should fit the size of the child, not Window
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #7', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'orange',
@@ -1895,13 +1865,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1924,7 +1888,7 @@ describe('Titanium.UI.Layout', function () {
 	//
 	// left & right should just work for child view when parent is Window (composite)
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #8', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
@@ -1936,13 +1900,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(label.rect.x).eql(10);
 				should(label.rect.width).eql(win.rect.width - 20);
@@ -1960,7 +1918,7 @@ describe('Titanium.UI.Layout', function () {
 	//
 	// left & right should just work for child view when parent is Window (horizontal)
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #9', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
@@ -1972,13 +1930,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		win.addEventListener('postlayout', function () {
 			try {
 				should(label.rect.x).eql(10);
 				should(label.rect.width).eql(win.rect.width - 20); // Android gives us 97, should be 1260
@@ -1996,7 +1948,7 @@ describe('Titanium.UI.Layout', function () {
 	//
 	// left & right should just work for child view when parent is Window (vertical)
 	//
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
+	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event! Try again now that we use postlayout!
 	it.androidAndIosBroken('TIMOB-23372 #10', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
@@ -2008,13 +1960,7 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow({ layout:'vertical' });
 
-		label.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			Ti.API.info('Got focus event');
+		label.addEventListener('postlayout', function () {
 			try {
 				should(label.rect.x).eql(10);
 				should(label.rect.width).eql(win.rect.width - 20);
@@ -2032,7 +1978,8 @@ describe('Titanium.UI.Layout', function () {
 	//
 	// Label width should be updated when setting new text
 	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	it.androidAndIosBroken('TIMOB-23305', function (finish) {
+	// This is a bad test. Can't rely on values in focus event!
+	it.allBroken('TIMOB-23305', function (finish) {
 		var label = Ti.UI.createLabel({
 				text: 'Lorem ipsum dolor sit amet',
 				backgroundColor: 'orange',
