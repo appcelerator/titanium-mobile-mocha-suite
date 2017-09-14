@@ -675,7 +675,8 @@ describe('Titanium.UI.ListView', function () {
 		should(properties.subtitle).be.eql('My Subtitle');
 	});
 
-	it('fireListSectionEvent', function (finish) {
+	// Crashes Windows 10 Desktop
+	it.windowsDesktopBroken('fireListSectionEvent', function (finish) {
 		var section = Ti.UI.createListSection({
 				items: [
 					{ properties: { title: 'B' } },
