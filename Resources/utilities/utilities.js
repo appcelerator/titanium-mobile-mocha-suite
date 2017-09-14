@@ -120,7 +120,7 @@ filters = {
 			return 'skip';
 		}
 		return true;
-	}
+	},
 	// mark bugs specific to Windows 8.1 Desktop/Store
 	windowsDesktop81Broken: function () {
 		if (Utility.isWindows8_1() || Utility.isWindowsDesktop()) {
@@ -174,7 +174,7 @@ filters.iosBroken = filters.iosMissing;
 filters.windowsBroken = filters.windowsMissing;
 filters.androidAndWindowsMissing = filters.androidAndWindowsBroken;
 filters.androidBrokenAndIosMissing = filters.androidAndIosBroken;
-filters.androidMissingAndIosBroken = filters.androidAndIosBroken
+filters.androidMissingAndIosBroken = filters.androidAndIosBroken;
 filters.androidMissingAndWindowsBroken = filters.androidAndWindowsMissing;
 filters.iosMissingAndWindowsDesktopBroken = filters.iosAndWindowsDesktopBroken;
 // Add our custom filters
