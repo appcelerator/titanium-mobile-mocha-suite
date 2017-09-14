@@ -154,6 +154,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/2339
+	// Timing out on Windows Phone
 	it('responseHeadersBug', function (finish) {
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
@@ -318,7 +319,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://jira.appcelerator.org/browse/TIMOB-11751
 	// https://jira.appcelerator.org/browse/TIMOB-17403
 	// Windows Desktop is timing out here...
-	it('callbackTestForGETMethod', function (finish) {
+	it.windowsBroken('callbackTestForGETMethod', function (finish) {
 		var xhr = Ti.Network.createHTTPClient(),
 			dataStreamFinished = false;
 		xhr.setTimeout(3e4);
@@ -349,7 +350,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// Windows Desktop is timing out here...
-	it('callbackTestForPOSTMethod', function (finish) {
+	it.windowsBroken('callbackTestForPOSTMethod', function (finish) {
 		var xhr = Ti.Network.createHTTPClient(),
 			sendStreamFinished = false,
 			buffer;

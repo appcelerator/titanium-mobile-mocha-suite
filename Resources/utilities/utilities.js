@@ -81,6 +81,27 @@ filters = {
 		}
 		return true;
 	},
+	// to mark when there's a bug in both Android and Windows Desktop impl
+	androidAndWindowsDesktopBroken: function () {
+		if (Utility.isAndroid() || Utility.isWindowsDesktop()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// to mark when there's a bug in both Android and Windows Phone impl
+	androidAndWindowsPhoneBroken: function () {
+		if (Utility.isAndroid() || Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// to mark when there's a bug in both Android and Windows impl
+	androidAndWindowsBroken: function () {
+		if (Utility.isAndroid() || Utility.isWindowsDesktop()) {
+			return 'skip';
+		}
+		return true;
+	},
 	// to mark when there's a bug in both iOS and Windows impl
 	iosAndWindowsBroken: function () {
 		if (Utility.isWindows() || Utility.isIOS()) {

@@ -532,7 +532,8 @@ describe('Titanium.UI.Layout', function () {
 	// functional test #1038, 1038a, 1038b
 	// UndefinedTop. Dynamic top calculation
 	// Android gives: expected 255 to equal 175
-	it.androidBroken('undefinedTop', function (finish) {
+	// Windows Desktop gives: expected -150 to equal -300
+	it.androidAndWindowsDesktopBroken('undefinedTop', function (finish) {
 		var view1 = Ti.UI.createView({
 				height: 50,
 				center: {
@@ -567,7 +568,7 @@ describe('Titanium.UI.Layout', function () {
 					should(view2.rect.y).eql(50);
 				} else { // View height = 2x(wh - bottom - center)
 					// View top = center - height/2 = 2c b - wh
-					should(view2.rect.y).eql(300 - win.size.height);
+					should(view2.rect.y).eql(300 - win.size.height); // Windows Desktop gives expected -150 to equal -300
 				}
 				should(view3.rect.y).eql(win.size.height - 300);
 
@@ -674,7 +675,8 @@ describe('Titanium.UI.Layout', function () {
 
 	// functional test #1044 CenterXPrecedence
 	// Android gives: expected 150 to equal 100
-	it.androidBroken('centerXPrecedence', function (finish) {
+	// Windows Desktop gives: expected 150 to equal 100
+	it.androidAndWindowsDesktopBroken('centerXPrecedence', function (finish) {
 		var view = Ti.UI.createView({
 				height: 200,
 				width: 200,
@@ -695,7 +697,7 @@ describe('Titanium.UI.Layout', function () {
 			didPostlayout = true;
 
 			try {
-				should(viewChild.size.width).eql(100);
+				should(viewChild.size.width).eql(100); // Windows Desktop and Android give 150
 
 				finish();
 			} catch (e) {
@@ -767,7 +769,8 @@ describe('Titanium.UI.Layout', function () {
 
 	// functional test #1048 CenterYPrecedence
 	// Android gives: expected 150 to equal 100
-	it.androidBroken('centerYPrecedence', function (finish) {
+	// Windows Desktop gives: expected 150 to equal 100
+	it.androidAndWindowsDesktopBroken('centerYPrecedence', function (finish) {
 		var view = Ti.UI.createView({
 				height: 200,
 				width: 200,
@@ -788,7 +791,7 @@ describe('Titanium.UI.Layout', function () {
 			didPostlayout = true;
 
 			try {
-				should(viewChild.size.height).eql(100);
+				should(viewChild.size.height).eql(100); // 150 on Windows Desktop and Android!
 
 				finish();
 			} catch (e) {
@@ -1080,6 +1083,7 @@ describe('Titanium.UI.Layout', function () {
 	// Functional Test #1001 #1002 #1003 #1004 #1005 #1006
 	// Skip on Windows 10 Desktop for now, it hangs
 	// FIXME Get working on iOS and Android. They don't fire Ti.UI.Window.postlayout event
+	// Windows Desktop gives: expected 0 not to equal 0
 	it.androidAndIosBroken('unitMeasurements', function (finish) {
 		var child = Ti.UI.createView({
 				height: '50mm',

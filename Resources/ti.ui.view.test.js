@@ -1,20 +1,22 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-
-require('ti-mocha');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
 var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false,
-	didPostLayout = false;
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.View', function () {
 	this.timeout(5000);
 
-	var win;
+	var win,
+		didFocus = false,
+		didPostLayout = false;
 
 	beforeEach(function () {
 		didFocus = false;
@@ -171,7 +173,7 @@ describe('Titanium.UI.View', function () {
 
 			try {
 				should(view.borderColor).be.a.String; // undefined on iOS and Android
-				should(view.borderWidth).be.a.Number;
+				should(view.borderWidth).be.a.Number; // Windows Desktop gives: expected '0' to be a number
 				view.borderColor = 'blue';
 				view.borderWidth = 2;
 				should(view.borderColor).be.eql('blue');
@@ -517,7 +519,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Android reports 223 for one of the values we expect 123 (result.y?)
-	(utilities.isAndroid() ? it.skip : it)('convertPointToView', function (finish) {
+	it.androidBroken('convertPointToView', function (finish) {
 		win = Ti.UI.createWindow();
 		var a = Ti.UI.createView({ backgroundColor:'red' }),
 			b = Ti.UI.createView({ top: '100', backgroundColor: 'blue' }),

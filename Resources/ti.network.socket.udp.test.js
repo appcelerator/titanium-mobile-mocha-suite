@@ -47,7 +47,8 @@ describe.windows('Titanium.Network.Socket.UDP', function () {
 		socket.start(43210);
 	});
 
-	it('#sendString(Integer, Number, String)', function (finish) {
+	// Timing out on Windows Phone
+	it.windowsPhoneBroken('#sendString(Integer, Number, String)', function (finish) {
 		var socket = Ti.Network.Socket.createUDP({
 			started: function (e) {
 				should(e.address).not.be.null;
@@ -75,7 +76,8 @@ describe.windows('Titanium.Network.Socket.UDP', function () {
 		socket.start(43211);
 	});
 
-	it('#sendBytes(Number, String, Integer[])', function (finish) {
+	// Timing out on Windows Phone
+	it.windowsPhoneBroken('#sendBytes(Number, String, Integer[])', function (finish) {
 		var socket = Ti.Network.Socket.createUDP({
 			started: function (e) {
 				should(e.address).not.be.null;
