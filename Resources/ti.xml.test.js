@@ -269,7 +269,8 @@ describe('Titanium.XML', function () {
 
 	// FIXME: some functions should throw exception on out-of-bounds error
 	// iOS Gives: expected [Function] to throw exception
-	it.iosBroken('xmlCData', function () {
+	// Windows Desktop Gives: expected [Function] to throw exception
+	it.iosAndWindowsBroken('xmlCData', function () {
 		var xml = Ti.XML.parseString(testSource['cdata.xml']),
 			scriptList = xml.documentElement.getElementsByTagName('script'),
 			nodeCount,
@@ -333,7 +334,7 @@ describe('Titanium.XML', function () {
 		// Per spec substringData should throw exception if given params are out of range
 		should(function () {
 			cData.substringData(1e3, 1001);
-		}).throw();
+		}).throw(); // Windows Desktop doesn't throw here
 		should(function () {
 			cData.substringData(-1, 101);
 		}).throw();

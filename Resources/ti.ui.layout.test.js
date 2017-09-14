@@ -9,9 +9,7 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false,
-	didPostlayout = false;
+	utilities = require('./utilities/utilities');
 
 function createWindow(_args) {
 	_args = _args || {};
@@ -20,7 +18,9 @@ function createWindow(_args) {
 }
 
 describe('Titanium.UI.Layout', function () {
-	var win;
+	var win,
+		didFocus = false,
+		didPostlayout = false;
 	this.timeout(5000);
 
 	beforeEach(function () {

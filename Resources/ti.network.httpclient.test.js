@@ -317,6 +317,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// https://jira.appcelerator.org/browse/TIMOB-11751
 	// https://jira.appcelerator.org/browse/TIMOB-17403
+	// Windows Desktop is timing out here...
 	it('callbackTestForGETMethod', function (finish) {
 		var xhr = Ti.Network.createHTTPClient(),
 			dataStreamFinished = false;
@@ -340,13 +341,14 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 
 		xhr.onerror = function (e) {
-			should(e).should.be.type('undefined');
+			finish(new Error(e.error || this.responseText));
 		};
 
 		xhr.open('GET', 'http://www.appcelerator.com/assets/The_iPad_App_Wave.pdf');
 		xhr.send();
 	});
 
+	// Windows Desktop is timing out here...
 	it('callbackTestForPOSTMethod', function (finish) {
 		var xhr = Ti.Network.createHTTPClient(),
 			sendStreamFinished = false,
@@ -365,7 +367,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			}
 		};
 		xhr.onerror = function (e) {
-			should(e).should.be.type('undefined');
+			finish(new Error(e.error || this.responseText));
 		};
 		buffer = Ti.createBuffer({
 			length: 1024 * 10

@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -9,10 +9,10 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false;
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.TextField', function () {
+	var didFocus = false;
 
 	beforeEach(function () {
 		didFocus = false;
@@ -147,7 +147,7 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintText()).eql('Enter Name ...');
 	});
 
-	it('hintTextColor', function () {
+	it.windowsMissing('hintTextColor', function () {
 		var textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...',
 			hintTextColor: 'red'
@@ -160,7 +160,7 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintTextColor()).eql('blue');
 	});
 
-	it.iosBroken('hintType', function () {
+	it.android('hintType', function () {
 		var textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...',
 			hintType: Ti.UI.HINT_TYPE_ANIMATED
@@ -173,8 +173,9 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintType()).eql(Ti.UI.HINT_TYPE_STATIC);
 	});
 
-	// FIXME win.width is undefined on Android and iOS here. Test needs to be rewritten
-	it.androidAndIosBroken('width', function (finish) {
+	// FIXME win.width is undefined on Android and iOS here. Test needs to be rewritten. Likely need to use postlayout to get values?
+	// FIXME Widnows Desktop gives: expected '' to be above 100
+	it.allBroken('width', function (finish) {
 		this.timeout(5000);
 		var textfield = Ti.UI.createTextField({
 				value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

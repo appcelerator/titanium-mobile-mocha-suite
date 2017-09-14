@@ -34,7 +34,7 @@ describe('Titanium.UI.Label', function () {
 		should(label.apiName).be.eql('Ti.UI.Label');
 	});
 
-	// FIXME Windoes is missing accessor function
+	// FIXME Windows is missing accessor function
 	it.windowsBroken('maxLines', function () {
 		var label = Ti.UI.createLabel({
 			text: 'This is a label with propably more than three lines of text. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.',

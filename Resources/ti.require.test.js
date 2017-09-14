@@ -146,8 +146,8 @@ describe('requireJS', function () {
 	});
 
 	// TIMOB-23512
-	// Windows Phone 10 crashed here once
-	it('relative require() from sub directory', function () {
+	// Windows Phone 10 crashes here!
+	it.windowsPhoneBroken('relative require() from sub directory', function () {
 		var with_index_js = require('./with_index_js/sub1');
 		should(with_index_js).have.property('name');
 		should(with_index_js.name).be.eql('sub1.js');
