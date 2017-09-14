@@ -49,7 +49,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 	it('#connect() and send data', function (finish) {
 		var socket = Ti.Network.Socket.createTCP({
 			host: 'www.appcelerator.com', port: 80,
-			connected: function (e) {
+			connected: function () {
 				should(socket.write).not.be.null;
 				should(socket.write).be.a.Function;
 				socket.write(Ti.createBuffer({ value: 'GET / HTTP/1.1\r\nHost: www.appcelerator.com\r\nConnection: close\r\n\r\n' }));
@@ -77,7 +77,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 					if (e.buffer.toString().indexOf('SUCCESS!') > 0) {
 						finish();
 					} else {
-						finish(new Error('Did not get success'));
+						finish(new Error('Did not get success')); // Failing here on Windows Desktop
 					}
 				}, 1024, true);
 
