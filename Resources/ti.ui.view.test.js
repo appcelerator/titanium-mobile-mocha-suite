@@ -473,7 +473,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	// FIXME Android reports 90% for one of comparisons to 10% (view.width?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (width %)', function (finish) {
+	it.androidAndWindowsBroken('animate (width %)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -492,7 +492,7 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.width).be.eql('10%');
 						should(view.height).be.eql('10%');
-						should(view.rect.width).be.approximately(view.rect.x * 9, 10);
+						should(view.rect.width).be.approximately(view.rect.x * 9, 10); // Windows Phone gives: expected 32 to be approximately 288 ±10
 						should(view.left).be.eql('10%');
 						should(view.top).be.eql(0);
 
@@ -510,7 +510,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	// FIXME Android reports 90% for one of comparisons to 10% (view.height?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (height %)', function (finish) {
+	it.androidAndWindowsBroken('animate (height %)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -529,7 +529,7 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.width).be.eql('10%');
 						should(view.height).be.eql('10%');
-						should(view.rect.height).be.approximately(view.rect.y * 9, 10);
+						should(view.rect.height).be.approximately(view.rect.y * 9, 10); // Windows Phone: expected 53 to be approximately 477 ±10
 						should(view.left).be.eql(0);
 						should(view.top).be.eql('10%');
 

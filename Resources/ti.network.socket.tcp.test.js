@@ -66,7 +66,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 
 	// FIXME: iOS fires the connected event twice
 	// FIXME: Android chokes with : android.os.NetworkOnMainThreadException
-	it('#connect() and receive data', function (finish) {
+	it.windowsBroken('#connect() and receive data', function (finish) {
 		var socket = Ti.Network.Socket.createTCP({
 			host: 'pastebin.com', port: 80,
 			connected: function (e) {
@@ -77,7 +77,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 					if (e.buffer.toString().indexOf('SUCCESS!') > 0) {
 						finish();
 					} else {
-						finish(new Error('Did not get success')); // Failing here on Windows Desktop
+						finish(new Error('Did not get success')); // Failing here on Windows
 					}
 				}, 1024, true);
 

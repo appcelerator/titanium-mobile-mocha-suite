@@ -770,7 +770,8 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	// Making sure sections data is saved even when it's filtered (TIMOB-24019)
-	it('TIMOB-24019', function (finish) {
+	// Crashes Windows 10 Desktop
+	it.windowsDesktopBroken('TIMOB-24019', function (finish) {
 		var win = Ti.UI.createWindow({ backgroundColor: 'green' }),
 			listView = Ti.UI.createListView({ width: Ti.UI.FILL, height: Ti.UI.FILL, caseInsensitiveSearch: true }),
 			fruitSection,

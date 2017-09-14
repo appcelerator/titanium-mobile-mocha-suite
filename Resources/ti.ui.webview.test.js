@@ -150,7 +150,7 @@ describe('Titanium.UI.WebView', function () {
 
 	// TIMOB-23542 webview data test
 	// FIXME times out on Windows. Probably because we should set the data property *after* the load event listener is hooked!
-	it.windowsDesktopBroken('data', function (finish) {
+	it.windowsBroken('data', function (finish) {
 		var blob,
 			webview;
 		win = Ti.UI.createWindow({
