@@ -1,10 +1,13 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
 var utilities = require('./utilities/utilities'),
 	should = require('./utilities/assertions');
 
@@ -15,7 +18,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	// FIXME Get working on IOS // on iOS property is configurable
-	(utilities.isIOS() ? it.skip : it)('density', function () {
+	it.iosBroken('density', function () {
 		should(Ti.Platform.displayCaps).have.readOnlyProperty('density').which.is.a.String;
 		// TODO Test for known range of values?
 		// Android: "high", "medium", "xhigh", "xxhigh", "xxxhigh", "low", "medium"
@@ -28,7 +31,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	// FIXME Get working on IOS
-	(utilities.isIOS() ? it.skip : it)('dpi', function () {
+	it.iosBroken('dpi', function () {
 		should(Ti.Platform.displayCaps).have.readOnlyProperty('dpi').which.is.a.Number;
 		should(Ti.Platform.displayCaps.dpi).be.above(0);
 	});
@@ -39,7 +42,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	// FIXME Get working on IOS
-	(utilities.isIOS() ? it.skip : it)('logicalDensityFactor', function () {
+	it.iosBroken('logicalDensityFactor', function () {
 		should(Ti.Platform.displayCaps).have.readOnlyProperty('logicalDensityFactor').which.is.a.Number;
 		should(Ti.Platform.displayCaps.logicalDensityFactor).be.above(0);
 	});
@@ -69,22 +72,22 @@ describe('Titanium.Platform.DisplayCaps', function () {
 		should(Ti.Platform.displayCaps.getPlatformWidth()).be.a.Number;
 	});
 
-	(utilities.isIOS() ? it.skip : it)('xdpi', function () {
+	it.iosMissingAndWindowsDesktopBroken('xdpi', function () {
 		should(Ti.Platform.displayCaps).have.readOnlyProperty('xdpi').which.is.a.Number;
-		should(Ti.Platform.displayCaps.xdpi).be.above(0);
+		should(Ti.Platform.displayCaps.xdpi).be.above(0); // Windows Desktop gives 0
 	});
 
-	(utilities.isIOS() ? it.skip : it)('getXdpi()', function () {
+	it.iosMissing('getXdpi()', function () {
 		should(Ti.Platform.displayCaps.getXdpi).be.a.Function;
 		should(Ti.Platform.displayCaps.getXdpi()).be.a.Number;
 	});
 
-	(utilities.isIOS() ? it.skip : it)('ydpi', function () {
+	it.iosMissingAndWindowsDesktopBroken('ydpi', function () {
 		should(Ti.Platform.displayCaps).have.readOnlyProperty('ydpi').which.is.a.Number;
-		should(Ti.Platform.displayCaps.ydpi).be.above(0);
+		should(Ti.Platform.displayCaps.ydpi).be.above(0); // Windows Desktop gives 0
 	});
 
-	(utilities.isIOS() ? it.skip : it)('getYdpi()', function () {
+	it.iosMissing('getYdpi()', function () {
 		should(Ti.Platform.displayCaps.getYdpi).be.a.Function;
 		should(Ti.Platform.displayCaps.getYdpi()).be.a.Number;
 	});

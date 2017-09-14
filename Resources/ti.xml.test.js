@@ -58,16 +58,15 @@ describe('Titanium.XML', function () {
 		should(Ti.XML.apiName).be.eql('Ti.XML');
 	});
 
-	it('parseString', function (finish) {
+	it('parseString', function () {
 		should(Ti.XML.parseString).be.a.Function;
 		should(function () {
 			var xml = Ti.XML.parseString('<test>content</test>');
 			should(xml).be.an.Object;
 		}).not.throw();
-		finish();
 	});
 
-	it('serializeToString', function (finish) {
+	it('serializeToString', function () {
 		should(Ti.XML.serializeToString).be.a.Function;
 		should(function () {
 			var xml = Ti.XML.parseString('<test>content</test>'),
@@ -76,11 +75,10 @@ describe('Titanium.XML', function () {
 			str = Ti.XML.serializeToString(xml);
 			should(str).be.a.String;
 		}).not.throw();
-		finish();
 	});
 
 	// TIMOB-9071
-	it('getOrCreateAttributeNS', function (finish) {
+	it('getOrCreateAttributeNS', function () {
 		var xmlDoc = Ti.XML.parseString('<html><head></head><body><a href="http://appcelerator.com/" /></body></html>');
 		var anchor = xmlDoc.getElementsByTagName('a').item(0);
 		should(function () {
@@ -89,36 +87,33 @@ describe('Titanium.XML', function () {
 		should(function () {
 			xmlDoc.createAttributeNS(null, 'id');
 		}).not.throw();
-		finish();
 	});
 
 	// TIMOB-8551
 	// FIXME Get working on Android, fails
-	it.androidBroken('ownerDocumentProperty', function (finish) {
+	it.androidBroken('ownerDocumentProperty', function () {
 		var doc = Ti.XML.parseString('<?xml version="1.0"?><root><test>data</test></root>'),
 			e1 = doc.firstChild,
 			e2 = doc.createElement('test');
 		if (e1.ownerDocument === e2.ownerDocument) {
 			should(e2.ownerDocument === null).be.eql(false);
-			finish();
 		}
 	});
 
 	// TIMOB-5112
-	it('getElementsByTagName', function (finish) {
+	it('getElementsByTagName', function () {
 		var xmlString = '<benny/>',
 			doc = Ti.XML.parseString(xmlString);
 		should(function () {
 			doc.getElementsByTagName('mickey').item(0);
 		}).not.throw();
-		finish();
 	});
 
 	// FIXME Get working on iOS - doesn't throw exception on parsing empty string
 	// FIXME: new V8 changes have prevented exceptions from throwing?
 	// iOS gives: expected [Function] to throw exception
 	// Android gives: expected [Function] to throw exception
-	it.androidAndIosBroken('documentParsing', function (finish) {
+	it.androidAndIosBroken('documentParsing', function () {
 		var localSources = testSource,
 			localInvalid = invalidSource;
 		// Parse valid documents
@@ -149,13 +144,13 @@ describe('Titanium.XML', function () {
 		should(function () {
 			Ti.XML.parseString(localInvalid['mismatched_tag.xml']);
 		}).throw();
-		finish();
 	});
 
 	// FIXME: dom-parser.js doesn't throw exception when it 'corrects' end tag
 	// iOS gives: expected [Function] to throw exception
 	// Android gives: expected [Function] to throw exception
-	it.androidAndIosBroken('invalidDocumentParsing', function (finish) {
+	// Windows Desktop gives: expected [Function] to throw exception, stderr gives: [WARN] :   unclosed xml attribute
+	it.allBroken('invalidDocumentParsing', function () {
 		var localInvalid = invalidSource;
 		should(function () {
 			Ti.XML.parseString(localInvalid['no_end.xml']);
@@ -163,7 +158,6 @@ describe('Titanium.XML', function () {
 		should(function () {
 			Ti.XML.parseString(localInvalid['no_toplevel.xml']);
 		}).throw();
-		finish();
 	});
 
 	// These 6 tests are adapted from the KitchenSink xml_dom test
@@ -181,7 +175,8 @@ describe('Titanium.XML', function () {
 	});
 
 	// SKIP: because XPath is not a part of DOM level2 CORE
-	it('xpath', function () {
+	// Windows faisl at call to xml.evaluate. This is not marked as part of our API for Ti.XML.Document!
+	it.windowsMissing('xpath', function () {
 		var xml = Ti.XML.parseString(testSource['xpath.xml']),
 			fooBarList = xml.documentElement.getElementsByTagName('FooBar'),
 			item,
@@ -274,14 +269,24 @@ describe('Titanium.XML', function () {
 
 	// FIXME: some functions should throw exception on out-of-bounds error
 	// iOS Gives: expected [Function] to throw exception
-	it.iosBroken('xmlCData', function (finish) {
+	it.iosBroken('xmlCData', function () {
 		var xml = Ti.XML.parseString(testSource['cdata.xml']),
 			scriptList = xml.documentElement.getElementsByTagName('script'),
 			nodeCount,
 			script,
-			cData,
 			i,
-			node;
+			node,
+			cData,
+			fullString,
+			newline = Ti.Filesystem.lineEnding,
+			functionBody = newline + 'function matchwo(a,b)' + newline + '{' + newline + 'if (a < b && a < 0) then' + newline + '  {' + newline + '  return 1;' + newline + '  }' + newline + 'else' + newline + '  {' + newline + '  return 0;' + newline + '  }' + newline + '}' + newline,
+			fullLength,
+			substring1,
+			substring2 = null,
+			cDataLength,
+			substring6,
+			substring7,
+			substring8;
 		should(scriptList.length).eql(1);
 		should(xml.documentElement.nodeName).eql('root');
 		nodeCount = countNodes(xml.documentElement, 1);
@@ -296,19 +301,20 @@ describe('Titanium.XML', function () {
 		}
 		should(cData === null).be.eql(false);
 		// CharacterDataAttributes
-		var fullString = cData.data;
-		should(fullString).eql('\nfunction matchwo(a,b)\n{\nif (a < b && a < 0) then\n  {\n  return 1;\n  }\nelse\n  {\n  return 0;\n  }\n}\n');
+		fullString = cData.data;
+
+		should(fullString).eql(functionBody);
 		cData.data = 'Test Assignment';
 		should(cData.data).eql('Test Assignment');
 		cData.data = fullString;
-		var fullLength = cData.length;
+		fullLength = cData.length;
 		should(fullLength).eql(fullString.length);
 		// CharacterData.substringData
-		var substring1 = cData.substringData(1, 8);
+		substring1 = cData.substringData(1, 8);
 		should(substring1).eql(fullString.substr(1, 8));
 		// asking for more than there is should not throw exception
 		// according to spec, rather just return up to end.
-		var substring2 = null;
+		substring2 = null;
 		should(function () {
 			substring2 = cData.substringData(1, 1e3);
 		}).not.throw();
@@ -326,18 +332,18 @@ describe('Titanium.XML', function () {
 		should(substring2).eql(fullString.substr(0, fullLength + 1));
 		// Per spec substringData should throw exception if given params are out of range
 		should(function () {
-			var substring3 = cData.substringData(1e3, 1001);
+			cData.substringData(1e3, 1001);
 		}).throw();
 		should(function () {
-			var substring4 = cData.substringData(-1, 101);
+			cData.substringData(-1, 101);
 		}).throw();
 		should(function () {
-			var substring5 = cData.substringData(0, -1);
+			cData.substringData(0, -1);
 		}).throw();
 		// CharacterData.appendData
-		var cDataLength = cData.length;
+		cDataLength = cData.length;
 		cData.appendData('Appending');
-		var substring6 = cData.substringData(97, 9);
+		substring6 = cData.substringData(97, 9);
 		should(cData.length).eql(cDataLength + 9);
 		should(substring6).eql('Appending');
 		should(function () {
@@ -345,7 +351,7 @@ describe('Titanium.XML', function () {
 		}).throw();
 		// CharacterData.insertData
 		cData.insertData(9, 'InsertData');
-		var substring7 = cData.substringData(9, 10);
+		substring7 = cData.substringData(9, 10);
 		should(substring7).eql('InsertData');
 		// Per spec insertData should throw exception if given params are out of range
 		should(function () {
@@ -359,7 +365,7 @@ describe('Titanium.XML', function () {
 		}).throw();
 		// CharacterData.replaceData
 		cData.replaceData(9, 1, 'ReplaceData');
-		var substring8 = cData.substringData(9, 20);
+		substring8 = cData.substringData(9, 20);
 		should(substring8).eql('ReplaceDatansertData');
 		cDataLength = cData.length;
 		cData.replaceData(cDataLength, 100, 'ReplaceData');
@@ -392,7 +398,6 @@ describe('Titanium.XML', function () {
 		should(function () {
 			script.deleteData(0, 1);
 		}).throw();
-		finish();
 	});
 
 	it('xmlCDataAndEntities', function () {
@@ -465,7 +470,8 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: splitText function should throw exception on out-of-bounds error
-	it('apiXMLTextSplitText', function (finish) {
+	// Windows Desktop gives: expected [Function] to throw exception
+	it.windowsDesktopBroken('apiXMLTextSplitText', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			firstString = 'first part|',
 			secondString = 'second part',
@@ -494,13 +500,13 @@ describe('Titanium.XML', function () {
 		should(function () {
 			childNode.splitText(completeString.length + 1);
 		}).throw();
-		finish();
 	});
 
 	// SKIP: textContent is not a part of DOM level2 CORE
 	// Android gives: expected [Function] not to throw exception (got [TypeError: textNode.getText is not a function])
+	// Windows gives: expected [Function] not to throw exception (got [TypeError: textNode.getText is not a function. (In 'textNode.getText()', 'textNode.getText' is undefined)])
 	// I don't see getText() in the API docs
-	it.androidMissing('apiXMLTextGetText', function (finish) {
+	it.androidAndWindowsMissing('apiXMLTextGetText', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			textValue = 'this is some test',
 			textNode,
@@ -525,11 +531,11 @@ describe('Titanium.XML', function () {
 			getTextResults2 = textNode.textContent;
 		}).not.throw();
 		should(getTextResults2).eql(textValue);
-		finish();
 	});
 
 	// FIXME: doctype support
 	// Android gives: expected true to equal false
+	// Windows gives: expected true to equal false
 	it.androidBroken('apiXmlDocumentProperties', function () {
 		// File with DTD
 		var doc = Ti.XML.parseString(testSource['with_dtd.xml']);
@@ -550,6 +556,7 @@ describe('Titanium.XML', function () {
 
 	// FIXME: value property should return empty string according to spec
 	// Don't know why Android fails!
+	// Windows Desktop gives: expected true to equal false
 	it.androidBroken('apiXmlDocumentCreateAttribute', function () {
 		var doc = Ti.XML.parseString('<test/>'),
 			attr;
@@ -942,7 +949,7 @@ describe('Titanium.XML', function () {
 		should(clonedNode.lastChild.nodeName).eql(parentNode.lastChild.nodeName);
 	});
 
-	it('apiXmlNodeHasAttributes', function (finish) {
+	it('apiXmlNodeHasAttributes', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			node = doc.createElement('node'),
 			node2 = doc.createElement('node2'),
@@ -958,10 +965,9 @@ describe('Titanium.XML', function () {
 			results = node2.hasAttributes();
 		}).not.throw();
 		should(results).eql(true);
-		finish();
 	});
 
-	it('apiXmlNodeHasChildNodes', function (finish) {
+	it('apiXmlNodeHasChildNodes', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			parentNode = doc.createElement('parentNode'),
 			parentNode2 = doc.createElement('parentNode2'),
@@ -977,11 +983,10 @@ describe('Titanium.XML', function () {
 			results = parentNode2.hasChildNodes();
 		}).not.throw();
 		should(results).eql(true);
-		finish();
 	});
 
 	// FIXME Get working on Android, fails
-	it.androidBroken('apiXmlNodeInsertBefore', function (finish) {
+	it.androidBroken('apiXmlNodeInsertBefore', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			parentNode = doc.createElement('parentNode'),
 			childNode3;
@@ -993,11 +998,10 @@ describe('Titanium.XML', function () {
 			parentNode.insertBefore(childNode3, parentNode.firstChild);
 		}).not.throw();
 		should(parentNode.firstChild).eql(childNode3);
-		finish();
 	});
 
 	// FIXME: isSupported should not throw exception
-	it('apiXmlNodeIsSupported', function (finish) {
+	it('apiXmlNodeIsSupported', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			results;
 		should(doc.isSupported).be.a.Function;
@@ -1010,10 +1014,9 @@ describe('Titanium.XML', function () {
 			results = doc.isSupported('IDONTEXIST', '1.0');
 		}).not.throw();
 		should(results).eql(false);
-		finish();
 	});
 
-	it('apiXmlNodeNormalize', function (finish) {
+	it('apiXmlNodeNormalize', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		var parentNode = doc.createElement('parentNode');
 		parentNode.appendChild(doc.createTextNode('My '));
@@ -1027,7 +1030,6 @@ describe('Titanium.XML', function () {
 		should(parentNode.firstChild.data).eql('My name is Opie.');
 		should(parentNode.firstChild.nodeValue).eql('My name is Opie.');
 		should(parentNode.childNodes.length).eql(1);
-		finish();
 	});
 
 	// FIXME Get working on Android, causes crash

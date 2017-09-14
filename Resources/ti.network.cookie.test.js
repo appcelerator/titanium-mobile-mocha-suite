@@ -1,20 +1,24 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
-describe('Titanium.Network.Cookie', function() {
-	it('apiName', function() {
+// FIXME Windows does not implement Ti.Network.Cookie!
+describe.windowsMissing('Titanium.Network.Cookie', function () {
+	it('apiName', function () {
 		var client = Ti.Network.createHTTPClient();
 		should(client).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(client.apiName).be.eql('Ti.Network.HTTPClient');
 	});
 
-	it('cookie isValid()', function() {
+	it('#isValid()', function () {
 		var cookie1 = Ti.Network.createCookie({
 			domain: 'example.com',
 			name: 'test_cookie',

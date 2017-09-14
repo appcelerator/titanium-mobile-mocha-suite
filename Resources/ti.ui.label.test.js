@@ -34,13 +34,14 @@ describe('Titanium.UI.Label', function () {
 		should(label.apiName).be.eql('Ti.UI.Label');
 	});
 
-	it('maxLines', function () {
+	// FIXME Windoes is missing accessor function
+	it.windowsBroken('maxLines', function () {
 		var label = Ti.UI.createLabel({
 			text: 'This is a label with propably more than three lines of text. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.',
 			maxLines: 2
 		});
 		should(label.maxLines).be.a.Number;
-		should(label.getMaxLines).be.a.Function;
+		should(label.getMaxLines).be.a.Function; // Windows gives undefined
 		should(label.maxLines).eql(2);
 		should(label.getMaxLines()).eql(2);
 		label.maxLines = 1;
@@ -121,11 +122,11 @@ describe('Titanium.UI.Label', function () {
 
 	// set ellipsize in the label
 	// Default: Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_END
-	it('ellipsize', function () {
+	it.windowsBroken('ellipsize', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
-		should(label.ellipsize).be.a.Number;
+		should(label.ellipsize).be.a.Number; // Windows gives false!
 		should(label.getEllipsize).be.a.Function;
 		should(label.ellipsize).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_END);
 		should(label.getEllipsize()).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_END);

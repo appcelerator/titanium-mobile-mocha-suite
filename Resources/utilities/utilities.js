@@ -138,6 +138,12 @@ filters = {
 			return 'skip';
 		}
 		return true;
+	},
+	iosMissingAndWindowsDesktopBroken: function () {
+		if (Utility.isWindowsDesktop() || Utility.isIOS()) {
+			return 'skip';
+		}
+		return true;
 	}
 };
 // Alias broken tests on a given platform to "missing" filter for that platform.

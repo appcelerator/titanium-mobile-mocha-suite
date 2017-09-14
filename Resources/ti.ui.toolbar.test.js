@@ -13,7 +13,8 @@ var should = require('./utilities/assertions');
 describe('Titanium.UI.Toolbar', function () {
 	this.timeout(10000);
 
-	it('SimpleToolbar', function () {
+	// FIXME Add to Windows API!
+	it.windowsMissing('SimpleToolbar', function () {
 		var send = Ti.UI.createButton({
 				title: 'Send',
 			}),

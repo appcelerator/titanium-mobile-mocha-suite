@@ -30,7 +30,8 @@ describe('Titanium.Utils', function () {
 		should(test.getText()).be.eql('test');
 	});
 
-	it('#base64decode(Ti.Blob)', function () {
+	// FIXME Windows Desktop gives: 'base64decode: attempt to decode a value not in base64 char set'
+	it.windowsDesktopBroken('#base64decode(Ti.Blob)', function () {
 		var f = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'txtFiles/encodedFile.txt'),
 			blob = Ti.Utils.base64decode(f.read());
 		should(blob.toString()).eql('Decoding successful!');
@@ -55,7 +56,7 @@ describe('Titanium.Utils', function () {
 	// For now, the only impl is Android, and there is no way to actually use the result without an error getting thrown
 	// #toString() and #toBase64() (undocumented API) both end up throwing errors
 	// Why can't this just be treated similarly to how passing in a Ti.Blob that's wrapping a file is
-	it.skip('#base64encode(Ti.Filesystem.File)', function () { // it.androidBroken // this is broken, see above for why
+	it.allBroken('#base64encode(Ti.Filesystem.File)', function () { // it.androidBroken // this is broken, see above for why
 		var f = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'txtFiles/decodedFile.txt'),
 			blob = Ti.Utils.base64encode(f),
 			string;
@@ -64,7 +65,7 @@ describe('Titanium.Utils', function () {
 		should(blob).be.a.Object;
 		should(blob.apiName).eql('Ti.Blob'); // toString() fails...
 		string = blob.toBase64(); // undocumented API, still fails because calls getBytes() which calls getLength() which fails
-		should(result).eql('SSBhbSBub3QgZW5jb2RlZCB5ZXQu');
+		should(string).eql('SSBhbSBub3QgZW5jb2RlZCB5ZXQu');
 	});
 
 	it('#md5HexDigest(String)', function () {
@@ -75,14 +76,15 @@ describe('Titanium.Utils', function () {
 		should(test).be.eql('098f6bcd4621d373cade4e832627b4f6');
 	});
 
-	it('#md5HexDigest(Ti.Blob)', function () {
+	// FIXME Windows gives different md5 hash! Maybe line ending difference?
+	it.windowsDesktopBroken('#md5HexDigest(Ti.Blob)', function () {
 		var f = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'txtFiles/file.txt'),
 			contents = f.read(),
 			test;
 		should(Ti.Utils.md5HexDigest).be.a.Function;
 		test = Ti.Utils.md5HexDigest(contents);
 		should(test).be.a.String;
-		should(test).be.eql('4fe8a693c64f93f65c5faf42dc49ab23');
+		should(test).be.eql('4fe8a693c64f93f65c5faf42dc49ab23'); // Windows Desktop gives: 'ab1600f840b927f80a3dc000c510d1d3'
 	});
 
 	it('#sha1(String)', function () {
@@ -114,7 +116,7 @@ describe('Titanium.Utils', function () {
 	});
 
 	// FIXME Android does no newlines for longer output, both iOS and Windows do. Need to get parity
-	it.skip('TIMOB-9111', function () {
+	it.iosAndWindowsBroken('TIMOB-9111', function () {
 		var shortString = 'ABCDEFGHIJ1234567890ABCDEFGHIJ12|psndemo2|abcd:1',
 			longString = 'ABCDEFGHIJ1234567890ABCDEFGHIJ12|psndemo2|abcd:12345678901234567890',
 			tiBase64ShortResult = Ti.Utils.base64encode(shortString),

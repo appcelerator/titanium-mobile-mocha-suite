@@ -60,6 +60,7 @@ describe('requireJS', function () {
 	});
 
 	// public function with 1 argument
+	// Windows Phone 10 crashed here once
 	it('requireJS.PublicFunc1', function () {
 		var object = require('ti.require.test_test'),
 			result;
@@ -145,6 +146,7 @@ describe('requireJS', function () {
 	});
 
 	// TIMOB-23512
+	// Windows Phone 10 crashed here once
 	it('relative require() from sub directory', function () {
 		var with_index_js = require('./with_index_js/sub1');
 		should(with_index_js).have.property('name');
