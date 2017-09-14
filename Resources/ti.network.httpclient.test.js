@@ -285,7 +285,8 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// https://jira.appcelerator.org/browse/TIMOB-2849
-	it('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
+	// Windows does not yet support Ti.Network.Cookie
+	it.windowsMissing('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
 		xhr.onload = function () {

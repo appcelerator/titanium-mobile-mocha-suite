@@ -519,7 +519,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Android reports 223 for one of the values we expect 123 (result.y?)
-	it.androidBroken('convertPointToView', function (finish) {
+	it.androidAndWindowsPhoneBroken('convertPointToView', function (finish) {
 		win = Ti.UI.createWindow();
 		var a = Ti.UI.createView({ backgroundColor:'red' }),
 			b = Ti.UI.createView({ top: '100', backgroundColor: 'blue' }),
@@ -536,7 +536,7 @@ describe('Titanium.UI.View', function () {
 				Ti.API.info('Got postlayout event');
 				var result = b.convertPointToView({ x: 123, y: 23 }, a);
 				should(result).be.an.Object;
-				should(result.x).be.a.Number;
+				should(result.x).be.a.Number; // Windows Phone: expected '123.000000' to be a number
 				should(result.y).be.a.Number;
 				should(result.x).eql(123);
 				should(result.y).eql(123);

@@ -109,6 +109,18 @@ filters = {
 		}
 		return true;
 	},
+	iosAndWindowsPhoneBroken: function () {
+		if (Utility.isIOS() || Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
+	iosAndWindowsDesktopBroken: function () {
+		if (Utility.isWindowsDesktop() || Utility.isIOS()) {
+			return 'skip';
+		}
+		return true;
+	}
 	// mark bugs specific to Windows 8.1 Desktop/Store
 	windowsDesktop81Broken: function () {
 		if (Utility.isWindows8_1() || Utility.isWindowsDesktop()) {
@@ -153,12 +165,6 @@ filters = {
 	},
 	allBroken: function () {
 		return 'skip';
-	},
-	iosMissingAndWindowsDesktopBroken: function () {
-		if (Utility.isWindowsDesktop() || Utility.isIOS()) {
-			return 'skip';
-		}
-		return true;
 	}
 };
 // Alias broken tests on a given platform to "missing" filter for that platform.
@@ -170,6 +176,7 @@ filters.androidAndWindowsMissing = filters.androidAndWindowsBroken;
 filters.androidBrokenAndIosMissing = filters.androidAndIosBroken;
 filters.androidMissingAndIosBroken = filters.androidAndIosBroken
 filters.androidMissingAndWindowsBroken = filters.androidAndWindowsMissing;
+filters.iosMissingAndWindowsDesktopBroken = filters.iosAndWindowsDesktopBroken;
 // Add our custom filters
 filter.addFilters(filters);
 

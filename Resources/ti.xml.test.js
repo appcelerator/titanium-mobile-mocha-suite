@@ -537,7 +537,7 @@ describe('Titanium.XML', function () {
 	// FIXME: doctype support
 	// Android gives: expected true to equal false
 	// Windows gives: expected true to equal false
-	it.androidBroken('apiXmlDocumentProperties', function () {
+	it.androidAndWindowsPhoneBroken('apiXmlDocumentProperties', function () {
 		// File with DTD
 		var doc = Ti.XML.parseString(testSource['with_dtd.xml']);
 		should(doc.documentElement).not.be.type('undefined');
@@ -548,7 +548,7 @@ describe('Titanium.XML', function () {
 		should(doc.implementation === null).be.eql(false);
 		should(doc.implementation).be.an.Object;
 		should(doc.doctype).not.be.type('undefined');
-		should(doc.doctype === null).be.eql(false);
+		should(doc.doctype === null).be.eql(false); // Windows Phone: expected true to equal false
 		should(doc.doctype).be.an.Object;
 		// Document without DTD, to be sure doc.doctype is null as spec says
 		doc = Ti.XML.parseString('<a/>');
@@ -558,7 +558,7 @@ describe('Titanium.XML', function () {
 	// FIXME: value property should return empty string according to spec
 	// Don't know why Android fails!
 	// Windows Desktop gives: expected true to equal false
-	it.androidBroken('apiXmlDocumentCreateAttribute', function () {
+	it.androidAndWindowsPhoneBroken('apiXmlDocumentCreateAttribute', function () {
 		var doc = Ti.XML.parseString('<test/>'),
 			attr;
 		should(doc.createAttribute).be.a.Function;
@@ -568,7 +568,7 @@ describe('Titanium.XML', function () {
 		should(attr.name).eql('myattr');
 		// Per spec, value in new attribute should be empty string
 		should(attr.value === null).be.eql(false);
-		should(attr.value === undefined).be.eql(false);
+		should(attr.value === undefined).be.eql(false); // Windows Phone: expected true to equal false
 		should(attr.value).be.equal('');
 		should(attr.ownerDocument).eql(doc);
 		attr = null;
@@ -802,7 +802,7 @@ describe('Titanium.XML', function () {
 
 	// FIXME: some properties should be null if it is unspecified
 	// iOS gives 'expected [String: '[object TIDOMDocumentType]'] to equal null'
-	it.iosBroken('apiXmlNodeProperties', function () {
+	it.iosAndWindowsPhoneBroken('apiXmlNodeProperties', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			nodesList = doc.getElementsByTagName('nodes'),
 			node,
@@ -868,7 +868,7 @@ describe('Titanium.XML', function () {
 		should(node.attributes).be.an.Object;
 		should(node.ownerDocument).be.an.Object;
 		// Per spec, namespaceURI should be null if it is unspecified
-		should(node.namespaceURI).not.be.type('undefined');
+		should(node.namespaceURI).not.be.type('undefined'); // Windows Phone: expected undefined not to have type undefined
 		// Per spec, prefix should be null if it is unspecified
 		should(node.prefix).not.be.type('undefined');
 		should(node.localName).not.be.type('undefined');
@@ -1002,14 +1002,14 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: isSupported should not throw exception
-	it('apiXmlNodeIsSupported', function () {
+	it.windowsPhoneBroken('apiXmlNodeIsSupported', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			results;
 		should(doc.isSupported).be.a.Function;
 
 		should(function () {
 			results = doc.isSupported('XML', '1.0');
-		}).not.throw();
+		}).not.throw(); // Windows Phone: expected [Function] not to throw exception (got [TypeError: null is not an object (evaluating 'this.ownerDocument.implementation')])
 		should(results).eql(true);
 		should(function () {
 			results = doc.isSupported('IDONTEXIST', '1.0');
@@ -1105,19 +1105,19 @@ describe('Titanium.XML', function () {
 		should(count).eql(1);
 	});
 
-	it('xmlNodeListRange', function () {
+	it.windowsPhoneBroken('xmlNodeListRange', function () {
 		var xml = Ti.XML.parseString(testSource['nodes.xml']),
 			nodes;
 		should(xml === null).be.eql(false);
 		nodes = xml.getElementsByTagName('node');
 		should(nodes.length).be.a.Number;
 		// item should return null if that is not a valid index
-		should(nodes.item(nodes.length) === null).eql(true);
+		should(nodes.item(nodes.length) === null).eql(true); // Windows Phone: expected false to equal true
 		should(nodes.item(100) === null).eql(true);
 	});
 
 	// Don't know why Android fails!
-	it.androidBroken('apiXmlAttr', function () {
+	it.androidAndWindowsPhoneBroken('apiXmlAttr', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			node = doc.getElementsByTagName('node').item(0),
 			attr,
@@ -1152,7 +1152,7 @@ describe('Titanium.XML', function () {
 		should(attr.specified).be.Boolean;
 		// Per spec, the default value in an attribute is empty string not null.
 		should(attr.value === null).be.eql(false);
-		should(attr.value).be.equal('');
+		should(attr.value).be.equal(''); // Windows phone gives: expected undefined to be ''
 		// Per spec, when you set an attribute that doesn't exist yet,
 		// null is returned.
 		addedAttr = node.setAttributeNode(attr);

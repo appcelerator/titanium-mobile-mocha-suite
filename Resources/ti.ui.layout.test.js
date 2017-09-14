@@ -224,6 +224,7 @@ describe('Titanium.UI.Layout', function () {
 	// functional test case #1022, #1024
 	// ViewWidth, ViewHeight
 	// FIXME Get working on iOS and Android. They need to fire Ti.UI.Window postlayout events!
+	// Windows Phone gives: expected 262 to equal 261
 	it.androidAndIosBroken('viewWidth', function (finish) {
 		var view = Ti.UI.createView({
 			width: 10,
@@ -250,7 +251,7 @@ describe('Titanium.UI.Layout', function () {
 				should(view.bottom).be.undefined;
 				// Centered View with width and height defined
 				// FIXME There's nothing to indicate that x/y should be integers, but this test assumed they were, so I had to rewrite to wrap them in Math.floor
-				should(view.rect.x).eql(Math.floor((win.size.width - view.size.width) / 2));
+				should(view.rect.x).eql(Math.floor((win.size.width - view.size.width) / 2)); // Windows Phone: expected 262 to equal 261
 				should(view.rect.y).eql(Math.floor((win.size.height - view.size.height) / 2));
 				// should(Math.floor(view.rect.x)).eql(Math.floor((win.size.width - view.size.width) / 2));
 				// should(Math.floor(view.rect.y)).eql(Math.floor((win.size.height - view.size.height) / 2));
