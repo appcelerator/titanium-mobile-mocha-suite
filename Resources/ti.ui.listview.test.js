@@ -721,7 +721,8 @@ describe('Titanium.UI.ListView', function () {
 		finish();
 	});
 
-	it('fireListSectionEvent (header and footer)', function (finish) {
+	// Crashes Windows 10 Desktop
+	it.windowsDesktopBroken('fireListSectionEvent (header and footer)', function (finish) {
 		var section = Ti.UI.createListSection({
 				headerTitle: 'HEADER',
 				footerTitle: 'FOOTER',
