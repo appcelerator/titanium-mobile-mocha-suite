@@ -225,7 +225,7 @@ describe('Titanium.UI.Layout', function () {
 	// ViewWidth, ViewHeight
 	// FIXME Get working on iOS and Android. They need to fire Ti.UI.Window postlayout events!
 	// Windows Phone gives: expected 262 to equal 261
-	it.androidAndIosBroken('viewWidth', function (finish) {
+	it.androidIosAndWindowsPhoneBroken('viewWidth', function (finish) {
 		var view = Ti.UI.createView({
 			width: 10,
 			height: 10

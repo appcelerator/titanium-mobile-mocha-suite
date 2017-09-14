@@ -74,6 +74,12 @@ filters = {
 		}
 		return true;
 	},
+	androidIosAndWindowsPhoneBroken: function () {
+		if (Utility.isAndroid() || Utility.isIOS() || Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
 	// to mark when there's a bug in both iOS and Android impl
 	androidAndIosBroken: function () {
 		if (Utility.isAndroid() || Utility.isIOS()) {

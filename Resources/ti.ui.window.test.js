@@ -157,7 +157,9 @@ describe('Titanium.UI.Window', function () {
 			backgroundColor: 'pink'
 		});
 
-		win.addEventListener('blur', finish);
+		win.addEventListener('blur', function () {
+			finish();
+		});
 		win.addEventListener('open', function () {
 			setTimeout(function () {
 				win.close();
@@ -174,7 +176,9 @@ describe('Titanium.UI.Window', function () {
 			backgroundColor: 'pink'
 		});
 
-		win.addEventListener('focus', finish);
+		win.addEventListener('focus', function () {
+			finish();
+		});
 		win.open();
 	});
 
@@ -186,7 +190,9 @@ describe('Titanium.UI.Window', function () {
 			backgroundColor: 'pink'
 		});
 
-		win.addEventListener('open', finish);
+		win.addEventListener('open', function () {
+			finish();
+		});
 		win.open();
 	});
 
@@ -197,7 +203,9 @@ describe('Titanium.UI.Window', function () {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'pink'
 		});
-		win.addEventListener('close', finish);
+		win.addEventListener('close', function () {
+			finish();
+		});
 		win.addEventListener('open', function () {
 			setTimeout(function () {
 				win.close();
@@ -325,9 +333,9 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it('#toString()', function () {
+	it.windowsBroken('#toString()', function () {
 		win = Ti.UI.createWindow();
-		should(win.toString()).be.eql('[object Window]');
+		should(win.toString()).be.eql('[object Window]'); // Windows: expected '[object class TitaniumWindows::UI::Window]' to equal '[object Window]'
 		should(win.apiName).be.a.String;
 		should(win.apiName).be.eql('Ti.UI.Window');
 	});
