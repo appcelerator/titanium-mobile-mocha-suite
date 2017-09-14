@@ -73,7 +73,8 @@ describe('Titanium.Network', function () {
 		}
 	});
 
-	it('online', function () {
+	// Windows Desktop seems to get stuck here (or next test) until I manually log into the box and give focus to the app...
+	it.windowsDesktopBroken('online', function () {
 		should(Ti.Network).have.a.readOnlyProperty('online').which.is.a.Boolean;
 	});
 

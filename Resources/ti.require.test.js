@@ -199,7 +199,8 @@ describe('requireJS', function () {
 		should(object.name).be.eql('commonjs.legacy.package/main.js');
 	});
 
-	it('should load a node module by id in node_modules folder living at same level as requirer', function () {
+	// Crashes Windows Desktop
+	it.windowsDesktopBroken('should load a node module by id in node_modules folder living at same level as requirer', function () {
 		var abbrev = require('abbrev');
 		should(abbrev).be.a.Function;
 		should(abbrev('foo', 'fool', 'folding', 'flop')).eql({ fl: 'flop', flo: 'flop', flop: 'flop', fol: 'folding', fold: 'folding', foldi: 'folding', foldin: 'folding', folding: 'folding', foo: 'foo', fool: 'fool' });
