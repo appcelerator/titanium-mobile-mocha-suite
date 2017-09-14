@@ -40,6 +40,9 @@ function installSDK(sdkVersion, next) {
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
+	prc.stderr.on('data', function (data) {
+		console.log(data.toString());
+	});
 	prc.on('exit', function (code) {
 		if (code !== 0) {
 			next('Failed to install SDK');
@@ -505,8 +508,6 @@ if (module.id === '.') {
 			.parse(process.argv);
 
 		const platforms = program.platforms.split(',');
-
-		console.log(program.cleanup);
 
 		if (platforms.length > 1 && program.target !== undefined) {
 			console.error('--target can only be used when there is a single platform provided');

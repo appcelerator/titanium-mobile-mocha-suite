@@ -74,14 +74,14 @@ describe('Titanium.Network', function () {
 	});
 
 	// Windows Desktop seems to get stuck here (or next test) until I manually log into the box and give focus to the app...
-	it.windowsDesktopBroken('online', function () {
+	// I think some earlier test is getting "stuck", but I don't know which one!
+	it('online', function () {
 		should(Ti.Network).have.a.readOnlyProperty('online').which.is.a.Boolean;
 	});
 
 	// Methods
 	// Windows Desktop seems to get stuck here until I manually log into the box and give focus to the app...
-	// it.windowsPhone81Broken('encodeURIComponent()', function () {
-	it.windowsDesktopBroken('encodeURIComponent()', function () {
+	it.windowsPhone81Broken('encodeURIComponent()', function () {
 		var text;
 		should(Ti.Network.encodeURIComponent).be.a.Function;
 		text = Ti.Network.encodeURIComponent('Look what I found! I like this:');
@@ -93,8 +93,7 @@ describe('Titanium.Network', function () {
 		}
 	});
 
-	// it.windowsPhone81Broken('decodeURIComponent()', function () {
-	it.windowsDesktopBroken('decodeURIComponent()', function () {
+	it.windowsPhone81Broken('decodeURIComponent()', function () {
 		var text;
 		should(Ti.Network.decodeURIComponent).be.a.Function;
 		text = Ti.Network.decodeURIComponent('Look%20what%20I%20found!%20I%20like%20this%3A');
