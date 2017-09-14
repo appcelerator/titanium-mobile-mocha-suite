@@ -78,7 +78,9 @@ describe('Titanium.Network', function () {
 	});
 
 	// Methods
-	it.windowsPhone81Broken('encodeURIComponent()', function () {
+	// Windows Desktop seems to get stuck here until I manually log into the box and give focus to the app...
+	// it.windowsPhone81Broken('encodeURIComponent()', function () {
+	it.windowsDesktopBroken('encodeURIComponent()', function () {
 		var text;
 		should(Ti.Network.encodeURIComponent).be.a.Function;
 		text = Ti.Network.encodeURIComponent('Look what I found! I like this:');
@@ -90,7 +92,8 @@ describe('Titanium.Network', function () {
 		}
 	});
 
-	it.windowsPhone81Broken('decodeURIComponent()', function () {
+	// it.windowsPhone81Broken('decodeURIComponent()', function () {
+	it.windowsDesktopBroken('decodeURIComponent()', function () {
 		var text;
 		should(Ti.Network.decodeURIComponent).be.a.Function;
 		text = Ti.Network.decodeURIComponent('Look%20what%20I%20found!%20I%20like%20this%3A');
