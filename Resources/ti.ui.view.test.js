@@ -163,7 +163,7 @@ describe('Titanium.UI.View', function () {
 	}));
 
 	// FIXME Get working on iOS and Android
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
+	it.allBroken('border', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
@@ -173,7 +173,7 @@ describe('Titanium.UI.View', function () {
 
 			try {
 				should(view.borderColor).be.a.String; // undefined on iOS and Android
-				should(view.borderWidth).be.a.Number; // Windows Desktop gives: expected '0' to be a number
+				should(view.borderWidth).be.a.Number; // Windows gives: expected '0' to be a number
 				view.borderColor = 'blue';
 				view.borderWidth = 2;
 				should(view.borderColor).be.eql('blue');

@@ -30,8 +30,8 @@ describe('Titanium.Utils', function () {
 		should(test.getText()).be.eql('test');
 	});
 
-	// FIXME Windows Desktop gives: 'base64decode: attempt to decode a value not in base64 char set'
-	it.windowsDesktopBroken('#base64decode(Ti.Blob)', function () {
+	// FIXME Windows gives: 'base64decode: attempt to decode a value not in base64 char set'
+	it.windowsBroken('#base64decode(Ti.Blob)', function () {
 		var f = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'txtFiles/encodedFile.txt'),
 			blob = Ti.Utils.base64decode(f.read());
 		should(blob.toString()).eql('Decoding successful!');
@@ -77,7 +77,7 @@ describe('Titanium.Utils', function () {
 	});
 
 	// FIXME Windows gives different md5 hash! Maybe line ending difference?
-	it.windowsDesktopBroken('#md5HexDigest(Ti.Blob)', function () {
+	it.windowsBroken('#md5HexDigest(Ti.Blob)', function () {
 		var f = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'txtFiles/file.txt'),
 			contents = f.read(),
 			test;

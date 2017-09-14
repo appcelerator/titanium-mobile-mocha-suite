@@ -1,9 +1,13 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
 var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
@@ -31,7 +35,7 @@ describe('Titanium.UI.OptionDialog', function () {
 	});
 
 	// FIXME Get working on iOS. Looks like it doesn't look up titleid keys?!
-	(utilities.isIOS() ? it.skip : it)('titleid', function () {
+	it.iosBroken('titleid', function () {
 		var bar = Ti.UI.createOptionDialog({
 			titleid: 'this_is_my_key'
 		});
@@ -48,7 +52,7 @@ describe('Titanium.UI.OptionDialog', function () {
 
 	// Intentionally skip for iOS. buttonNames property isn't on iOS. TODO Add it for parity?
 	// FIXME defaults to undefined on Android, empty array on Windows.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('buttonNames', function () {
+	it.androidBrokenAndIosMissing('buttonNames', function () {
 		var bar = Ti.UI.createOptionDialog({});
 		should(bar.buttonNames).be.an.Array; // undefined on Android
 		should(bar.getButtonNames).be.a.Function;
@@ -60,7 +64,7 @@ describe('Titanium.UI.OptionDialog', function () {
 	});
 
 	// FIXME Get working on iOS and Android. options is defaulting to undefined, where for Windows we do empty array
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('options', function () {
+	it.androidAndIosBroken('options', function () {
 		var bar = Ti.UI.createOptionDialog({});
 		should(bar.options).be.an.Array; // undefined on iOS and Android
 		should(bar.getOptions).be.a.Function;
@@ -72,7 +76,7 @@ describe('Titanium.UI.OptionDialog', function () {
 	});
 
 	// FIXME Get working on iOS and Android. cancel is defaulting to undefined? Docs say should be -1
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('cancel', function () {
+	it.androidAndIosBroken('cancel', function () {
 		var bar = Ti.UI.createOptionDialog({});
 		should(bar.cancel).be.a.Number; // undefined on iOS and Android
 		should(bar.getCancel).be.a.Function;
@@ -82,7 +86,7 @@ describe('Titanium.UI.OptionDialog', function () {
 	});
 
 	// FIXME Get working on iOS and Android. persistent is defaulting to undefined? Docs say should be true
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('persistent', function () {
+	it.androidAndIosBroken('persistent', function () {
 		var bar = Ti.UI.createOptionDialog({});
 		should(bar.persistent).be.a.Boolean; // undefined on iOS and Android
 		should(bar.getPersistent).be.a.Function;
@@ -94,8 +98,8 @@ describe('Titanium.UI.OptionDialog', function () {
 	});
 
 	// Intentionally skip. property not on iOS
-	// FIXME Get working on Android, defaults to undefined on Android, WIndows has Number
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('selectedIndex', function (finish) {
+	// FIXME Get working on Android, defaults to undefined on Android, Windows has Number
+	it.androidBrokenAndIosMissing('selectedIndex', function () {
 		var bar = Ti.UI.createOptionDialog({});
 		should(bar.selectedIndex).be.a.Number; // undefined on Android
 		should(bar.getSelectedIndex).be.a.Function;

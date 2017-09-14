@@ -11,6 +11,7 @@
 var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
+// FIXME This pops a prompt on Windows 10 and will hang tests. We can log on and allow manually...
 // Skip on Windows 10 Mobile device family due to prompt,
 // however we might be able to run some tests?
 describe.windowsEmulatorBroken('Titanium.Geolocation', function () {

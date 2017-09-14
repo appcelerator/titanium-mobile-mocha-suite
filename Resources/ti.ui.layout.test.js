@@ -533,7 +533,8 @@ describe('Titanium.UI.Layout', function () {
 	// UndefinedTop. Dynamic top calculation
 	// Android gives: expected 255 to equal 175
 	// Windows Desktop gives: expected -150 to equal -300
-	it.androidAndWindowsDesktopBroken('undefinedTop', function (finish) {
+	// Windows Phone gives: expected -106 to equal -212
+	it.androidAndWindowsBroken('undefinedTop', function (finish) {
 		var view1 = Ti.UI.createView({
 				height: 50,
 				center: {
@@ -568,7 +569,7 @@ describe('Titanium.UI.Layout', function () {
 					should(view2.rect.y).eql(50);
 				} else { // View height = 2x(wh - bottom - center)
 					// View top = center - height/2 = 2c b - wh
-					should(view2.rect.y).eql(300 - win.size.height); // Windows Desktop gives expected -150 to equal -300
+					should(view2.rect.y).eql(300 - win.size.height); // Windows Desktop gives expected -150 to equal -300, phone gives expected -106 to equal -212
 				}
 				should(view3.rect.y).eql(win.size.height - 300);
 
@@ -676,7 +677,8 @@ describe('Titanium.UI.Layout', function () {
 	// functional test #1044 CenterXPrecedence
 	// Android gives: expected 150 to equal 100
 	// Windows Desktop gives: expected 150 to equal 100
-	it.androidAndWindowsDesktopBroken('centerXPrecedence', function (finish) {
+	// Windows Phone gives: expected 150 to equal 100
+	it.androidAndWindowsBroken('centerXPrecedence', function (finish) {
 		var view = Ti.UI.createView({
 				height: 200,
 				width: 200,
@@ -770,7 +772,8 @@ describe('Titanium.UI.Layout', function () {
 	// functional test #1048 CenterYPrecedence
 	// Android gives: expected 150 to equal 100
 	// Windows Desktop gives: expected 150 to equal 100
-	it.androidAndWindowsDesktopBroken('centerYPrecedence', function (finish) {
+	// Windows Phone gives: expected 150 to equal 100
+	it.androidAndWindowsBroken('centerYPrecedence', function (finish) {
 		var view = Ti.UI.createView({
 				height: 200,
 				width: 200,

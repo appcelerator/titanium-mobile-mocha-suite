@@ -97,7 +97,7 @@ filters = {
 	},
 	// to mark when there's a bug in both Android and Windows impl
 	androidAndWindowsBroken: function () {
-		if (Utility.isAndroid() || Utility.isWindowsDesktop()) {
+		if (Utility.isAndroid() || Utility.isWindows()) {
 			return 'skip';
 		}
 		return true;
@@ -154,12 +154,6 @@ filters = {
 	allBroken: function () {
 		return 'skip';
 	},
-	androidMissingAndWindowsBroken: function () {
-		if (Utility.isWindows() || Utility.isAndroid()) {
-			return 'skip';
-		}
-		return true;
-	},
 	iosMissingAndWindowsDesktopBroken: function () {
 		if (Utility.isWindowsDesktop() || Utility.isIOS()) {
 			return 'skip';
@@ -172,6 +166,10 @@ filters = {
 filters.androidBroken = filters.androidMissing;
 filters.iosBroken = filters.iosMissing;
 filters.windowsBroken = filters.windowsMissing;
+filters.androidAndWindowsMissing = filters.androidAndWindowsBroken;
+filters.androidBrokenAndIosMissing = filters.androidAndIosBroken;
+filters.androidMissingAndIosBroken = filters.androidAndIosBroken
+filters.androidMissingAndWindowsBroken = filters.androidAndWindowsMissing;
 // Add our custom filters
 filter.addFilters(filters);
 

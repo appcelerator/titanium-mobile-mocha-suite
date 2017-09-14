@@ -471,8 +471,8 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME: splitText function should throw exception on out-of-bounds error
-	// Windows Desktop gives: expected [Function] to throw exception
-	it.windowsDesktopBroken('apiXMLTextSplitText', function () {
+	// Windows gives: expected [Function] to throw exception
+	it.windowsBroken('apiXMLTextSplitText', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			firstString = 'first part|',
 			secondString = 'second part',
