@@ -182,6 +182,7 @@ filters.androidAndWindowsMissing = filters.androidAndWindowsBroken;
 filters.androidBrokenAndIosMissing = filters.androidAndIosBroken;
 filters.androidMissingAndIosBroken = filters.androidAndIosBroken;
 filters.androidMissingAndWindowsBroken = filters.androidAndWindowsMissing;
+filters.androidMissingAndWindowsDesktopBroken = filters.androidAndWindowsDesktopBroken;
 filters.iosMissingAndWindowsDesktopBroken = filters.iosAndWindowsDesktopBroken;
 // Add our custom filters
 filter.addFilters(filters);
