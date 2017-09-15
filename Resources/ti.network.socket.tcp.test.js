@@ -11,9 +11,17 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.Network.Socket.TCP', function () {
+	var socket;
+
+	afterEach(function () {
+		if (socket && socket.state == Ti.Network.Socket.CONNECTED) { // eslint-disable-line eqeqeq
+			socket.close();
+		}
+		socket = null;
+	});
 
 	it('#connect()', function (finish) {
-		var socket = Ti.Network.Socket.createTCP({
+		socket = Ti.Network.Socket.createTCP({
 			host: 'www.appcelerator.com', port: 80,
 			connected: function () {
 				finish();
@@ -28,26 +36,26 @@ describe('Titanium.Network.Socket.TCP', function () {
 	});
 
 	it('#accept()', function () {
-		var socket = Ti.Network.Socket.createTCP();
+		socket = Ti.Network.Socket.createTCP();
 		should(socket.accept).not.be.null;
 		should(socket.accept).be.a.Function;
 	});
 
 	it('#listen()', function () {
-		var socket = Ti.Network.Socket.createTCP();
+		socket = Ti.Network.Socket.createTCP();
 		should(socket.listen).not.be.null;
 		should(socket.listen).be.a.Function;
 	});
 
 	it('#close()', function () {
-		var socket = Ti.Network.Socket.createTCP();
+		socket = Ti.Network.Socket.createTCP();
 		should(socket.close).not.be.null;
 		should(socket.close).be.a.Function;
 	});
 
 	// FIXME: Android chokes with : android.os.NetworkOnMainThreadException
 	it('#connect() and send data', function (finish) {
-		var socket = Ti.Network.Socket.createTCP({
+		socket = Ti.Network.Socket.createTCP({
 			host: 'www.appcelerator.com', port: 80,
 			connected: function () {
 				should(socket.write).not.be.null;
@@ -69,7 +77,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 	// FIXME: iOS fires the connected event twice
 	// FIXME: Android chokes with : android.os.NetworkOnMainThreadException
 	it.windowsBroken('#connect() and receive data', function (finish) {
-		var socket = Ti.Network.Socket.createTCP({
+		socket = Ti.Network.Socket.createTCP({
 			host: 'pastebin.com', port: 80,
 			connected: function (e) {
 				// receive callback
