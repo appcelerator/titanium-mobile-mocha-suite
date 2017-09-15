@@ -47,15 +47,15 @@ require('./ti.contacts.group.test');
 require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
-// require('./ti.filesystem.file.test'); // Windows Desktop hangs 
+// require('./ti.filesystem.file.test'); // Windows Desktop hangs during this suite.
 require('./ti.filesystem.filestream.test');
-// require('./ti.geolocation.test');
-// require('./ti.gesture.test');
-// require('./ti.internal.test');
-// require('./ti.locale.test');
-// require('./ti.map.test');
-// require('./ti.media.audioplayer.test');
-// require('./ti.media.sound.test');
+require('./ti.geolocation.test');
+require('./ti.gesture.test');
+require('./ti.internal.test');
+require('./ti.locale.test');
+require('./ti.map.test');
+require('./ti.media.audioplayer.test');
+require('./ti.media.sound.test');
 // require('./ti.network.test');
 // require('./ti.network.cookie.test');
 // require('./ti.network.httpclient.test');

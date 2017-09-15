@@ -343,6 +343,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(to.deleteFile()).be.true;
 		should(to.exists()).be.false;
 	});
+	// FIXME Windows Desktop seems to hang between these two tests. No idea why!
 
 	it('#write(Blob, true) - append', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt'),
