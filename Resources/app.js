@@ -47,7 +47,7 @@ require('./ti.contacts.group.test');
 require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
-// require('./ti.filesystem.file.test'); // Windows Desktop hangs during this suite.
+require('./ti.filesystem.file.test'); // Windows Desktop hangs during this suite.
 require('./ti.filesystem.filestream.test');
 require('./ti.geolocation.test');
 require('./ti.gesture.test');

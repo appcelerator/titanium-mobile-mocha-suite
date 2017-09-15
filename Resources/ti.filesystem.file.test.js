@@ -345,7 +345,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 	// FIXME Windows Desktop seems to hang between these two tests. No idea why!
 
-	it('#write(Blob, true) - append', function () {
+	it.windowsDesktopBroken('#write(Blob, true) - append', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt'),
 			to,
 			blob;
