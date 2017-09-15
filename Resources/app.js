@@ -33,10 +33,10 @@ require('./es6.string.interpolation.test');
 // Titanium APIs
 require('./ti.accelerometer.test');
 require('./ti.analytics.test');
-// require('./ti.api.test');
-// require('./ti.app.test');
-// require('./ti.app.ios.searchquery.test');
-// require('./ti.app.properties.test');
+require('./ti.api.test');
+require('./ti.app.test');
+require('./ti.app.ios.searchquery.test');
+require('./ti.app.properties.test');
 // require('./ti.app.windows.backgroundservice.test');
 // require('./ti.blob.test');
 // require('./ti.builtin.test');
