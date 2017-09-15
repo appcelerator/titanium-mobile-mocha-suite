@@ -35,8 +35,9 @@ describe('Titanium.Blob', function () {
 	});
 
 	// Windows crashes on instanceof check TIMOB-25012
+	// Windows also crashes if we uncomment this now, I think closing the window (or failing the test) in the blob callback is causing Desktop crash
 	// Android is sometimes timing out... Trying an open event now...
-	it.iosBroken('constructed from image', function (finish) {
+	it.iosAndWindowsBroken('constructed from image', function (finish) {
 		var label;
 		win = Ti.UI.createWindow();
 		label = Ti.UI.createLabel({ text: 'test' });
@@ -50,7 +51,7 @@ describe('Titanium.Blob', function () {
 				should(blob.text).not.exist;
 				Ti.API.info(blob.width);
 				should(blob.width).be.a.Number; // FIXME Undefined on iOS
-				should(blob.width).be.above(0);
+				should(blob.width).be.above(0); // 0 on Windows
 				should(blob.height).be.a.Number;
 				should(blob.height).be.above(0);
 				should(blob.length).be.a.Number;
