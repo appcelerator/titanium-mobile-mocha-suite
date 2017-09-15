@@ -59,7 +59,7 @@ require('./ti.media.sound.test');
 require('./ti.network.test');
 require('./ti.network.cookie.test');
 // require('./ti.network.httpclient.test');
-require('./ti.network.socket.tcp.test');
+// require('./ti.network.socket.tcp.test');
 require('./ti.network.socket.udp.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
