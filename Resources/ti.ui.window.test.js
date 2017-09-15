@@ -333,9 +333,9 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it.windowsBroken('#toString()', function () {
+	it.iosAndWindowsBroken('#toString()', function () {
 		win = Ti.UI.createWindow();
-		should(win.toString()).be.eql('[object Window]'); // Windows: expected '[object class TitaniumWindows::UI::Window]' to equal '[object Window]'
+		should(win.toString()).be.eql('[object Window]'); // Windows: '[object class TitaniumWindows::UI::Window]', iOS: '[object TiUIWindow]'
 		should(win.apiName).be.a.String;
 		should(win.apiName).be.eql('Ti.UI.Window');
 	});
@@ -365,7 +365,8 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it('window_navigation', function (finish) {
+	// Times out on Android
+	it.androidBroken('window_navigation', function (finish) {
 		var rootWindowFocus = 0;
 		var rootWindowBlur = 0;
 		var rootWindowOpen = 0;

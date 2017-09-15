@@ -1125,7 +1125,7 @@ describe('Titanium.UI.TableView', function () {
 
 		for (x = 0; x < vAnswerTable.data.length; x++) {
 			Ti.API.info('Here after ' + x + ' iterations outer loop. Current section: ' + vAnswerTable.data[x]);
-			for (y = 0; y < vAnswerTable.data[y].rowCount; y++) {
+			for (y = 0; y < vAnswerTable.data[x].rowCount; y++) {
 				Ti.API.info('Here after ' + y + ' iterations inner loop, ' + x + ' iterations outer loop. Current section row: ' +  vAnswerTable.data[x].rows[y]);
 			}
 		}
