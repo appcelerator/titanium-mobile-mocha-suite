@@ -12,6 +12,15 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Blob', function () {
+	var win;
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
+	});
+
 	it('apiName', function () {
 		// FIXME Should be able to do Ti.Blob.apiName
 		var blob = Ti.Filesystem.getFile('app.js').read();
@@ -26,11 +35,13 @@ describe('Titanium.Blob', function () {
 	});
 
 	// Windows crashes on instanceof check TIMOB-25012
-	it.iosAndWindowsBroken('constructed from image', function (finish) {
-		var window = Ti.UI.createWindow(),
-			label = Ti.UI.createLabel({ text: 'test' });
-		window.add(label);
-		window.addEventListener('focus', function () {
+	// Android is sometimes timing out... Trying an open event now...
+	it.iosBroken('constructed from image', function (finish) {
+		var label;
+		win = Ti.UI.createWindow();
+		label = Ti.UI.createLabel({ text: 'test' });
+		win.add(label);
+		win.addEventListener('open', function () {
 			label.toImage(function (blob) {
 				should(blob).be.an.Object;
 				// should(blob).be.an.instanceof(Ti.Blob); // FIXME Crashes Windows, throws uncaught error on iOS & Android
@@ -48,11 +59,10 @@ describe('Titanium.Blob', function () {
 					should(blob.size).be.a.Number;
 					should(blob.size).equal(blob.width * blob.height);
 				}
-				window.close();
 				finish();
 			});
 		});
-		window.open();
+		win.open();
 	});
 
 	it('text', function () {
