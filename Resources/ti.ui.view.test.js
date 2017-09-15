@@ -351,6 +351,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	// FIXME Android reports value of 200 for one of the comparisons to 100
+	// FIXME Intermittent timeout on iOS?
 	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('TIMOB-20598', function (finish) {
 		var view,
 			pos = 100,
