@@ -73,9 +73,9 @@ describe('Titanium.Network', function () {
 		}
 	});
 
-	// Windows Desktop seems to get stuck here (or next test) until I manually log into the box and give focus to the app...
+	// FIXME Windows Desktop seems to get stuck here (or next test) until I manually log into the box and give focus to the app...
 	// I think some earlier test is getting "stuck", but I don't know which one!
-	it('online', function () {
+	it.windowsDesktopBroken('online', function () {
 		should(Ti.Network).have.a.readOnlyProperty('online').which.is.a.Boolean;
 	});
 
