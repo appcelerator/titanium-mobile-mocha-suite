@@ -74,7 +74,7 @@ require('./ti.ui.android.drawerlayout.test');
 require('./ti.ui.button.test');
 require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
-require('./ti.ui.imageview.test');
+// require('./ti.ui.imageview.test'); // Does Windows Desktop choke on this too?
 require('./ti.ui.ios.test');
 require('./ti.ui.ios.previewcontext.test');
 require('./ti.ui.label.test');
