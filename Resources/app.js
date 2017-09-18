@@ -64,7 +64,7 @@ require('./ti.network.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
 require('./ti.require.test');
-// require('./ti.stream.test'); // Windows Desktop hangs after readAll unless logged in
+require('./ti.stream.test'); // Windows Desktop hangs after readAll unless logged in
 require('./ti.test');
 require('./ti.ui.test');
 require('./ti.ui.2dmatrix.test');
