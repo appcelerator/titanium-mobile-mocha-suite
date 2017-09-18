@@ -285,7 +285,7 @@ describe('Titanium.Stream', function () {
 	});
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
-	it.iosBroken('readAll', function (finish) {
+	it.iosAndWindowsDesktopBroken('readAll', function (finish) {
 		var sourceBuffer,
 			sourceBlob,
 			sourceBlobStr,
