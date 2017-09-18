@@ -47,7 +47,7 @@ require('./ti.contacts.group.test');
 require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
-require('./ti.filesystem.file.test');
+// require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
 // require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
@@ -64,7 +64,7 @@ require('./ti.network.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
 require('./ti.require.test');
-require('./ti.stream.test'); // Windows Desktop hangs after readAll unless logged in
+require('./ti.stream.test'); // Windows Desktop somtimes hangs after readAll unless logged in
 require('./ti.test');
 require('./ti.ui.test');
 require('./ti.ui.2dmatrix.test');
