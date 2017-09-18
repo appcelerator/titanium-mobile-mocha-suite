@@ -237,7 +237,7 @@ function handleBuild(prc, next) {
 				firstTest = true;
 				// TODO force focus to the app!
 				console.log('Forcing focus to the app');
-				const sendKeys = spawn('cscript.exe', [ path.join(__dirname, 'sendKeys.bat'), 'Mocha' ]);
+				const sendKeys = spawn('cscript.exe', [ path.join(__dirname, 'activate.js'), 'Mocha' ]);
 				sendKeys.stdout.on('data', function (data) {
 					console.log('stdout: ' + data);
 				});
