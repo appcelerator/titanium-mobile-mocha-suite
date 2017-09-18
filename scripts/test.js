@@ -218,7 +218,8 @@ function handleBuild(prc, next) {
 	const results = [];
 	let output = '',
 		stderr = '',
-		splitter = prc.stdout.pipe(StreamSplitter('\n'));
+		splitter = prc.stdout.pipe(StreamSplitter('\n')),
+		firstTest = false;
 
 	// Set encoding on the splitter Stream, so tokens come back as a String.
 	splitter.encoding = 'utf8';
@@ -232,6 +233,12 @@ function handleBuild(prc, next) {
 		if ((index = str.indexOf('!TEST_START: ')) !== -1) {
 			// grab out the JSON and add to our result set
 			str = str.slice(index + 13).trim();
+			if (!firstTest) {
+				firstTest = true;
+				// TODO force focus to the app!
+				console.log('Forcing focus to the app');
+				spawn(path.join(__dirname, 'sendKeys.bat'), [ 'Mocha', '' ]);
+			}
 			output = '';
 			stderr = '';
 		} else if ((index = str.indexOf('!TEST_END: ')) !== -1) {
