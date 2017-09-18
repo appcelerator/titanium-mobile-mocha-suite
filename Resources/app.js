@@ -127,11 +127,11 @@ function $Reporter(runner) {
 	});
 
 	runner.on('hook', function (hook) {
-		Ti.API.info('!HOOK START: ' + JSON.stringify(hook));
+		Ti.API.info('!HOOK START: ' + hook.title);
 	});
 
 	runner.on('hook end', function (hook) {
-		Ti.API.info('!HOOK END: ' + JSON.stringify(hook));
+		Ti.API.info('!HOOK END: ' + hook.title);
 	});
 
 	runner.on('test end', function (test) {
