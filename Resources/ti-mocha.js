@@ -744,28 +744,28 @@ Progress.prototype.draw = function(ctx){
       , y = half
       , rad = half - 1
       , fontSize = this._fontSize;
-  
+
     ctx.font = fontSize + 'px ' + this._font;
-  
+
     var angle = Math.PI * 2 * (percent / 100);
     ctx.clearRect(0, 0, size, size);
-  
+
     // outer circle
     ctx.strokeStyle = '#9f9f9f';
     ctx.beginPath();
     ctx.arc(x, y, rad, 0, angle, false);
     ctx.stroke();
-  
+
     // inner circle
     ctx.strokeStyle = '#eee';
     ctx.beginPath();
     ctx.arc(x, y, rad - 1, 0, angle, true);
     ctx.stroke();
-  
+
     // text
     var text = this._text || (percent | 0) + '%'
       , w = ctx.measureText(text).width;
-  
+
     ctx.fillText(
         text
       , x - w / 2 + 1
@@ -4264,6 +4264,7 @@ Runnable.prototype.fullTitle = function(){
  */
 
 Runnable.prototype.clearTimeout = function(){
+  Ti.API.info('Clearing timer: ' + this.timer);
   clearTimeout(this.timer);
 };
 
@@ -4292,6 +4293,7 @@ Runnable.prototype.inspect = function(){
 Runnable.prototype.resetTimeout = function(){
   var self = this;
   var ms = this.timeout() || 1e9;
+  Ti.API.info('resetting timeout');
 
   this.clearTimeout();
   this.timer = setTimeout(function(){
@@ -4330,6 +4332,7 @@ Runnable.prototype.run = function(fn){
   // timeout
   if (this.async) {
     if (ms) {
+      Ti.API.info('setting timeout for async test of ' + ms + 'ms');
       this.timer = setTimeout(function(){
         done(new Error('timeout of ' + ms + 'ms exceeded'));
         self.timedOut = true;

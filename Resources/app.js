@@ -126,6 +126,14 @@ function $Reporter(runner) {
 		failed = true;
 	});
 
+	runner.on('hook', function (hook) {
+		Ti.API.info('!HOOK START: ' + JSON.stringify(hook));
+	});
+
+	runner.on('hook end', function (hook) {
+		Ti.API.info('!HOOK END: ' + JSON.stringify(hook));
+	});
+
 	runner.on('test end', function (test) {
 		var tdiff = new Date().getTime() - started,
 			err = test.err,
