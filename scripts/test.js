@@ -237,7 +237,18 @@ function handleBuild(prc, next) {
 				firstTest = true;
 				// TODO force focus to the app!
 				console.log('Forcing focus to the app');
-				spawn(path.join(__dirname, 'sendKeys.bat'), [ 'Mocha', '' ]);
+				const sendKeys = spawn('cscript.exe', [ path.join(__dirname, 'sendKeys.bat'), 'Mocha' ]);
+				sendKeys.stdout.on('data', function (data) {
+					console.log('stdout: ' + data);
+				});
+
+				sendKeys.stderr.on('data', function (data) {
+					console.log('stderr: ' + data);
+				});
+
+				sendKeys.on('exit', function (code) {
+					console.log('child process exited with code ' + code);
+				});
 			}
 			output = '';
 			stderr = '';
