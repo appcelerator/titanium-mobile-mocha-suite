@@ -153,7 +153,7 @@ describe('Titanium.Stream', function () {
 	});
 
 	// FIXME Get working on IOS
-	it.iosBroken('asyncRead', function (finish) {
+	it.iosAndWindowsDesktopBroken('asyncRead', function (finish) {
 		var sourceBuffer,
 			sourceBlob,
 			// sourceBlobStr,
@@ -226,7 +226,7 @@ describe('Titanium.Stream', function () {
 	});
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
-	it.iosBroken('asyncWrite', function (finish) {
+	it.iosAndWindowsDesktopBroken('asyncWrite', function (finish) {
 		var sourceBuffer,
 			dest,
 			bufferStream,
