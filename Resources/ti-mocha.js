@@ -4293,13 +4293,14 @@ Runnable.prototype.inspect = function(){
 Runnable.prototype.resetTimeout = function(){
   var self = this;
   var ms = this.timeout() || 1e9;
-  Ti.API.info('resetting timeout');
+  Ti.API.info('resetting timeout to ' + ms + 'ms');
 
   this.clearTimeout();
   this.timer = setTimeout(function(){
     self.callback(new Error('timeout of ' + ms + 'ms exceeded'));
     self.timedOut = true;
   }, ms);
+  Ti.API.info('reset timer id: ' + this.timer);
 };
 
 /**
@@ -4337,6 +4338,7 @@ Runnable.prototype.run = function(fn){
         done(new Error('timeout of ' + ms + 'ms exceeded'));
         self.timedOut = true;
       }, ms);
+      Ti.API.info('set timer id: ' + this.timer);
     }
   }
 
@@ -5778,9 +5780,11 @@ function timeslice() {
   var immediateStart = new Date().getTime();
   while (immediateQueue.length && (new Date().getTime() - immediateStart) < 100) {
     immediateQueue.shift()();
+    Ti.API.info('Ran queued callback from setImmediate');
   }
   if (immediateQueue.length) {
     immediateTimeout = setTimeout(timeslice, 0);
+    Ti.API.info('Queued callback for setImmediate with id: ' + immediateTimeout);
   } else {
     immediateTimeout = null;
   }
@@ -5794,6 +5798,7 @@ Mocha.Runner.immediately = function(callback) {
   immediateQueue.push(callback);
   if (!immediateTimeout) {
     immediateTimeout = setTimeout(timeslice, 0);
+    Ti.API.info('Queued callback for setImmediate with id: ' + immediateTimeout);
   }
 };
 
