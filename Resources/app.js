@@ -48,7 +48,7 @@ require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
 require('./ti.filesystem.file.test');
-require('./ti.filesystem.filestream.test');
+// require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
 require('./ti.internal.test');
