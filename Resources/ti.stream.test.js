@@ -10,7 +10,8 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-describe('Titanium.Stream', function () {
+// FIXME Skip tests on Windows Desktop -if not logged in, can cause hnags in the tests until someone logs in to build agent
+describe.windowsDesktopBroken('Titanium.Stream', function () {
 	before(function () {
 		var file;
 		// createBuffer should be tested by Ti.Buffer
@@ -153,7 +154,7 @@ describe('Titanium.Stream', function () {
 	});
 
 	// FIXME Get working on IOS
-	it.iosAndWindowsDesktopBroken('asyncRead', function (finish) {
+	it.iosBroken('asyncRead', function (finish) {
 		var sourceBuffer,
 			sourceBlob,
 			// sourceBlobStr,
@@ -226,7 +227,7 @@ describe('Titanium.Stream', function () {
 	});
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
-	it.iosAndWindowsDesktopBroken('asyncWrite', function (finish) {
+	it.iosBroken('asyncWrite', function (finish) {
 		var sourceBuffer,
 			dest,
 			bufferStream,
@@ -285,7 +286,7 @@ describe('Titanium.Stream', function () {
 	});
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
-	it.iosAndWindowsDesktopBroken('readAll', function (finish) {
+	it.iosBroken('readAll', function (finish) {
 		var sourceBuffer,
 			sourceBlob,
 			sourceBlobStr,
