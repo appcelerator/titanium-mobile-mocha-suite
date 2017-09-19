@@ -5777,6 +5777,7 @@ var immediateQueue = []
   , immediateTimeout;
 
 function timeslice() {
+  Ti.API.info('Running timeslice to emulate setImmediate firing');
   var immediateStart = new Date().getTime();
   while (immediateQueue.length && (new Date().getTime() - immediateStart) < 100) {
     immediateQueue.shift()();
@@ -5795,6 +5796,7 @@ function timeslice() {
  */
 
 Mocha.Runner.immediately = function(callback) {
+  Ti.API.info('Running Mocha.Runner.immediately');
   immediateQueue.push(callback);
   if (!immediateTimeout) {
     immediateTimeout = setTimeout(timeslice, 0);
