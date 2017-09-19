@@ -94,7 +94,8 @@ require.relative = function (parent) {
 require.register("browser/debug.js", function(module, exports, require){
 
 module.exports = function(type){
-  return function(){
+  return function(str){
+    Ti.API.debug(str);
   }
 };
 
@@ -4695,10 +4696,12 @@ Runner.prototype.hooks = function(name, suites, fn){
 
     if (!suite) {
       self.suite = orig;
+      Ti.API.info('Finished running hook "' + name + '" on all suites');
       return fn();
     }
 
     self.hook(name, function(err){
+      Ti.API.info('Finished running hook "' + name + '" on suite: ' + suite.title);
       if (err) {
         var errSuite = self.suite;
         self.suite = orig;

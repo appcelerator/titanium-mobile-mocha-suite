@@ -105,8 +105,21 @@ function $Reporter(runner) {
 	var started,
 		title;
 
+	runner.on('start', function () {
+		Ti.API.info('!!!ALL_TESTS_START!!!');
+	});
+
+	runner.on('end', function () {
+		Ti.API.info('!!!ALL_TESTS_END!!!');
+	});
+
 	runner.on('suite', function (suite) {
 		title = suite.title;
+		Ti.API.info('!SUITE_START: ' + suite.title);
+	});
+
+	runner.on('suite end', function (suite) {
+		Ti.API.info('!SUITE_END: ' + suite.title);
 	});
 
 	runner.on('test', function (test) {
@@ -188,7 +201,8 @@ mocha.setup({
 });
 
 // dump the output, which will get interpreted above in the logging code
-mocha.run(function () {
+mocha.run(function (failures) {
+	Ti.API.info(failures);
 	win.backgroundColor = failed ? 'red' : 'green';
 	Ti.API.info('!TEST_RESULTS_STOP!');
 });
