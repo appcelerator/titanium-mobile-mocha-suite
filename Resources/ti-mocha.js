@@ -5780,18 +5780,19 @@ var immediateQueue = []
   , immediateTimeout;
 
 function timeslice() {
-  Ti.API.info('Running timeslice to emulate setImmediate firing');
+  Ti.API.info('Entering timeslice');
   var immediateStart = new Date().getTime();
   while (immediateQueue.length && (new Date().getTime() - immediateStart) < 100) {
     immediateQueue.shift()();
-    Ti.API.info('Ran queued callback from setImmediate');
+    Ti.API.info('Ran queued callback from setImmediate sync');
   }
   if (immediateQueue.length) {
     immediateTimeout = setTimeout(timeslice, 0);
-    Ti.API.info('Queued callback for setImmediate with id: ' + immediateTimeout);
+    Ti.API.info('timeslice(): Queued callback for setImmediate with id: ' + immediateTimeout);
   } else {
     immediateTimeout = null;
   }
+  Ti.API.info('Exiting timeslice');
 }
 
 /**
@@ -5799,12 +5800,13 @@ function timeslice() {
  */
 
 Mocha.Runner.immediately = function(callback) {
-  Ti.API.info('Running Mocha.Runner.immediately');
+  Ti.API.info('Entering Mocha.Runner.immediately');
   immediateQueue.push(callback);
   if (!immediateTimeout) {
     immediateTimeout = setTimeout(timeslice, 0);
-    Ti.API.info('Queued callback for setImmediate with id: ' + immediateTimeout);
+    Ti.API.info('immediately(): Queued callback for setImmediate with id: ' + immediateTimeout);
   }
+  Ti.API.info('Exiting Mocha.Runner.immediately');
 };
 
 /**
