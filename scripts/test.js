@@ -235,7 +235,7 @@ function handleBuild(prc, platform, target, next) {
 		if ((index = str.indexOf('!TEST_START: ')) !== -1) {
 			// grab out the JSON and add to our result set
 			str = str.slice(index + 13).trim();
-			if (!forceFocus) {
+			if (forceFocus) {
 				forceFocus = false;
 				// force focus to the app!
 				console.log('Forcing focus to the app');
