@@ -206,20 +206,22 @@ function runBuild(platform, target, deviceId, next) {
 	args.push('--no-colors');
 	// TODO Use fork since we're spawning off another node process
 	const prc = spawn('node', args);
-	handleBuild(prc, next);
+	handleBuild(prc, platform, target, next);
 }
 
 /**
  * Once a build has been spawned off this handles grabbing the test results from the output.
- * @param  {[type]}   prc  Handle of the running process from spawn
+ * @param  {child_process}   prc  Handle of the running process from spawn
+ * @param {String} platform The platform we're testing
+ * @param {String} target The platform we're testing
  * @param  {Function} next [description]
  */
-function handleBuild(prc, next) {
+function handleBuild(prc, platform, target, next) {
 	const results = [];
 	let output = '',
 		stderr = '',
 		splitter = prc.stdout.pipe(StreamSplitter('\n')),
-		firstTest = false;
+		forceFocus = (platform === 'windows' && target === 'ws-local');
 
 	// Set encoding on the splitter Stream, so tokens come back as a String.
 	splitter.encoding = 'utf8';
@@ -233,9 +235,9 @@ function handleBuild(prc, next) {
 		if ((index = str.indexOf('!TEST_START: ')) !== -1) {
 			// grab out the JSON and add to our result set
 			str = str.slice(index + 13).trim();
-			if (!firstTest) {
-				firstTest = true;
-				// TODO force focus to the app!
+			if (!forceFocus) {
+				forceFocus = false;
+				// force focus to the app!
 				console.log('Forcing focus to the app');
 				const sendKeys = spawn('cscript.exe', [ path.join(__dirname, 'activate.js'), 'Mocha' ]);
 				sendKeys.stdout.on('data', function (data) {
