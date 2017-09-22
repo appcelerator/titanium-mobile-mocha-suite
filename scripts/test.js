@@ -236,8 +236,8 @@ function handleBuild(prc, platform, target, next) {
 			// grab out the JSON and add to our result set
 			str = str.slice(index + 13).trim();
 			if (forceFocus) {
-				forceFocus = false;
-				// force focus to the app!
+				// forceFocus = false;
+				// force focus to the app for every test!
 				console.log('Forcing focus to the app');
 				const sendKeys = spawn('cscript.exe', [ path.join(__dirname, 'activate.js'), 'Mocha' ]);
 				sendKeys.stdout.on('data', function (data) {
