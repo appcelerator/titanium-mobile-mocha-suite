@@ -135,6 +135,9 @@ function $Reporter(runner) {
 	// 'pending' hook for skipped tests? Does 'pending', then immediate 'test end'. No 'test' event
 
 	runner.on('fail', function (test, err) {
+		Ti.API.info('!FAILURE: ');
+		Ti.API.info('Test: ' + JSON.stringify(test));
+		Ti.API.info('Error: ' + JSON.stringify(err));
 		test.err = err;
 		failed = true;
 	});
