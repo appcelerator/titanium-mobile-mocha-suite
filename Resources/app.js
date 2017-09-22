@@ -11,6 +11,7 @@ var utilities,
 	failed = false;
 
 require('./ti-mocha');
+require('./cycle');
 // I *think* we need to load mocha first before utilities...
 utilities = require('./utilities/utilities');
 win = Ti.UI.createWindow({
@@ -136,8 +137,8 @@ function $Reporter(runner) {
 
 	runner.on('fail', function (test, err) {
 		Ti.API.info('!FAILURE: ');
-		Ti.API.info('Test: ' + JSON.stringify(test));
-		Ti.API.info('Error: ' + JSON.stringify(err));
+		Ti.API.info('Test: ' + JSON.stringify(JSON.decycle(test)));
+		Ti.API.info('Error: ' + JSON.stringify(JSON.decycle(err)));
 		test.err = err;
 		failed = true;
 	});
