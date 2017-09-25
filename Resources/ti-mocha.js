@@ -95,7 +95,6 @@ require.register("browser/debug.js", function(module, exports, require){
 
 module.exports = function(type){
   return function(str){
-    Ti.API.debug(str);
   }
 };
 
@@ -4265,7 +4264,6 @@ Runnable.prototype.fullTitle = function(){
  */
 
 Runnable.prototype.clearTimeout = function(){
-  Ti.API.info('Clearing timer: ' + this.timer);
   clearTimeout(this.timer);
 };
 
@@ -4294,14 +4292,12 @@ Runnable.prototype.inspect = function(){
 Runnable.prototype.resetTimeout = function(){
   var self = this;
   var ms = this.timeout() || 1e9;
-  Ti.API.info('resetting timeout to ' + ms + 'ms');
 
   this.clearTimeout();
   this.timer = setTimeout(function(){
     self.callback(new Error('timeout of ' + ms + 'ms exceeded'));
     self.timedOut = true;
   }, ms);
-  Ti.API.info('reset timer id: ' + this.timer);
 };
 
 /**
@@ -4334,12 +4330,10 @@ Runnable.prototype.run = function(fn){
   // timeout
   if (this.async) {
     if (ms) {
-      Ti.API.info('setting timeout for async test of ' + ms + 'ms');
       this.timer = setTimeout(function(){
         done(new Error('timeout of ' + ms + 'ms exceeded'));
         self.timedOut = true;
       }, ms);
-      Ti.API.info('set timer id: ' + this.timer);
     }
   }
 
@@ -4696,12 +4690,10 @@ Runner.prototype.hooks = function(name, suites, fn){
 
     if (!suite) {
       self.suite = orig;
-      Ti.API.info('Finished running hook "' + name + '" on all suites');
       return fn();
     }
 
     self.hook(name, function(err){
-      Ti.API.info('Finished running hook "' + name + '" on suite: ' + suite.title);
       if (err) {
         var errSuite = self.suite;
         self.suite = orig;
@@ -5780,19 +5772,15 @@ var immediateQueue = []
   , immediateTimeout;
 
 function timeslice() {
-  Ti.API.info('Entering timeslice');
   var immediateStart = new Date().getTime();
   while (immediateQueue.length && (new Date().getTime() - immediateStart) < 100) {
     immediateQueue.shift()();
-    Ti.API.info('Ran queued callback from setImmediate sync');
   }
   if (immediateQueue.length) {
     immediateTimeout = setTimeout(timeslice, 0);
-    Ti.API.info('timeslice(): Queued callback for setImmediate with id: ' + immediateTimeout);
   } else {
     immediateTimeout = null;
   }
-  Ti.API.info('Exiting timeslice');
 }
 
 /**
@@ -5800,13 +5788,10 @@ function timeslice() {
  */
 
 Mocha.Runner.immediately = function(callback) {
-  Ti.API.info('Entering Mocha.Runner.immediately');
   immediateQueue.push(callback);
   if (!immediateTimeout) {
     immediateTimeout = setTimeout(timeslice, 0);
-    Ti.API.info('immediately(): Queued callback for setImmediate with id: ' + immediateTimeout);
   }
-  Ti.API.info('Exiting Mocha.Runner.immediately');
 };
 
 /**

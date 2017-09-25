@@ -11,7 +11,6 @@ var utilities,
 	failed = false;
 
 require('./ti-mocha');
-require('./cycle');
 // I *think* we need to load mocha first before utilities...
 utilities = require('./utilities/utilities');
 win = Ti.UI.createWindow({
@@ -53,8 +52,8 @@ require('./ti.contacts.group.test');
 require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
-// require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
-// require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
+require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
+require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
 require('./ti.internal.test');
@@ -80,7 +79,7 @@ require('./ti.ui.android.drawerlayout.test');
 require('./ti.ui.button.test');
 require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
-// require('./ti.ui.imageview.test'); // Does Windows Desktop choke on this too?
+require('./ti.ui.imageview.test'); // Does Windows Desktop choke on this too?
 require('./ti.ui.ios.test');
 require('./ti.ui.ios.previewcontext.test');
 require('./ti.ui.label.test');
@@ -111,22 +110,21 @@ function $Reporter(runner) {
 	var started,
 		title;
 
-	runner.on('start', function () {
-		Ti.API.info('!!!ALL_TESTS_START!!!');
-	});
-
-	runner.on('end', function () {
-		Ti.API.info('!!!ALL_TESTS_END!!!');
-	});
+	// runner.on('start', function () {
+	// 	Ti.API.info('!!!ALL_TESTS_START!!!');
+	// });
+	//
+	// runner.on('end', function () {
+	// 	Ti.API.info('!!!ALL_TESTS_END!!!');
+	// });
 
 	runner.on('suite', function (suite) {
 		title = suite.title;
-		Ti.API.info('!SUITE_START: ' + suite.title);
 	});
 
-	runner.on('suite end', function (suite) {
-		Ti.API.info('!SUITE_END: ' + suite.title);
-	});
+	// runner.on('suite end', function (suite) {
+	// 	Ti.API.info('!SUITE_END: ' + suite.title);
+	// });
 
 	runner.on('test', function (test) {
 		Ti.API.info('!TEST_START: ' + test.title);
@@ -141,19 +139,8 @@ function $Reporter(runner) {
 	// 'pending' hook for skipped tests? Does 'pending', then immediate 'test end'. No 'test' event
 
 	runner.on('fail', function (test, err) {
-		Ti.API.info('!FAILURE: ');
-		Ti.API.info('Test: ' + JSON.stringify(JSON.decycle(test)));
-		Ti.API.info('Error: ' + JSON.stringify(JSON.decycle(err)));
 		test.err = err;
 		failed = true;
-	});
-
-	runner.on('hook', function (hook) {
-		Ti.API.info('!HOOK START: ' + hook.title);
-	});
-
-	runner.on('hook end', function (hook) {
-		Ti.API.info('!HOOK END: ' + hook.title);
 	});
 
 	runner.on('test end', function (test) {
