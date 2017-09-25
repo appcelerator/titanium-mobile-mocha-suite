@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -47,8 +47,8 @@ require('./ti.contacts.group.test');
 require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
-// require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
-// require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
+require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
+require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
 require('./ti.internal.test');
@@ -57,10 +57,10 @@ require('./ti.map.test');
 require('./ti.media.audioplayer.test');
 require('./ti.media.sound.test');
 require('./ti.network.test');
-// require('./ti.network.cookie.test');
-// require('./ti.network.httpclient.test');
-// require('./ti.network.socket.tcp.test');
-// require('./ti.network.socket.udp.test');
+require('./ti.network.cookie.test');
+require('./ti.network.httpclient.test');
+require('./ti.network.socket.tcp.test');
+require('./ti.network.socket.udp.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
 require('./ti.require.test');
