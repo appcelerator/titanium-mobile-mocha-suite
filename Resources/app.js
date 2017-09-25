@@ -19,6 +19,11 @@ win = Ti.UI.createWindow({
 });
 win.open();
 
+if (utilities.isWindows()) {
+	if (Ti.UI.Windows.beginExtendedExecution) {
+		Ti.UI.Windows.beginExtendedExecution();
+	}
+}
 // ============================================================================
 // Add the tests here using "require"
 // ES6 syntax/compatability tests
@@ -209,4 +214,9 @@ mocha.run(function (failures) {
 	Ti.API.info(failures);
 	win.backgroundColor = failed ? 'red' : 'green';
 	Ti.API.info('!TEST_RESULTS_STOP!');
+	if (utilities.isWindows()) {
+		if (Ti.UI.Windows.endExtendedExecution) {
+			Ti.UI.Windows.endExtendedExecution();
+		}
+	}
 });
