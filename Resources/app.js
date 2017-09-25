@@ -18,11 +18,6 @@ win = Ti.UI.createWindow({
 });
 win.open();
 
-if (utilities.isWindows()) {
-	if (Ti.UI.Windows.beginExtendedExecution) {
-		Ti.UI.Windows.beginExtendedExecution();
-	}
-}
 // ============================================================================
 // Add the tests here using "require"
 // ES6 syntax/compatability tests
@@ -52,8 +47,8 @@ require('./ti.contacts.group.test');
 require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
-require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
-require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
+// require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
+// require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
 require('./ti.internal.test');
@@ -69,7 +64,7 @@ require('./ti.network.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
 require('./ti.require.test');
-require('./ti.stream.test'); // Windows Desktop somtimes hangs after readAll unless logged in
+require('./ti.stream.test'); // Windows Desktop sometimes hangs after readAll unless logged in
 require('./ti.test');
 require('./ti.ui.test');
 require('./ti.ui.2dmatrix.test');
@@ -196,9 +191,13 @@ mocha.setup({
 	quiet: true
 });
 
+if (utilities.isWindows()) {
+	if (Ti.UI.Windows.beginExtendedExecution) {
+		Ti.UI.Windows.beginExtendedExecution();
+	}
+}
 // dump the output, which will get interpreted above in the logging code
-mocha.run(function (failures) {
-	Ti.API.info(failures);
+mocha.run(function () {
 	win.backgroundColor = failed ? 'red' : 'green';
 	Ti.API.info('!TEST_RESULTS_STOP!');
 	if (utilities.isWindows()) {
