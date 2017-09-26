@@ -47,8 +47,8 @@ require('./ti.contacts.group.test');
 require('./ti.contacts.person.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');
-require('./ti.filesystem.file.test'); // Does Windows Desktop choke on this too?
-require('./ti.filesystem.filestream.test'); // Does Windows Desktop choke on this too?
+require('./ti.filesystem.file.test');
+require('./ti.filesystem.filestream.test');
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
 require('./ti.internal.test');
@@ -64,7 +64,7 @@ require('./ti.network.socket.udp.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
 require('./ti.require.test');
-require('./ti.stream.test'); // Windows Desktop sometimes hangs after readAll unless logged in
+require('./ti.stream.test');
 require('./ti.test');
 require('./ti.ui.test');
 require('./ti.ui.2dmatrix.test');
@@ -74,7 +74,7 @@ require('./ti.ui.android.drawerlayout.test');
 require('./ti.ui.button.test');
 require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
-require('./ti.ui.imageview.test'); // Does Windows Desktop choke on this too?
+require('./ti.ui.imageview.test');
 require('./ti.ui.ios.test');
 require('./ti.ui.ios.previewcontext.test');
 require('./ti.ui.label.test');
@@ -105,21 +105,9 @@ function $Reporter(runner) {
 	var started,
 		title;
 
-	// runner.on('start', function () {
-	// 	Ti.API.info('!!!ALL_TESTS_START!!!');
-	// });
-	//
-	// runner.on('end', function () {
-	// 	Ti.API.info('!!!ALL_TESTS_END!!!');
-	// });
-
 	runner.on('suite', function (suite) {
 		title = suite.title;
 	});
-
-	// runner.on('suite end', function (suite) {
-	// 	Ti.API.info('!SUITE_END: ' + suite.title);
-	// });
 
 	runner.on('test', function (test) {
 		Ti.API.info('!TEST_START: ' + test.title);
