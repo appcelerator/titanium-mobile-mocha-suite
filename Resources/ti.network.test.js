@@ -73,14 +73,11 @@ describe('Titanium.Network', function () {
 		}
 	});
 
-	// FIXME Windows Desktop seems to get stuck here (or next test) until I manually log into the box and give focus to the app...
-	// I think some earlier test is getting "stuck", but I don't know which one!
 	it('online', function () {
 		should(Ti.Network).have.a.readOnlyProperty('online').which.is.a.Boolean;
 	});
 
 	// Methods
-	// Windows Desktop seems to get stuck here until I manually log into the box and give focus to the app...
 	it.windowsPhone81Broken('encodeURIComponent()', function () {
 		var text;
 		should(Ti.Network.encodeURIComponent).be.a.Function;

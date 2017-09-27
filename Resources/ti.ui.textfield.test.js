@@ -12,10 +12,18 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.TextField', function () {
-	var didFocus = false;
+	var didFocus = false,
+		win;
 
 	beforeEach(function () {
 		didFocus = false;
+	});
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
 	});
 
 	it('apiName', function () {
@@ -174,58 +182,58 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	// FIXME win.width is undefined on Android and iOS here. Test needs to be rewritten. Likely need to use postlayout to get values?
-	// FIXME Widnows Desktop gives: expected '' to be above 100
+	// FIXME Windows Desktop gives: expected '' to be above 100
 	it.allBroken('width', function (finish) {
+		var textfield;
 		this.timeout(5000);
-		var textfield = Ti.UI.createTextField({
-				value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
-				width: Ti.UI.SIZE
-			}),
-			win = Ti.UI.createWindow({
-				backgroundColor: '#ddd'
-			});
+		textfield = Ti.UI.createTextField({
+			value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
+			width: Ti.UI.SIZE
+		});
+		win = Ti.UI.createWindow({
+			backgroundColor: '#ddd'
+		});
 		win.add(textfield);
 		win.addEventListener('focus', function () {
-			var error;
+			if (didFocus) {
+				return;
+			}
+			didFocus = true;
 
 			try {
 				should(win.width).be.greaterThan(100);
 				should(textfield.width).not.be.greaterThan(win.width);
+				return finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-
-			setTimeout(function () {
-				win.close();
-				finish(error);
-			}, 3000);
 		});
 		win.open();
 	});
 
 	// FIXME Intermittently failing on Android on build machine, I think due to test timeout
 	it.androidBroken('height', function (finish) {
+		var textfield,
+			bgView;
 		this.timeout(5000);
-		var textfield = Ti.UI.createTextField({
-				value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
-				width: Ti.UI.SIZE,
-				height: Ti.UI.SIZE,
-				color: 'black'
-			}),
-			bgView = Ti.UI.createView({
-				width: 200,
-				height: 100,
-				backgroundColor: 'red'
-			}),
-			win = Ti.UI.createWindow({
-				backgroundColor: '#eee'
-			});
+		textfield = Ti.UI.createTextField({
+			value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
+			width: Ti.UI.SIZE,
+			height: Ti.UI.SIZE,
+			color: 'black'
+		});
+		bgView = Ti.UI.createView({
+			width: 200,
+			height: 100,
+			backgroundColor: 'red'
+		});
+		win = Ti.UI.createWindow({
+			backgroundColor: '#eee'
+		});
 		bgView.add(textfield);
 		win.add(bgView);
 
 		win.addEventListener('focus', function () {
-			var error;
-
 			if (didFocus) {
 				return;
 			}
@@ -234,14 +242,10 @@ describe('Titanium.UI.TextField', function () {
 			try {
 				should(bgView.height).be.eql(100);
 				should(textfield.height).not.be.greaterThan(100);
+				return finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-
-			setTimeout(function () {
-				win.close();
-				finish(error);
-			}, 3000);
 		});
 		win.open();
 	});

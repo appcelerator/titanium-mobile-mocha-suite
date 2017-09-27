@@ -71,8 +71,6 @@ describe('Titanium.Network.Socket.TCP', function () {
 		should(socket.connect).be.a.Function;
 		socket.connect();
 	});
-	// FIXME Fails after this test on Windows Desktop if we skip Ti.Network.HTTPClient suite..
-	// I'm guessing we need to do better cleanup of httpclients and sockets at test end?
 
 	// FIXME: iOS fires the connected event twice
 	// FIXME: Android chokes with : android.os.NetworkOnMainThreadException

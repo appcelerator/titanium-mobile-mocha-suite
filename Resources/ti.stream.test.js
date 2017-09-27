@@ -10,8 +10,7 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-// FIXME Skip tests on Windows Desktop -if not logged in, can cause hnags in the tests until someone logs in to build agent
-describe.windowsDesktopBroken('Titanium.Stream', function () {
+describe('Titanium.Stream', function () {
 	before(function () {
 		var file;
 		// createBuffer should be tested by Ti.Buffer
