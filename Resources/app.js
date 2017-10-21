@@ -97,6 +97,27 @@ require('./ti.ui.window.test');
 require('./ti.ui.windows.commandbar.test');
 require('./ti.utils.test');
 require('./ti.xml.test');
+
+// Load in any of the files added to the test/Resources folder of the SDK repos
+
+loadAddonTestFiles(Ti.Filesystem.resourcesDirectory);
+
+function loadAddonTestFiles (name) {
+	var info = Ti.Filesystem.getFile(name);
+	if (info && info.isDirectory()) {
+		info.getDirectoryListing().forEach(function (listing) {
+			loadAddonTestFiles(listing);
+		});
+	// Only load the test files
+	} else if (/\w+.addontest\.js$/i.test(info.name)) {
+		try {
+			require(name.replace(/.js/, '')); // eslint-disable-line security/detect-non-literal-require
+		} catch (e) {
+			console.log(e);
+		}
+	}
+}
+
 // ============================================================================
 
 // add a special mocha reporter that will time each test run using
