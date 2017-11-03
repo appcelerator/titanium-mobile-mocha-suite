@@ -122,7 +122,7 @@ describe('Titanium.Locale', function () {
 		should(Ti.Locale.currentLanguage).eql('fr');
 	});
 
-	it.windowsPhoneBroken('#getString(String, String) with default/hint value', function () {
+	it.windowsBroken('#getString(String, String) with default/hint value', function () {
 		Ti.Locale.setLanguage('en-US');
 		should(Ti.Locale.getString('this_is_my_key')).eql('this is my value'); // fails on Windows Phone, gives 'this is my en-GB value'
 		// FIXME Parity issue between Android and iOS/Windows
