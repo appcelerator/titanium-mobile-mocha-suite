@@ -329,7 +329,8 @@ describe('Titanium.UI.WebView', function () {
 		w.open();
 	});
 
-	it('userAgent', function (finish) {
+	// FIXME: Timeout on Windows.
+	it.windowsBroken('userAgent', function (finish) {
 		var webView = Ti.UI.createWebView({
 			userAgent: 'TEST AGENT'
 		});

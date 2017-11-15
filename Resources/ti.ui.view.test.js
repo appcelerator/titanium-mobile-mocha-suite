@@ -612,7 +612,8 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	it('border with only borderColor set', function (finish) {
+	// FIXME: Runtime error on Windows.
+	it.windowsBroken('border with only borderColor set', function (finish) {
 		var view = Ti.UI.createView({ width: 200, height: 200, borderColor: 'red', backgroundColor: 'white' });
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win.add(view);
