@@ -283,7 +283,9 @@ describe('Titanium.UI.TextField', function () {
 
 		// Start the test when the window has been opened.
 		win.addEventListener('open', function () {
-			textField.focus();
+			setTimeout(function () {
+				textField.focus();
+			}, 10);
 		});
 		win.open();
 	});
