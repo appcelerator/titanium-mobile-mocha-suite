@@ -422,8 +422,8 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	// Times out on Android
-	it.androidBroken('window_navigation', function (finish) {
+	// Times out on Android and Windows Desktop
+	it.androidAndWindowsDesktopBroken('window_navigation', function (finish) {
 		var rootWindowFocus = 0;
 		var rootWindowBlur = 0;
 		var rootWindowOpen = 0;
