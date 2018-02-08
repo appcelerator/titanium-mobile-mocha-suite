@@ -65,7 +65,7 @@ describe('Titanium.UI.TextArea', function () {
 		should(textArea.backgroundColor).eql('white');
 	});
 
-	it('padding', function () {
+	it.windowsMissing('padding', function () {
 		var textArea = Ti.UI.createTextArea({
 			value: 'this is some text',
 			padding: {

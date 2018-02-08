@@ -21,7 +21,7 @@ describe('Titanium.UI.TabGroup', function () {
 		tab = null;
 	});
 
-	it('add Map.View to TabGroup', function (finish) {
+	it.windowsBroken('add Map.View to TabGroup', function (finish) {
 		var win,
 			map,
 			mapView;

@@ -632,7 +632,7 @@ describe('Titanium.UI.View', function () {
 
 	// these properties should be present with all events
 	// for this automated test we will be using 'focus'
-	it('event source and bubbles property', function (finish) {
+	it.windowsMissing('event source and bubbles property', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win.addEventListener('focus', function (e) {
 			if (didFocus) {

@@ -18,7 +18,7 @@ describe('Titanium.Media', function () {
 		should(media.apiName).be.eql('Ti.Media');
 	});
 
-	it('takeScreenshot', function (finish) {
+	it.windowsMissing('takeScreenshot', function (finish) {
 		should(Ti.Media.takeScreenshot).not.be.undefined;
 		should(Ti.Media.takeScreenshot).be.a.Function;
 
