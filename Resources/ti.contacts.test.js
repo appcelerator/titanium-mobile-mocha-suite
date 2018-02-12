@@ -156,7 +156,7 @@ describe('Titanium.Contacts', function () {
 
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says "Contacts permissions missing"
-	it.androidAndIosBroken('getPeopleWithName()', function () {
+	it.allBroken('getPeopleWithName()', function () {
 		var smiths;
 		should(Ti.Contacts.getPeopleWithName).be.a.Function;
 		smiths = Ti.Contacts.getPeopleWithName('smith');
