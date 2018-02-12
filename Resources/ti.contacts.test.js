@@ -170,7 +170,7 @@ describe('Titanium.Contacts', function () {
 
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says property is undefined, not a function
-	it.androidAndIosBroken('getPersonByIdentifier()', function () {
+	it.allBroken('getPersonByIdentifier()', function () {
 		var noPerson;
 		should(Ti.Contacts.getPersonByIdentifier).be.a.Function;
 		// check for a person by bad identifier
