@@ -76,9 +76,9 @@ describe('Titanium.Contacts', function () {
 		// exercising Ti.Contacts.Person creation is done in ti.contacts.person.test.js
 	});
 
-	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user? it.iosBroken
+	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
 	// Intentionally skip on Android, this methods doesn't exist it.androidMissing
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('getAllGroups()', function () {
+	it.allBroken('getAllGroups()', function () {
 		var groups,
 			i;
 		should(Ti.Contacts.getAllGroups).be.a.Function;
@@ -90,8 +90,7 @@ describe('Titanium.Contacts', function () {
 		}
 	});
 
-	// FIXME Skip on Windows 10.0 for now: https://jira.appcelerator.org/browse/TIMOB-23332 it.windowsBroken
-	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user? it.iosBroken
+	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user? it.iosBroken
 	// FIXME Android says "Contacts permissions missing" it.androidBroken
 	it.allBroken('getAllPeople()', function () {
 		var people,
@@ -120,10 +119,9 @@ describe('Titanium.Contacts', function () {
 		should(noGroup).be.null;
 	});
 
-	// Skip on Windows 8.1
-	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user? it.iosBroken
+	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
 	// Intentionally skip on Android, these methods don't exist it.androidMissing
-	((utilities.isWindows8_1() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('Group add/remove', function () {
+	it.allBroken('Group add/remove', function () {
 		// Look for existing group and remove it first before we try to create dupe (which fails)
 		var allGroups = Ti.Contacts.getAllGroups(),
 			group,
@@ -154,7 +152,7 @@ describe('Titanium.Contacts', function () {
 		should(queriedGroup).be.null;
 	});
 
-	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says "Contacts permissions missing"
 	it.allBroken('getPeopleWithName()', function () {
 		var smiths;
@@ -168,7 +166,7 @@ describe('Titanium.Contacts', function () {
 		// deprecated, do no more for now
 	});
 
-	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says property is undefined, not a function
 	it.allBroken('getPersonByIdentifier()', function () {
 		var noPerson;
@@ -178,11 +176,9 @@ describe('Titanium.Contacts', function () {
 		should(noPerson).be.null;
 	});
 
-	// Skip on Windows 8.1
-	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says "Contacts permissions missing"
-	// FIXME: Windows gets killed on the should(queriedPerson).not.be.null; TIMOB-23332
-	(utilities.isIOS() || utilities.isAndroid() || utilities.isWindows() ? it.skip : it)('Person add/remove', function () {
+	it.allBroken('Person add/remove', function () {
 		// TODO Remove Arthur first if he already exists!
 
 		// create a person
