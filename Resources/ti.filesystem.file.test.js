@@ -208,11 +208,11 @@ describe('Titanium.Filesystem.File', function () {
 		should(dir.exists()).be.false;
 	});
 
-	it.windowsBroken('#createFile() and #deleteFile()', function () {
-		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'myfile');
+	it('#createFile() and #deleteFile()', function () {
+		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'myfile');
 		should(newFile.exists()).be.false;
 		newFile.createFile();
-		should(newFile.exists()).be.true; // windows returns false here. Probably an async timing issue?
+		should(newFile.exists()).be.true;
 		newFile.deleteFile();
 		should(newFile.exists()).be.false;
 	});
