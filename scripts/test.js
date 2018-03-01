@@ -210,7 +210,7 @@ function runBuild(platform, target, deviceId, next) {
 		args.push(deviceId);
 	}
 
-	if (platform === 'windows') {
+	if (platform === 'windows' && target !== 'wp-emulator') {
 		args.push('--forceUnInstall');
 	}
 
