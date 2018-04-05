@@ -32,8 +32,7 @@ describe('Titanium.Network', function () {
 	}
 	for (i = 0; i < TLS_VERSIONS.length; i++) {
 		// FIXME Fails on Android and iOS for some reason! They say they're undefined, not Number
-		// FIXME Windows fails to find the property up the prototype chain in utilities/assertions, line 33
-		it.allBroken(TLS_VERSIONS[i], function () { // eslint-disable-line no-loop-func
+		it.androidAndIosBroken(TLS_VERSIONS[i], function () { // eslint-disable-line no-loop-func
 			should(Ti.Network).have.constant(TLS_VERSIONS[i]).which.is.a.Number;
 		});
 	}
