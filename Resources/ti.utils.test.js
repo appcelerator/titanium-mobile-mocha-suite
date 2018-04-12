@@ -176,8 +176,7 @@ describe('Titanium.Utils', function () {
 		should(test).be.eql('098f6bcd4621d373cade4e832627b4f6');
 	});
 
-	// FIXME Windows gives different md5 hash! Maybe line ending difference?
-	it.windowsBroken('#md5HexDigest(Ti.Blob with text data)', function () {
+	it('#md5HexDigest(Ti.Blob with text data)', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/file.txt'),
 			contents = f.read(),
 			test;
