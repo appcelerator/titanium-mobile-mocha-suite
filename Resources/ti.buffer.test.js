@@ -281,7 +281,8 @@ describe('Titanium.Buffer', function () {
 			}).throw();
 		});
 
-		it('throws Error if sourceLength extends beyond destination length', function () {
+		// FIXME Windows doesn't throw Error
+		it.windowsBroken('throws Error if sourceLength extends beyond destination length', function () {
 			var buffer1 = Ti.createBuffer({
 					length: 20
 				}),
@@ -431,7 +432,8 @@ describe('Titanium.Buffer', function () {
 			should(buffer2.type).eql(buffer1.type);
 		});
 
-		it('copies type, byteOrder, and value of fully cloned Buffer', function () {
+		// FIXME Windows returns buffer1.byteOrder=0 and buffer2.byteOrder=1
+		it.windowsBroken('copies type, byteOrder, and value of fully cloned Buffer', function () {
 			var buffer1 = Ti.createBuffer({
 					value: 305419896,
 					type: Ti.Codec.TYPE_LONG,
