@@ -56,7 +56,7 @@ describe('Titanium.UI.ScrollableView', function () {
 		should(bar.getCurrentPage()).eql(1);
 	});
 
-	it('moveX-scrollTo', function (finish) {
+	it.windowsBroken('moveX-scrollTo', function (finish) {
 		var testName = null,
 			nextPageIndex = 0,
 			bar = null;
