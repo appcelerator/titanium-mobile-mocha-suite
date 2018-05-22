@@ -106,33 +106,6 @@ function generateProject(platforms, next) {
 	});
 }
 
-/**
- * Clean `titanium clean` to clean-up a project build directory.
- * This is needed for Windows because build directory is not created under project directory on Windows.
- * @param  {string[]} platforms array of platform ids to create a project targeted for
- * @param  {Function} next  callback function
- */
-function cleanProject(platforms, next) {
-	if (platforms.indexOf('windows') === -1) {
-		return next();
-	}
-	console.log('Clean-up project build directory');
-	// TODO Use fork since we're spawning off another node process
-	const prc = spawn('node', [ titanium, 'clean', '--project-dir', PROJECT_DIR ]);
-	prc.stdout.on('data', function (data) {
-		console.log(data.toString());
-	});
-	prc.stderr.on('data', function (data) {
-		console.log(data.toString());
-	});
-	prc.on('exit', function (code) {
-		if (code !== 0) {
-			next('Failed to clean project');
-		} else {
-			next();
-		}
-	});
-}
 // Add required properties for our unit tests!
 function addTiAppProperties(next) {
 	const tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml');
@@ -483,9 +456,7 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, call
 		console.log('Generating project');
 		generateProject(platforms, next);
 	});
-	tasks.push(function (next) {
-		cleanProject(platforms, next);
-	});
+
 	tasks.push(copyMochaAssets);
 	tasks.push(addTiAppProperties);
 
