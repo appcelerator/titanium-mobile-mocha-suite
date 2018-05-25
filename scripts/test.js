@@ -145,6 +145,11 @@ function addTiAppProperties(next) {
 			content.push('\t\t\t\t<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN_aC6RMaynan8YzsO1HNHbhsr9ZADDlY"/>');
 			content.push('\t\t\t</application>');
 			content.push('\t\t</manifest>');
+			// Inject Android services
+			content.push('\t\t<services>');
+			content.push('\t\t\t<service url="ti.android.service.normal.js"/>');
+			content.push('\t\t\t<service url="ti.android.service.interval.js" type="interval"/>');
+			content.push('\t\t</services>');
 		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
