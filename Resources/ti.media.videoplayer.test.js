@@ -74,7 +74,7 @@ describe('Titanium.Media.VideoPlayer', function () {
 		should(player).have.a.property('pictureInPictureEnabled').which.is.a.Boolean;
 	});
 
-	it('showsControls', function () {
+	it.windowsMissing('showsControls', function () {
 		var player = Ti.Media.createVideoPlayer();
 		should(player).have.a.property('showsControls').which.is.a.Boolean;
 		player.showsControls.should.be.true; // default

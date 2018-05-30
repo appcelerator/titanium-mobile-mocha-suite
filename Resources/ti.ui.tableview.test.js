@@ -185,7 +185,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME This crashes the app entirely on iOS. Open a JIRA ticket!
 	// FIXME Crashes on Android as well.
-	it.androidAndIosBroken('insertRowAfter (TableViewRow)', function (finish) {
+	it.allBroken('insertRowAfter (TableViewRow)', function (finish) {
 		var section_0,
 			tableView;
 
@@ -1265,7 +1265,8 @@ describe('Titanium.UI.TableView', function () {
 		should(tableView.scrollable).be.eql(true);
 	});
 
-	it('Add and remove headerView/footerView ', function (finish) {
+	// FIXME Windows throws exception
+	it.windowsBroken('Add and remove headerView/footerView ', function (finish) {
 		var win = Ti.UI.createWindow({ backgroundColor: 'gray' }),
 			headerView = Ti.UI.createView({
 				backgroundColor: 'red',

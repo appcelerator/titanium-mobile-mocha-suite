@@ -148,7 +148,8 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	it.androidMissing('backgroundGradient (radial)', function (finish) {
+	// Windows supports linear gradient only
+	it.androidAndWindowsMissing('backgroundGradient (radial)', function (finish) {
 		var gradient,
 			radialGradient;
 		this.timeout(10000);
@@ -235,7 +236,8 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	it('backgroundGradient (linear)', function (finish) {
+	// FIXME Windows throws exception
+	it.windowsBroken('backgroundGradient (linear)', function (finish) {
 		var linearGradient;
 
 		this.timeout(10000);

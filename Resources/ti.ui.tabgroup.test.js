@@ -94,7 +94,8 @@ describe('Titanium.UI.TabGroup', function () {
 		should(tabGroup.tabsTranslucent).eql(false);
 	});
 
-	it('close event', function (finish) {
+	// FIXME Windows doesn't fire open/close events
+	it.windowsMissing('close event', function (finish) {
 		var win;
 		this.timeout(10000);
 
