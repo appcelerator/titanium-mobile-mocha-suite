@@ -110,7 +110,7 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	// FIXME Move these rect/size tests into Ti.UI.View!
-	it.windowsDesktopBroken('.size is read-only', function (finish) {
+	it.windowsBroken('.size is read-only', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue',
 			width: 100,
@@ -142,7 +142,7 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it.androidAndWindowsDesktopBroken('.rect is read-only', function (finish) {
+	it.androidAndWindowsBroken('.rect is read-only', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'green',
 			left: 100,
