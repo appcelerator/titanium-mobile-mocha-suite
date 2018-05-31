@@ -1158,7 +1158,9 @@ describe('Titanium.UI.TableView', function () {
 		}
 
 		win.addEventListener('open', function () {
-			finish();
+			setTimeout(function() {
+				finish();
+			}, 1000);
 		});
 
 		win.add(table);
