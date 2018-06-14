@@ -8,7 +8,8 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+var should = require('./utilities/assertions'),
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI', function () {
 	var win,
@@ -41,7 +42,7 @@ describe('Titanium.UI', function () {
 		win = null;
 	});
 
-	describe('#convertUnits()', function () {
+	(utilities.isWindows() ? describe.skip : describe)('#convertUnits()', function () {
 		// This should use the default unit to do the conversion! For our test app, that is 'dp' (or dip)
 		// FIXME iOS has some funky code here, setting assumed units to "dpi", which is not a real unit and then assuming it's dip without consulting the default unit property
 		it('converts 100 unspecified units to px', function () {
