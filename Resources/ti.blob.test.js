@@ -38,7 +38,7 @@ describe('Titanium.Blob', function () {
 	// Windows also crashes if we uncomment this now, I think closing the window (or failing the test) in the blob callback is causing Desktop crash
 	// Android is sometimes timing out... Trying an open event now...
 	// TODO: Test is tempermental, skipping for now...
-	it('constructed from image', function (finish) {
+	it.windowsBroken('constructed from image', function (finish) {
 		var label;
 		win = Ti.UI.createWindow();
 		label = Ti.UI.createLabel({ text: 'test' });
