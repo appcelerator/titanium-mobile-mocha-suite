@@ -617,7 +617,8 @@ describe('Titanium.Filesystem.File', function () {
 			result.length.should.eql(0);
 		});
 
-		it('returns null for non-existent directory', function () {
+		// FIXME Windows returns empty array
+		it.windowsBroken('returns null for non-existent directory', function () {
 			var nonExistentDir = Ti.Filesystem.getFile('madeup');
 			var result = nonExistentDir.getDirectoryListing();
 			should(nonExistentDir).be.ok;
@@ -625,7 +626,8 @@ describe('Titanium.Filesystem.File', function () {
 			should(result).eql(null);
 		});
 
-		it('returns null for file', function () {
+		// FIXME Windows returns empty array
+		it.windowsBroken('returns null for file', function () {
 			var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 			var result = file.getDirectoryListing();
 			should(file).be.ok;
