@@ -310,7 +310,8 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	// The "focus" and "blur" events are not supposed to bubble up the view hierarchy.
-	it('focus-blur-bubbles', function (finish) {
+	// Windows ticket TIMOB-26177
+	it.windowsBroken('focus-blur-bubbles', function (finish) {
 		var textField;
 		this.timeout(5000);
 
