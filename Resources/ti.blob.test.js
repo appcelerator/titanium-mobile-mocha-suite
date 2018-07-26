@@ -181,7 +181,9 @@ describe('Titanium.Blob', function () {
 		}).not.throw();
 	});
 
-	it('imageAsCompressed', function () {
+	// Windows doesn't support imageAsCompressed
+	// Windows toImage only works with toImage(callback)
+	it.windowsMissing('imageAsCompressed', function () {
 		// create view to render
 		const view = Ti.UI.createView({ backgroundColor: 'red', width: 256, height: 256 });
 
