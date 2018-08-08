@@ -116,10 +116,6 @@ function addTiAppProperties(next) {
 		if (line.indexOf('<ios>') >= 0) {
 			// Forse using the JScore on the emulator, not TiCore!
 			content.push('\t\t<use-jscore-framework>true</use-jscore-framework>');
-		// app thinning breaks tests which expect image files to exist on filesystem normally!
-		} else if (line.indexOf('<use-app-thinning>') >= 0) {
-			content.pop();
-			content.push('\t\t<use-app-thinning>false</use-app-thinning>');
 		// Grab contents of modules/modules.xml to inject as moduel listing for tiapp.xml
 		// This allows PR to override
 		} else if (line.indexOf('<modules>') >= 0) {
