@@ -19,39 +19,39 @@ describe('Titanium.Media', function () {
 	});
 
 	// constants
-	it('AUDIO_STATE_BUFFERING', function () {
+	it.windowsMissing('AUDIO_STATE_BUFFERING', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_BUFFERING').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_INITIALIZED', function () {
+	it.windowsMissing('AUDIO_STATE_INITIALIZED', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_INITIALIZED').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_PAUSED', function () {
+	it.windowsMissing('AUDIO_STATE_PAUSED', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_PAUSED').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_PLAYING', function () {
+	it.windowsMissing('AUDIO_STATE_PLAYING', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_PLAYING').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_STARTING', function () {
+	it.windowsMissing('AUDIO_STATE_STARTING', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_STARTING').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_STOPPED', function () {
+	it.windowsMissing('AUDIO_STATE_STOPPED', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_STOPPED').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_STOPPING', function () {
+	it.windowsMissing('AUDIO_STATE_STOPPING', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_STOPPING').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_WAITING_FOR_DATA', function () {
+	it.windowsMissing('AUDIO_STATE_WAITING_FOR_DATA', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_DATA').which.is.a.Number;
 	});
 
-	it('AUDIO_STATE_WAITING_FOR_QUEUE', function () {
+	it.windowsMissing('AUDIO_STATE_WAITING_FOR_QUEUE', function () {
 		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_QUEUE').which.is.a.Number;
 	});
 

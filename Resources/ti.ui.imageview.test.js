@@ -330,7 +330,7 @@ describe('Titanium.UI.ImageView', function () {
 		win.open();
 	});
 
-	it('.image (URL-redirect-autorotate)', function (finish) {
+	it.windowsBroken('.image (URL-redirect-autorotate)', function (finish) {
 		this.slow(8000);
 		this.timeout(10000);
 

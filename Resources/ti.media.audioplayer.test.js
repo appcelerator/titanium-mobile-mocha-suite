@@ -62,7 +62,7 @@ describe('Titanium.Media.AudioPlayer', function () {
 		}, 1000);
 	});
 
-	it('#restart', function (finish) {
+	it.windowsBroken('#restart', function (finish) {
 		should(audioPlayer.restart).be.a.Function;
 
 		audioPlayer.start();
