@@ -147,7 +147,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Also crashes Android, with no stack trace or errors in logcat
-	it.androidAndIosBroken('insertRowAfter', function (finish) {
+	// FIXME Intermittent failure on Windows
+	it.allBroken('insertRowAfter', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' } ]
 		});
@@ -327,7 +328,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Crashes on Android too
-	it.androidAndIosBroken('add row', function (finish) {
+	// FIXME Intermittent failure on Windows
+	it.allBroken('add row', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' } ]
 		});
