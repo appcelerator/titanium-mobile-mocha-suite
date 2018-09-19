@@ -242,7 +242,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Crashes Android as well
-	it.androidAndIosBroken('insertRowBefore', function (finish) {
+	// FIXME Occasionally crashes Windows as well
+	it.allBroken('insertRowBefore', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' }, { title: 'White' } ]
 		});
@@ -282,7 +283,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Crashes Android as well
-	it.androidAndIosBroken('insertRowBefore (TableViewRow)', function (finish) {
+	// FIXME Occasionally crashes Windows as well
+	it.allBroken('insertRowBefore (TableViewRow)', function (finish) {
 		var section_0,
 			tableView;
 		section_0 = Ti.UI.createTableViewSection({ headerTitle: 'Zero' });
@@ -373,7 +375,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Occasionally crashes Android as well
-	it.androidAndIosBroken('add rows', function (finish) {
+	// FIXME Occasionally crashes Windows as well
+	it.allBroken('add rows', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' } ]
 		});
