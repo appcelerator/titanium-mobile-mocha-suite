@@ -429,7 +429,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Fails intermittently on Android build machine
-	it.androidAndIosBroken('add row (TableViewSection)', function (finish) {
+	// FIXME Fails intermittently on Windows build machine
+	it.allBroken('add row (TableViewSection)', function (finish) {
 		var section_0,
 			tableView;
 
