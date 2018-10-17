@@ -1544,7 +1544,7 @@ describe('Titanium.UI.Layout', function () {
 	//
 	// left & right should just work for child view (vertical)
 	// when both left & right are specified to parent
-	it('TIMOB-23372 #2', function (finish) {
+	it.windowsBroken('TIMOB-23372 #2', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'orange',
 				layout: 'vertical',
@@ -1585,7 +1585,7 @@ describe('Titanium.UI.Layout', function () {
 	//
 	// left & right should just work for child view (composite)
 	// when both left & right are specified to parent
-	it('TIMOB-23372 #3', function (finish) {
+	it.windowsBroken('TIMOB-23372 #3', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'yellow',
 				layout: 'composite',
@@ -1627,7 +1627,7 @@ describe('Titanium.UI.Layout', function () {
 	//
 	// left & right should just work for child view (horizontal)
 	// when both left & right are specified to parent
-	it('TIMOB-23372 #4', function (finish) {
+	it.windowsBroken('TIMOB-23372 #4', function (finish) {
 		var view = Ti.UI.createView({
 				backgroundColor: 'yellow',
 				layout: 'horizontal',
@@ -1797,7 +1797,7 @@ describe('Titanium.UI.Layout', function () {
 	// TIMOB-23372 #8
 	//
 	// left & right should just work for child view when parent is Window (composite)
-	it('TIMOB-23372 #8', function (finish) {
+	it.windowsBroken('TIMOB-23372 #8', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
 			right: 10,
@@ -1825,7 +1825,7 @@ describe('Titanium.UI.Layout', function () {
 	// TIMOB-23372 #9
 	//
 	// left & right should just work for child view when parent is Window (horizontal)
-	it('TIMOB-23372 #9', function (finish) {
+	it.windowsBroken('TIMOB-23372 #9', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
 			right: 10,
@@ -1853,7 +1853,7 @@ describe('Titanium.UI.Layout', function () {
 	// TIMOB-23372 #10
 	//
 	// left & right should just work for child view when parent is Window (vertical)
-	it('TIMOB-23372 #10', function (finish) {
+	it.windowsBroken('TIMOB-23372 #10', function (finish) {
 		var label = Ti.UI.createLabel({
 			left: 10,
 			right: 10,
