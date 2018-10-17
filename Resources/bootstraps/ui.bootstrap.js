@@ -24,7 +24,7 @@ exports.execute = function (finished) {
 	//
 	if (Ti.Platform.osname === 'windowsphone' || Ti.Platform.osname === 'windowsstore') {
 		global.wasUIBootstrapExecuted = true;
-		return finish();
+		return finished();
 	}
 	// Display a window. (This is the intended use-case for the bootstrap execute() method.)
 	var window = Ti.UI.createWindow({ exitOnClose: false });
