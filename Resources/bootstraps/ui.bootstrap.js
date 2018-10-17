@@ -19,6 +19,13 @@ global.wasUIBootstrapLoaded = true;
 
 // To be called by Titanium's bootstrap loader on startup, but before the "app.js" gets executed.
 exports.execute = function (finished) {
+	//
+	// FIXME Windows: TIMOB-26457 - Window.exitOnClose doesn't work when only one Window is opened
+	//
+	if (Ti.Platform.osname === 'windowsphone' || Ti.Platform.osname === 'windowsstore') {
+		global.wasUIBootstrapExecuted = true;
+		return finish();
+	}
 	// Display a window. (This is the intended use-case for the bootstrap execute() method.)
 	var window = Ti.UI.createWindow({ exitOnClose: false });
 	window.add(Ti.UI.createLabel({ text: 'Bootstrapped UI' }));
