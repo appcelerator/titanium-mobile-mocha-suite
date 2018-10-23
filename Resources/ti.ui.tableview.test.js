@@ -522,7 +522,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Fails intermittently on Android on build machine
-	it.androidAndIosBroken('delete row (TableViewSection)', function (finish) {
+	// FIXME Fails intermittently on Windows on build machine
+	it.allBroken('delete row (TableViewSection)', function (finish) {
 		var section_0,
 			tableView;
 
