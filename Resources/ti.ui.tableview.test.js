@@ -566,7 +566,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME get working on iOS
 	// FIXME Fails on Android on build machine
-	it.androidAndIosBroken('update row', function (finish) {
+	// FIXME Fails intermittently on Windows on build machine
+	it.allBroken('update row', function (finish) {
 		var section_0,
 			tableView;
 
