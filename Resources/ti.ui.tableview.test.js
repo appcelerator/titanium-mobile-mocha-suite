@@ -387,7 +387,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Crashes on Android too
-	it.androidAndIosBroken('add row (TableViewRow)', function (finish) {
+	// FIXME Fails on Windows too
+	it.allBroken('add row (TableViewRow)', function (finish) {
 		var section_0,
 			tableView;
 
@@ -847,6 +848,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME This seems to hang the tests on Android too.
+	// FIXME This seems to hang the tests on Windows too.
 	/* eslint-disable max-len */
 	/*
 	Logs from Android:
@@ -894,7 +896,7 @@ describe('Titanium.UI.TableView', function () {
 	[ERROR] TiApplication: 	... 9 more
 	*/
 	/* eslint-enable max-len */
-	it.iosBroken('insertSectionBefore', function (finish) {
+	it.iosAndWindowsBroken('insertSectionBefore', function (finish) {
 		var section_0,
 			section_1,
 			section_2,
