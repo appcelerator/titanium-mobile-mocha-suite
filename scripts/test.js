@@ -114,6 +114,7 @@ function addTiAppProperties(next) {
 	const insertManifest = () => {
 		content.push('\t\t\t<application>');
 		content.push('\t\t\t\t<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN_aC6RMaynan8YzsO1HNHbhsr9ZADDlY"/>');
+		content.push('\t\t\t\t<uses-library android:name="org.apache.http.legacy" android:required="false" />');
 		content.push('\t\t\t</application>');
 		content.push('\t\t\t<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>');
 	};
