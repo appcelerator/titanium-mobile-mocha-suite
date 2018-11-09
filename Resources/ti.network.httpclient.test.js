@@ -592,7 +592,8 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.send();
 	});
 
-	it('send on response', function (finish) {
+	// FIXME: Windows 'source' is missing on onload
+	it.windowsMissing('send on response', function (finish) {
 		var xhr = Ti.Network.createHTTPClient({}),
 			count = 0;
 
