@@ -8,11 +8,13 @@ properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: 
 def nodeVersion = '8.9.1' // NOTE that changing this requires we set up the desired version on jenkins master first!
 def npmVersion = 'latest' // We can change this without any changes to Jenkins. 5.7.1 is minimum to use 'npm ci'
 
-def unitTests(os, nodeVersion, npmVersion, testSuiteBranch, target) {
+def unitTests(os, scm nodeVersion, npmVersion, testSuiteBranch, target) {
 	try {
+		checkout scm // we could stash/unstash, but I think checking out on each node is actually quicker!
+
 		nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 			ensureNPM(npmVersion)
-			sh 'npm ci'
+			isUnix() ? sh('npm ci') : bat('npm ci')
 			dir('scripts') {
 				try {
 					timeout(20) {
@@ -20,7 +22,7 @@ def unitTests(os, nodeVersion, npmVersion, testSuiteBranch, target) {
 							// We know we wont need to use the target here for iOS/Android
 							sh "node test.js -p ${os} -b ${env.BRANCH_NAME}"
 						} else {
-							if ('ws-local'.equals(target)) { 
+							if ('ws-local'.equals(target)) {
 								bat "node test.js -p ${os} -b ${env.BRANCH_NAME} -T ${target}"
 							} else if ('wp-emulator'.equals(target)) {
 								bat "node test.js -p ${os} -b ${env.BRANCH_NAME} -T ${target} -C 10-0-1"
@@ -87,54 +89,43 @@ def unitTests(os, nodeVersion, npmVersion, testSuiteBranch, target) {
 
 // Wrap in timestamper
 timestamps {
-	node('git && osx') {
-		stage('Checkout') {
-			// checkout scm
-			// Hack for JENKINS-37658 - see https://support.cloudbees.com/hc/en-us/articles/226122247-How-to-Customize-Checkout-for-Pipeline-Multibranch
-			checkout([
-				$class: 'GitSCM',
-				branches: scm.branches,
-				extensions: scm.extensions + [
-					[$class: 'WipeWorkspace'],
-					[$class: 'CloneOption', honorRefspec: true, noTags: true, reference: "${pwd()}/../titanium_mobile.git", shallow: true, depth: 30, timeout: 30]],
-				userRemoteConfigs: scm.userRemoteConfigs
-			])
-			// FIXME: Workaround for missing env.GIT_COMMIT: http://stackoverflow.com/questions/36304208/jenkins-workflow-checkout-accessing-branch-name-and-git-commit
-			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-		}
+	node('osx || linux') {
+		stage('Lint') {
+			checkout scm
 
-		nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
-			stage('Lint') {
+			nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 				ensureNPM(npmVersion)
 				// Install dependencies
 				timeout(5) {
 					sh 'npm ci'
 				}
 				sh 'npm test'
-			}
-		}
+			} // nodejs
+		} // stage('Lint')
+	} // node
+
 	stage('Test') {
 		parallel(
-			'Android': { 
+			'Android': {
 				node('osx && android-emulator && android-sdk') {
-					unitTests('android', nodeVersion, npmVersion, targetBranch)
+					unitTests('android', scm, nodeVersion, npmVersion, targetBranch)
 				}
 			},
-			'iOS': { 
+			'iOS': {
 				node('osx && xcode-10') {
-					(unitTests('ios', nodeVersion, npmVersion, targetBranch)
+					unitTests('ios', scm, nodeVersion, npmVersion, targetBranch)
 				}
 			},
 			'ws-local': {
 				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
-					unitTests('windows', nodeVersion, npmVersion, targetBranch, 'ws-local')
+					unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'ws-local')
 				}
 			},
 			'Windows emulator': {
 				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
-					unitTests('window', nodeVersion, npmVersion, targetBranch, 'wp-emulator')
+					unitTests('window', scm, nodeVersion, npmVersion, targetBranch, 'wp-emulator')
 				}
 			}
 		)
-	}
-}
+	} // stage('Test')
+} // timestamps
