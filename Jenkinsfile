@@ -8,7 +8,7 @@ properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: 
 def nodeVersion = '8.9.1' // NOTE that changing this requires we set up the desired version on jenkins master first!
 def npmVersion = 'latest' // We can change this without any changes to Jenkins. 5.7.1 is minimum to use 'npm ci'
 
-def unitTests(os, scm nodeVersion, npmVersion, testSuiteBranch, target) {
+def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target) {
 	try {
 		checkout scm // we could stash/unstash, but I think checking out on each node is actually quicker!
 
