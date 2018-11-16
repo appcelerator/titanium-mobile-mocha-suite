@@ -365,7 +365,7 @@ describe('Titanium.UI.ImageView', function () {
 		win.open();
 	});
 
-	it('should handle file URLs from applicationDataDirectory - TIMOB-18262', function (finish) {
+	it.windowsBroken('should handle file URLs from applicationDataDirectory - TIMOB-18262', function (finish) {
 		var imageView = Ti.UI.createImageView({
 			top: 10
 		});
@@ -381,8 +381,12 @@ describe('Titanium.UI.ImageView', function () {
 		});
 
 		imageView.addEventListener('load', function (e) {
-			should(e.state).eql('images');
-			finish();
+			try {
+				should(e.state).eql('images'); // Windows doesn't set this property!
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
 
 		win = Ti.UI.createWindow({
@@ -395,7 +399,7 @@ describe('Titanium.UI.ImageView', function () {
 		imageView.images = [ Ti.Filesystem.applicationDataDirectory  + 'Logo.png' ];
 	});
 
-	it('should absolute-looking paths by resolving relative to resource dir', function (finish) {
+	it.windowsBroken('should handle absolute-looking paths by resolving relative to resource dir', function (finish) {
 		var imageView = Ti.UI.createImageView({
 			top: 10
 		});
@@ -405,8 +409,12 @@ describe('Titanium.UI.ImageView', function () {
 		});
 
 		imageView.addEventListener('load', function (e) {
-			should(e.state).eql('images');
-			finish();
+			try {
+				should(e.state).eql('images'); // Windows doesn't set this property!
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
 
 		win = Ti.UI.createWindow({

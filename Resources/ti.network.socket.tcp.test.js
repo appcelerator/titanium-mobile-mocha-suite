@@ -113,7 +113,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 		socket.connect();
 	});
 
-	it('#connect() and #write() async', function (finish) {
+	it.windowsMissing('#connect() and #write() async', function (finish) {
 		socket = Ti.Network.Socket.createTCP({
 			host: 'www.appcelerator.com',
 			port: 80,

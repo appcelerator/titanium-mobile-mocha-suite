@@ -267,7 +267,7 @@ describe('Titanium.Blob', function () {
 			should(blob.imageAsThumbnail).be.a.Function;
 		});
 
-		it('with PNG generates an image with desired size plus a default 1px border around that', function () {
+		it.windowsBroken('with PNG generates an image with desired size plus a default 1px border around that', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var thumbnailSize = 50;
 			var b = blob.imageAsThumbnail(thumbnailSize);
@@ -291,7 +291,7 @@ describe('Titanium.Blob', function () {
 			should(blob.imageWithAlpha).be.a.Function;
 		});
 
-		it('with PNG', function () {
+		it.windowsBroken('with PNG', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var b = blob.imageWithAlpha();
 			// just adds an alpha channel. Not sure how this is useful!
@@ -313,7 +313,7 @@ describe('Titanium.Blob', function () {
 			should(blob.imageWithRoundedCorner).be.a.Function;
 		});
 
-		it('with PNG generates rounded corner image with an additional default border of 1', function () {
+		it.windowsBroken('with PNG generates rounded corner image with an additional default border of 1', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var cornerSize = 4;
 			var borderSize = 1; // defaults to 1 when unspecified
@@ -336,7 +336,7 @@ describe('Titanium.Blob', function () {
 			should(blob.imageWithTransparentBorder).be.a.Function;
 		});
 
-		it('with PNG adds border around original image', function () {
+		it.windowsBroken('with PNG adds border around original image', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var borderSize = 5;
 			var b = blob.imageWithTransparentBorder(borderSize);
