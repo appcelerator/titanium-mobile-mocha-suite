@@ -13,7 +13,7 @@ def isPR = env.CHANGE_ID || false // CHANGE_ID is set if this is a PR. (We used 
 def isGreenKeeper = env.BRANCH_NAME.startsWith('greenkeeper/') || 'greenkeeper[bot]'.equals(env.CHANGE_AUTHOR) // greenkeeper needs special handling to avoid using npm ci, and to use greenkeeper-lockfile
 def targetBranch = isGreenKeeper ? 'master' : (isPR ? env.CHANGE_TARGET : (env.BRANCH_NAME ?: 'master'))
 
-def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target) {
+def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 	try {
 		checkout scm // we could stash/unstash, but I think checking out on each node is actually quicker!
 
@@ -25,12 +25,12 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target) {
 					timeout(20) {
 						if (isUnix()) {
 							// We know we wont need to use the target here for iOS/Android
-							sh "node test.js -p ${os} -b ${env.BRANCH_NAME}"
+							sh "node test.js -p ${os} -b ${testSuiteBranch}"
 						} else {
 							if ('ws-local'.equals(target)) {
-								bat "node test.js -p ${os} -b ${env.BRANCH_NAME} -T ${target}"
+								bat "node test.js -p ${os} -b ${testSuiteBranch} -T ${target}"
 							} else if ('wp-emulator'.equals(target)) {
-								bat "node test.js -p ${os} -b ${env.BRANCH_NAME} -T ${target} -C 10-0-1"
+								bat "node test.js -p ${os} -b ${testSuiteBranch} -T ${target} -C 10-0-1"
 							}
 						}
 					} // timeout
