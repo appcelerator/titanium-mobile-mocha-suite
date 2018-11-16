@@ -128,7 +128,7 @@ timestamps {
 			},
 			'Windows emulator': {
 				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
-					unitTests('window', scm, nodeVersion, npmVersion, targetBranch, 'wp-emulator')
+					unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'wp-emulator')
 				}
 			}
 		)
