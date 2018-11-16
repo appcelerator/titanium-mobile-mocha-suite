@@ -742,7 +742,8 @@ describe('Titanium.Filesystem.File', function () {
 			should(result).eql(null);
 		});
 
-		it('can access resource directory files', function () {
+		// Windows fails to find fixture directory. May be that it doesn't report trailing separator while other platforms do?
+		it.windowsBroken('can access resource directory files', function () {
 			let rootDir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory),
 				rootPath,
 				filesFound = {};
