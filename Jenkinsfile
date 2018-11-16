@@ -1,0 +1,140 @@
+#!groovy
+library 'pipeline-library'
+
+// Keep logs/reports/etc of last 30 builds, only keep build artifacts of last 3 builds
+properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '3'))])
+
+// Variables we can change
+def nodeVersion = '8.9.1' // NOTE that changing this requires we set up the desired version on jenkins master first!
+def npmVersion = 'latest' // We can change this without any changes to Jenkins. 5.7.1 is minimum to use 'npm ci'
+
+def unitTests(os, nodeVersion, npmVersion, testSuiteBranch, target) {
+	try {
+		nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
+			ensureNPM(npmVersion)
+			sh 'npm ci'
+			dir('scripts') {
+				try {
+					timeout(20) {
+						if (isUnix()) {
+							// We know we wont need to use the target here for iOS/Android
+							sh "node test.js -p ${os} -b ${env.BRANCH_NAME}"
+						} else {
+							if ('ws-local'.equals(target)) { 
+								bat "node test.js -p ${os} -b ${env.BRANCH_NAME} -T ${target}"
+							} else if ('wp-emulator'.equals(target)) {
+								bat "node test.js -p ${os} -b ${env.BRANCH_NAME} -T ${target} -C 10-0-1"
+							}
+						}
+					} // timeout
+				} catch (e) {
+					// Move crash collection to pipeline library?
+					if ('ios'.equals(os)) {
+						// Gather the crash report(s)
+						def home = sh(returnStdout: true, script: 'printenv HOME').trim()
+						// wait 1 minute, sometimes it's delayed in writing out crash reports to disk...
+						sleep time: 1, unit: 'MINUTES'
+						def crashFiles = sh(returnStdout: true, script: "ls -1 ${home}/Library/Logs/DiagnosticReports/").trim().readLines()
+						for (int i = 0; i < crashFiles.size(); i++) {
+							def crashFile = crashFiles[i]
+							if (crashFile =~ /^mocha_.*\.crash$/) {
+								sh "mv ${home}/Library/Logs/DiagnosticReports/${crashFile} ."
+							}
+						}
+						archiveArtifacts 'mocha_*.crash'
+						sh 'rm -f mocha_*.crash'
+					} else if ('android'.equals(os)) {
+						// gather crash reports/tombstones for Android
+						sh 'adb pull /data/tombstones'
+						archiveArtifacts 'tombstones/'
+						sh 'rm -f tombstones/'
+						// wipe tombstones and re-build dir with proper permissions/ownership on emulator
+						sh 'adb shell rm -rf /data/tombstones'
+						sh 'adb shell mkdir -m 771 /data/tombstones'
+						sh 'adb shell chown system:system /data/tombstones'
+					} else if ('windows'.equals(os)) {
+						bat 'mkdir crash_reports'
+						dir ('crash_reports') {
+							// move command doesn't grok wildcards, so we hack it: https://serverfault.com/questions/374997/move-directory-in-dos-batch-file-without-knowing-full-directory-name
+							bat "FOR /d %i IN (C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_com.appcelerator_*) DO move %i ."
+						}
+						archiveArtifacts 'crash_reports/**/*'
+						bat 'rmdir crash_reports /Q /S'
+						throw e
+					}
+					throw e
+				} finally {
+					// Kill the emulators!
+					// pipeline-library?
+					if ('android'.equals(os)) {
+						sh 'adb shell am force-stop com.appcelerator.testApp.testing'
+						sh 'adb uninstall com.appcelerator.testApp.testing'
+						killAndroidEmulators()
+					} else if ('ws-local'.equals(target)) {
+							bat 'taskkill /IM mocha.exe /F 2> nul'
+					} else if ('wp-emulator'.equals(target)) {
+						bat 'taskkill /IM xde.exe /F 2> nul'
+					}
+					// if
+				} // finally
+				junit 'junit.*.xml'
+			} // dir('scripts')
+		} // nodejs
+	} finally {
+		deleteDir()
+	}
+}
+
+// Wrap in timestamper
+timestamps {
+	node('git && osx') {
+		stage('Checkout') {
+			// checkout scm
+			// Hack for JENKINS-37658 - see https://support.cloudbees.com/hc/en-us/articles/226122247-How-to-Customize-Checkout-for-Pipeline-Multibranch
+			checkout([
+				$class: 'GitSCM',
+				branches: scm.branches,
+				extensions: scm.extensions + [
+					[$class: 'WipeWorkspace'],
+					[$class: 'CloneOption', honorRefspec: true, noTags: true, reference: "${pwd()}/../titanium_mobile.git", shallow: true, depth: 30, timeout: 30]],
+				userRemoteConfigs: scm.userRemoteConfigs
+			])
+			// FIXME: Workaround for missing env.GIT_COMMIT: http://stackoverflow.com/questions/36304208/jenkins-workflow-checkout-accessing-branch-name-and-git-commit
+			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+		}
+
+		nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
+			stage('Lint') {
+				ensureNPM(npmVersion)
+				// Install dependencies
+				timeout(5) {
+					sh 'npm ci'
+				}
+				sh 'npm test'
+			}
+		}
+	stage('Test') {
+		parallel(
+			'Android': { 
+				node('osx && android-emulator && android-sdk') {
+					unitTests('android', nodeVersion, npmVersion, targetBranch)
+				}
+			},
+			'iOS': { 
+				node('osx && xcode-10') {
+					(unitTests('ios', nodeVersion, npmVersion, targetBranch)
+				}
+			},
+			'ws-local': {
+				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
+					unitTests('windows', nodeVersion, npmVersion, targetBranch, 'ws-local')
+				}
+			},
+			'Windows emulator': {
+				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
+					unitTests('window', nodeVersion, npmVersion, targetBranch, 'wp-emulator')
+				}
+			}
+		)
+	}
+}
