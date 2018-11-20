@@ -107,7 +107,7 @@ function generateProject(platforms, next) {
 }
 
 // Add required properties for our unit tests!
-function addTiAppProperties(next) {
+function addTiAppProperties(platforms, next) {
 	const tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml');
 	const tiapp_xml_string = fs.readFileSync(tiapp_xml).toString();
 	const content = [];
@@ -121,6 +121,11 @@ function addTiAppProperties(next) {
 
 	// Not so smart but this should work...
 	tiapp_xml_string.split(/\r?\n/).forEach(function (line) {
+		// Fix ti.ui.defaultunit for Windows. We should use 'px' only when platform equals windows
+		if (platforms.length == 1 && platforms[0] == 'windows' && line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
+			line = '\t<property name="ti.ui.defaultunit" type="string">px</property>';
+		}
+
 		content.push(line);
 		if (line.indexOf('<ios>') >= 0) {
 			// Force using the JScore on the emulator, not TiCore!
@@ -483,7 +488,9 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, call
 	});
 
 	tasks.push(copyMochaAssets);
-	tasks.push(addTiAppProperties);
+	tasks.push(function(next) {
+		addTiAppProperties(platforms, next);
+	});
 
 	// run build for each platform, and spit out JUnit report
 	const results = {};
