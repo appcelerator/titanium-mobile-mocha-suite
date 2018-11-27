@@ -201,7 +201,7 @@ function killiOSSimulator(next) {
 	});
 }
 
-function runBuild(platform, target, deviceId, next) {
+function runBuild(platform, target, deviceId, architecture, next) {
 
 	if (target === undefined) {
 		switch (platform) {
@@ -236,6 +236,11 @@ function runBuild(platform, target, deviceId, next) {
 
 	if (platform === 'windows' && target !== 'wp-emulator') {
 		args.push('--forceUnInstall');
+	}
+
+	if (platform === 'windows' && architecture) {
+		args.push('--architecture');
+		args.push(architecture);
 	}
 
 	args.push('--no-prompt');
@@ -437,9 +442,10 @@ function cleanupModules(next) {
  * @param	{String}			deviceId	Titanium device id target to run the tests on
  * @param	{Boolean}			skipSdkInstall	Don't try to install an SDK from `branch`
  * @param	{Boolean}			cleanup	Delete all the non-GA SDKs when done? Defaults to true if we installed an SDK
+ * @param	{String}			architecture	Target architecture to build. Only valid on Windows
  * @param	{Function} 			callback  	[description]
  */
-function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, callback) {
+function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, callback) {
 	let sdkPath;
 	// if we're not skipping sdk install and haven't specific whether to clean up or not, default to cleaning up non-GA SDKs
 	if (!skipSdkInstall && cleanup === undefined) {
@@ -496,7 +502,7 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, call
 	const results = {};
 	platforms.forEach(function (platform) {
 		tasks.push(function (next) {
-			runBuild(platform, target, deviceId, function (err, result) {
+			runBuild(platform, target, deviceId, architecture, function (err, result) {
 				if (err) {
 					return next(err);
 				}
@@ -608,6 +614,7 @@ if (module.id === '.') {
 			.option('-C, --device-id [id]', 'Titanium device id to run the unit tests on. Only valid when there is a target provided')
 			.option('-s, --skip-sdk-install', 'Skip the SDK installation step')
 			.option('-c, --cleanup', 'Cleanup non-GA SDKs. Default is true if we install an SDK')
+			.option('-a, --architecture [architecture]', 'Target architecture to build. Only valid on Windows')
 			.parse(process.argv);
 
 		const platforms = program.platforms.split(',');
@@ -622,7 +629,7 @@ if (module.id === '.') {
 			process.exit(1);
 		}
 
-		test(program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall, program.cleanup, function (err, results) {
+		test(program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall, program.cleanup, program.architecture, function (err, results) {
 			if (err) {
 				console.error(err.toString());
 				process.exit(1);
