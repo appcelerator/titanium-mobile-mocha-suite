@@ -7,6 +7,7 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		appcJs: {
 			src: [
+				'dangerfile.js',
 				'Gruntfile.js',
 				'Resources/**/*.js',
 				'!Resources/node_modules/**/*.js',

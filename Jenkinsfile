@@ -85,6 +85,8 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 					// if
 				} // finally
 				junit 'junit.*.xml'
+				// save the junit reports as artifacts explicitly so danger.js can use them later
+				stash includes: 'junit.*.xml', name: "test-report-${os}-${target}"
 			} // dir('scripts')
 		} // nodejs
 	} finally {
@@ -133,4 +135,25 @@ timestamps {
 			}
 		)
 	} // stage('Test')
+
+	stage('Danger') {
+		node('osx || linux') {
+			try {
+				checkout scm
+				// TODO Unstash the test results so we can report results on PR
+				nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
+					ensureNPM(npmVersion)
+					// Install dependencies
+					timeout(5) {
+						sh 'npm ci'
+					}
+					withEnv(["DANGER_JS_APP_INSTALL_ID=''"]) {
+						sh returnStatus: true, script: 'npx danger ci --verbose' // Don't fail build if danger fails. We want to retain existing build status.
+					} // withEnv
+				}
+			} finally {
+				deleteDir()
+			}
+		}
+	}
 } // timestamps
