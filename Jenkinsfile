@@ -140,12 +140,16 @@ timestamps {
 		node('osx || linux') {
 			try {
 				checkout scm
-				// TODO Unstash the test results so we can report results on PR
 				nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 					ensureNPM(npmVersion)
 					// Install dependencies
 					timeout(5) {
 						sh 'npm ci'
+					}
+					['ios-', 'android-', 'windows-ws-local', 'windows-wp-emulator'].each { combo ->
+						try {
+							unstash "test-report-${combo}"
+						} catch (e) {}
 					}
 					withEnv(["DANGER_JS_APP_INSTALL_ID=''"]) {
 						sh returnStatus: true, script: 'npx danger ci --verbose' // Don't fail build if danger fails. We want to retain existing build status.

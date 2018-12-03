@@ -2,9 +2,13 @@
 
 // requires
 const eslint = require('@seadub/danger-plugin-eslint').default;
+const junit = require('@seadub/danger-plugin-junit').default;
 
 async function main() {
-	await eslint();
+	await Promise.all([
+		eslint(),
+		junit({ pathToReport: './junit.*.xml' }),
+	]);
 }
 main()
 	.then(() => process.exit(0))
@@ -12,6 +16,3 @@ main()
 		fail(err.toString());
 		process.exit(1);
 	});
-// TODO Pass along any warnings/errors from eslint in a readable way? Right now we don't have any way to get at the output of the eslint step of npm test
-// May need to edit Jenkinsfile to do a try/catch to spit out the npm test output to some file this dangerfile can consume?
-// Or port https://github.com/leonhartX/danger-eslint/blob/master/lib/eslint/plugin.rb to JS - have it run on any edited/added JS files?
