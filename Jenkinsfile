@@ -96,67 +96,70 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 
 // Wrap in timestamper
 timestamps {
-	node('osx || linux') {
-		stage('Lint') {
-			checkout scm
-
-			nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
-				ensureNPM(npmVersion)
-				// Install dependencies
-				timeout(5) {
-					sh 'npm ci'
-				}
-				sh 'npm test'
-			} // nodejs
-		} // stage('Lint')
-	} // node
-
-	stage('Test') {
-		parallel(
-			'Android': {
-				node('osx && android-emulator && android-sdk') {
-					unitTests('android', scm, nodeVersion, npmVersion, targetBranch)
-				}
-			},
-			'iOS': {
-				node('osx && xcode-10') {
-					unitTests('ios', scm, nodeVersion, npmVersion, targetBranch)
-				}
-			},
-			'ws-local': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
-					unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'ws-local')
-				}
-			},
-			'Windows emulator': {
-				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
-					unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'wp-emulator')
-				}
-			}
-		)
-	} // stage('Test')
-
-	stage('Danger') {
+	try {
 		node('osx || linux') {
-			try {
+			stage('Lint') {
 				checkout scm
+
 				nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 					ensureNPM(npmVersion)
 					// Install dependencies
 					timeout(5) {
 						sh 'npm ci'
 					}
-					['ios-', 'android-', 'windows-ws-local', 'windows-wp-emulator'].each { combo ->
-						try {
-							unstash "test-report-${combo}"
-						} catch (e) {}
+					sh 'npm test'
+				} // nodejs
+			} // stage('Lint')
+		} // node
+
+		stage('Test') {
+			parallel(
+				'Android': {
+					node('osx && android-emulator && android-sdk') {
+						unitTests('android', scm, nodeVersion, npmVersion, targetBranch)
 					}
-					withEnv(["DANGER_JS_APP_INSTALL_ID=''"]) {
-						sh returnStatus: true, script: 'npx danger ci --verbose' // Don't fail build if danger fails. We want to retain existing build status.
-					} // withEnv
+				},
+				'iOS': {
+					node('osx && xcode-10') {
+						unitTests('ios', scm, nodeVersion, npmVersion, targetBranch)
+					}
+				},
+				'ws-local': {
+					node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
+						unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'ws-local')
+					}
+				},
+				'Windows emulator': {
+					node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
+						unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'wp-emulator')
+					}
 				}
-			} finally {
-				deleteDir()
+			)
+		} // stage('Test')
+	} finally {
+		// always try to run Danger-js, even if linting or tests fail
+		stage('Danger') {
+			node('osx || linux') {
+				try {
+					checkout scm
+					nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
+						ensureNPM(npmVersion)
+						// Install dependencies
+						timeout(5) {
+							sh 'npm ci'
+						}
+						['ios-', 'android-', 'windows-ws-local', 'windows-wp-emulator'].each { combo ->
+							try {
+								unstash "test-report-${combo}"
+							} catch (e) {}
+						}
+						withEnv(["DANGER_JS_APP_INSTALL_ID=''"]) {
+							sh returnStatus: true, script: 'npx danger ci --verbose' // Don't fail build if danger fails. We want to retain existing build status.
+						} // withEnv
+					}
+				} finally {
+					deleteDir()
+				}
 			}
 		}
 	}
