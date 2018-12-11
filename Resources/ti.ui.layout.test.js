@@ -1254,7 +1254,7 @@ describe('Titanium.UI.Layout', function () {
 	*/
 
 	// TIMOB-8362
-	it.windowsBroken('scrollViewWithSIZE', function (finish) {
+	it('scrollViewWithSIZE', function (finish) {
 		var NavBarView = Ti.UI.createView({
 				height: '25',
 				top: 0,
