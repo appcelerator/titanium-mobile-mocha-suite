@@ -178,7 +178,6 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/2339
-	// Timing out on Windows Phone
 	it('responseHeadersBug', function (finish) {
 		var xhr = Ti.Network.createHTTPClient(),
 			attempts = 3;
@@ -186,7 +185,7 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.onload = function () {
 			var allHeaders = xhr.getAllResponseHeaders(),
 				header;
-			should(allHeaders.indexOf('Server:')).be.within(0, 1 / 0);
+			should(allHeaders.toLowerCase().indexOf('server:')).be.within(0, 1 / 0);
 			header = xhr.getResponseHeader('Server');
 			should(header.length).be.greaterThan(0);
 			finish();
