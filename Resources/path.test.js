@@ -5,7 +5,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti */
+/* global Ti, process */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
