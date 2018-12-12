@@ -8,8 +8,7 @@
 /* global Ti, L */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+var should = require('./utilities/assertions');
 
 describe('Global', function () {
 	it('L', function () {
@@ -94,22 +93,6 @@ describe('Titanium.Locale', function () {
 		should(Ti.Locale.currentLocale).eql('en-US');
 	});
 
-	// FIXME iOS seems to ignore position info ont he format string.
-	// We're trying to force the 1st argument into the second slot, and vice versa here. iOS ahndles the %2$s syntax, but ignores position
-	it.iosBroken('#getString(String, String) with String.format()', function () {
-		var i18nMissingMsg = '<no translation available>';
-		var string1 = 'You say ' + Ti.Locale.getString('signoff', i18nMissingMsg) + ' and I say ' + Ti.Locale.getString('greeting', i18nMissingMsg) + '!';
-		var string2 = String.format(L('phrase'), L('greeting', i18nMissingMsg), L('signoff', i18nMissingMsg));
-
-		if (Ti.Locale.currentLanguage === 'en') {
-			should(string1).eql('You say goodbye and I say hello!');
-			should(string2).eql('You say goodbye and I say hello!');
-		} else if (Ti.Locale.currentLanguage === 'ja') {
-			should(string1).eql('You say さようなら and I say こんにちは!');
-			should(string2).eql('You say さようなら and I say こんにちは!');
-		}
-	});
-
 	describe('#setLanguage(String)', function () {
 		it('is a Function', function () {
 			should(Ti.Locale.setLanguage).be.a.Function;
@@ -131,35 +114,64 @@ describe('Titanium.Locale', function () {
 		// TODO test if it changes the currentCountry?
 	});
 
-	it.windowsBroken('#getString(String, String) with default/hint value', function () {
-		Ti.Locale.setLanguage('en-US');
-		should(Ti.Locale.getString('this_is_my_key')).eql('this is my value'); // fails on Windows Phone, gives 'this is my en-GB value'
-		// FIXME Parity issue between Android and iOS/Windows
-		if (utilities.isAndroid()) {
-			// Android returns null when key is not found
-			should(Ti.Locale.getString('this_should_not_be_found')).be.null;
-		} else {
-			// if value is not found, it should return key itself
+	describe('#getString()', function () {
+		it('is a Function', function () {
+			should(Ti.Locale.getString).be.a.Function;
+		});
+
+		beforeEach(function () {
+			Ti.Locale.setLanguage('en-US');
+		});
+
+		it('returns stored value for found key', function () {
+			should(Ti.Locale.getString('this_is_my_key')).eql('this is my value');
+			should(L('this_is_my_key')).eql('this is my value');
+		});
+
+		it('returns key if not found and no default specified', function () {
 			should(Ti.Locale.getString('this_should_not_be_found')).eql('this_should_not_be_found');
-		}
+			should(L('this_should_not_be_found')).eql('this_should_not_be_found');
+		});
 
-		// test for default-values
-		should(Ti.Locale.getString('this_should_not_be_found', 'this is the default value')).eql('this is the default value');
+		it('returns supplied default if key not found', function () {
+			should(Ti.Locale.getString('this_should_not_be_found', 'this is the default value')).eql('this is the default value');
+			should(L('this_should_not_be_found', 'this is the default value')).eql('this is the default value');
+		});
 
-		// iOS returns 'this_should_not_be_found' if a non-string value is provided.
-		// This is platform-specific behavior that we not manually guard right now but should discuss.
-		if (!utilities.isIOS()) {
-			should(Ti.Locale.getString('this_should_not_be_found', 123)).eql(123);
-			should(Ti.Locale.getString('this_should_not_be_found', null)).be.null;
-		}
-	});
+		it('returns key if supplied default is not a String and key/value pair not found', function () {
+			should(Ti.Locale.getString('this_should_not_be_found', null)).eql('this_should_not_be_found');
+			should(L('this_should_not_be_found', null)).eql('this_should_not_be_found');
+			should(Ti.Locale.getString('this_should_not_be_found', 123)).eql('this_should_not_be_found');
+			should(L('this_should_not_be_found', 123)).eql('this_should_not_be_found');
+		});
 
-	it.windowsBroken('#getString(String) with different languages', function () {
-		Ti.Locale.setLanguage('en-US');
-		should(Ti.Locale.getString('this_is_my_key')).eql('this is my value');
-		Ti.Locale.setLanguage('en-GB');
-		should(Ti.Locale.getString('this_is_my_key')).eql('this is my en-GB value'); // This fails on Windows, gives 'this is my value'
-		Ti.Locale.setLanguage('ja');
-		should(Ti.Locale.getString('this_is_my_key')).eql('これは私の値です');
+		it('handles locale/country specific languages (i.e. en-GB vs en-US)', function () {
+			Ti.Locale.setLanguage('en-GB');
+			should(Ti.Locale.getString('this_is_my_key')).eql('this is my en-GB value'); // This fails on Windows, gives 'this is my value'
+			should(L('this_is_my_key')).eql('this is my en-GB value'); // This fails on Windows, gives 'this is my value'
+		});
+
+		it('handles single segment language (i.e. ja)', function () {
+			Ti.Locale.setLanguage('ja');
+			should(Ti.Locale.getString('this_is_my_key')).eql('これは私の値です');
+			should(L('this_is_my_key')).eql('これは私の値です');
+		});
+
+		// FIXME iOS seems to ignore position info on the format string.
+		// We're trying to force the 1st argument into the second slot, and vice versa here. iOS handles the %2$s syntax, but ignores position
+		it.iosBroken('usage with String.format()', function () {
+			var i18nMissingMsg = '<no translation available>';
+			var string1 = 'You say ' + Ti.Locale.getString('signoff', i18nMissingMsg) + ' and I say ' + Ti.Locale.getString('greeting', i18nMissingMsg) + '!';
+			var string2 = String.format(L('phrase'), L('greeting', i18nMissingMsg), L('signoff', i18nMissingMsg));
+
+			should(string1).eql(string2);
+			if (Ti.Locale.currentLanguage === 'en') {
+				should(string1).eql('You say goodbye and I say hello!');
+				should(string2).eql('You say goodbye and I say hello!');
+			} else if (Ti.Locale.currentLanguage === 'ja') {
+				should(string1).eql('You say さようなら and I say こんにちは!');
+				should(string2).eql('You say さようなら and I say こんにちは!');
+			}
+		});
 	});
 });

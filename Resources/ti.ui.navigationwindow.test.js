@@ -10,87 +10,196 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-describe('Titanium.UI.NavigationWindow', function () {
-	it.androidAndWindowsMissing('Ti.UI.NavigationWindow', function () {
+describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
+	var nav;
+
+	this.timeout(10000);
+
+	afterEach(function () {
+		if (nav) {
+			nav.close();
+		}
+		nav = null;
+	});
+
+	it('Ti.UI.NavigationWindow', function () {
 		should(Ti.UI.NavigationWindow).not.be.undefined;
 	});
 
-	it.androidAndWindowsMissing('apiName', function () {
+	it('apiName', function () {
 		var view = Ti.UI.createNavigationWindow();
 		should(view).have.readOnlyProperty('apiName').which.is.a.String;
 		should(view.apiName).be.eql('Ti.UI.NavigationWindow');
 	});
 
-	it.androidAndWindowsMissing('#open', function () {
+	it('#open', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.open).not.be.undefined;
 		should(view.open).be.a.Function;
 	});
 
-	it.androidAndWindowsMissing('#openWindow', function () {
+	it('#openWindow', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.openWindow).not.be.undefined;
 		should(view.openWindow).be.a.Function;
 	});
 
-	it.androidAndWindowsMissing('#close', function () {
+	it('#close', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.close).not.be.undefined;
 		should(view.close).be.a.Function;
 	});
 
-	it.androidAndWindowsMissing('#closeWindow', function () {
+	it('#closeWindow', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.closeWindow).not.be.undefined;
 		should(view.closeWindow).be.a.Function;
 	});
 
-	it.androidAndWindowsMissing('open/close should open/close the window', function (finish) {
+	it('open/close should open/close the window', function (finish) {
 		var window = Ti.UI.createWindow(),
 			navigation = Ti.UI.createNavigationWindow({
 				window: window
 			});
-		this.timeout(5000);
+
 		window.addEventListener('open', function () {
 			setTimeout(function () {
 				navigation.close();
-			}, 500);
+			}, 1);
 		});
 		window.addEventListener('close', function () {
-			setTimeout(function () {
-				finish();
-			}, 500);
+			finish();
 		});
 		navigation.open();
 	});
 
-	it.androidAndWindowsMissing('basic open/close navigation', function (finish) {
-		var window1 = Ti.UI.createWindow(),
+	it('basic open/close navigation', function (finish) {
+		var rootWindow = Ti.UI.createWindow(),
 			window2 = Ti.UI.createWindow(),
 			navigation = Ti.UI.createNavigationWindow({
-				window: window1
+				window: rootWindow
 			});
-		this.timeout(5000);
-		window1.addEventListener('open', function () {
+
+		rootWindow.addEventListener('open', function () {
 			setTimeout(function () {
 				navigation.openWindow(window2);
-			}, 500);
+			}, 1);
 		});
 		window2.addEventListener('open', function () {
 			setTimeout(function () {
 				navigation.closeWindow(window2);
-			}, 500);
+			}, 1);
 		});
-		window1.addEventListener('close', function () {
-			setTimeout(function () {
-				finish();
-			}, 500);
+		rootWindow.addEventListener('close', function () {
+			finish();
 		});
 		window2.addEventListener('close', function () {
 			setTimeout(function () {
 				navigation.close();
-			}, 500);
+			}, 1);
 		});
 		navigation.open();
+	});
+
+	it('#openWindow, #closeWindow', function (finish) {
+		var rootWindow = Ti.UI.createWindow();
+		var subWindow = Ti.UI.createWindow();
+		nav = Ti.UI.createNavigationWindow({
+			window: rootWindow
+		});
+
+		rootWindow.addEventListener('open', function () {
+			setTimeout(function () {
+				try {
+					nav.openWindow(subWindow);
+					should(subWindow.navigationWindow).eql(nav);
+				} catch (err) {
+					finish(err);
+				}
+			}, 1);
+		});
+
+		subWindow.addEventListener('open', function () {
+			setTimeout(function () {
+				nav.closeWindow(subWindow);
+			}, 1);
+		});
+
+		subWindow.addEventListener('close', function () {
+			try {
+				should(subWindow.navigationWindow).not.be.ok; // null or undefined
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+
+		nav.open();
+	});
+
+	it('#popToRootWindow', function (finish) {
+		var rootWindow = Ti.UI.createWindow();
+		var subWindow = Ti.UI.createWindow();
+
+		nav = Ti.UI.createNavigationWindow({
+			window: rootWindow
+		});
+		should(nav.popToRootWindow).be.a.function;
+
+		rootWindow.addEventListener('open', function () {
+			setTimeout(function () {
+				nav.openWindow(subWindow);
+			}, 1);
+		});
+
+		subWindow.addEventListener('close', function () {
+			try {
+				should(subWindow.navigationWindow).not.be.ok; // null or undefined
+				// how else can we tell it got closed? I don't think a visible check is right...
+				// win should not be closed!
+				should(rootWindow.navigationWindow).eql(nav);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+
+		subWindow.addEventListener('open', function () {
+			setTimeout(function () {
+				nav.popToRootWindow();
+			}, 1);
+		});
+
+		nav.open();
+	});
+});
+
+describe('Titanium.UI.Window', function () {
+	var nav;
+
+	this.timeout(10000);
+
+	afterEach(function () {
+		if (nav !== null) {
+			nav.close();
+		}
+		nav = null;
+	});
+
+	it.windowsMissing('.navigationWindow', function (finish) {
+		var rootWindow = Ti.UI.createWindow();
+		nav = Ti.UI.createNavigationWindow({
+			window: rootWindow
+		});
+
+		rootWindow.addEventListener('open', function () {
+			try {
+				should(nav).not.be.undefined;
+				should(rootWindow.navigationWindow).eql(nav);
+				should(rootWindow.navigationWindow.apiName).eql('Ti.UI.NavigationWindow');
+
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+
+		nav.open();
 	});
 });

@@ -62,6 +62,8 @@ require('./es6.import.test');
 require('./es6.rest.args.test');
 require('./es6.spread.args.test');
 require('./es6.string.interpolation.test');
+// node-compat core modules
+require('./path.test');
 // Titanium APIs
 require('./ti.accelerometer.test');
 require('./ti.analytics.test');

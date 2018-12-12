@@ -682,4 +682,27 @@ describe('Titanium.UI.Window', function () {
 		});
 		win.open();
 	});
+
+	it.ios('.safeAreaPadding for window inside navigation window with extendSafeArea true', function (finish) {
+		var window = Ti.UI.createWindow({
+			extendSafeArea: true,
+		});
+		win = Ti.UI.createNavigationWindow({
+			window: window
+		});
+		window.addEventListener('postlayout', function () {
+			try {
+				var padding = window.safeAreaPadding;
+				should(padding).be.a.Object;
+				should(padding.left).be.eql(0);
+				should(padding.top).be.eql(0);
+				should(padding.right).be.eql(0);
+				should(padding.bottom).be.eql(0);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
 });
