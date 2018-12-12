@@ -1,0 +1,12 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "Resources/with_package/package.json",
+        "modules/commonjs/commonjs.legacy.package/1.0.0/package.json",
+        "modules/commonjs/commonjs.package/1.0.0/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
