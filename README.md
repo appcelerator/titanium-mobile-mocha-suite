@@ -1,5 +1,7 @@
 # Titanium Mocha Suite
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/appcelerator/titanium-mobile-mocha-suite.svg)](https://greenkeeper.io/)
+
 The unit testing app for [Axway Titanium](https://github.com/appcelerator/titanium_mobile), built using [TiMocha](https://github.com/tonylukasavage/ti-mocha).
 
 ## Example
