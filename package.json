@@ -26,10 +26,10 @@
     "url": "https://github.com/appcelerator/titanium-mobile-mocha-suite/issues"
   },
   "dependencies": {
-    "async": "~0.9.0",
+    "async": "~2.6.1",
     "colors": "*",
     "commander": "*",
-    "ejs": "~2.2.4",
+    "ejs": "~2.6.1",
     "stream-splitter": "~0.3.2",
     "titanium": "^5.2.0",
     "wrench": "~1.5.4"
@@ -38,7 +38,7 @@
     "@seadub/danger-plugin-eslint": "^0.3.0",
     "@seadub/danger-plugin-junit": "0.0.1",
     "danger": "^6.1.8",
-    "eslint-config-axway": "^2.0.14",
+    "eslint-config-axway": "^4.1.1",
     "eslint-plugin-mocha": "^5.0.0",
     "grunt": "^1.0.3",
     "grunt-appc-js": "^2.1.0",
