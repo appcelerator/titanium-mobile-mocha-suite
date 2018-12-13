@@ -12,14 +12,16 @@
 
 var should = require('./utilities/assertions');
 
-describe('Core', () => {
+describe.only('Core', () => {
 	describe('Runtime', () => {
 		describe('hasProperty', () => {
 			describe('Top-Module', () => {
 				describe('Submodules', () => {
 					// @fixme the not.have.property check throws an error on android
 					it.androidBroken('should check for sub-module', () => {
+						Ti.API.info('checking Ti has UI property');
 						Ti.should.have.property('UI');
+						Ti.API.info('checking Ti does not have Foo property');
 						Ti.should.not.have.property('Foo');
 					});
 				});
