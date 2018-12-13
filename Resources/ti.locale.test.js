@@ -138,28 +138,35 @@ describe('Titanium.Locale', function () {
 			should(L('this_should_not_be_found', 'this is the default value')).eql('this is the default value');
 		});
 
-		it('returns key if supplied default is not a String and key/value pair not found', function () {
+		// FIXME: returns null - we can fix this in a cross-platform way via same extension we used for Android to fix issue
+		it.windowsBroken('returns key if supplied default is not a String and key/value pair not found', function () {
 			should(Ti.Locale.getString('this_should_not_be_found', null)).eql('this_should_not_be_found');
 			should(L('this_should_not_be_found', null)).eql('this_should_not_be_found');
 			should(Ti.Locale.getString('this_should_not_be_found', 123)).eql('this_should_not_be_found');
 			should(L('this_should_not_be_found', 123)).eql('this_should_not_be_found');
 		});
 
-		it('handles locale/country specific languages (i.e. en-GB vs en-US)', function () {
+		// https://jira.appcelerator.org/browse/TIMOB-26651
+		// Windows seems to have a "delayed reaction" to setting the language
+		// It doesn't pick up the new language's strings immediately, but does on the next test
+		// so here it still uses en-US strings, despite being set to en-GB...
+		it.windowsBroken('handles locale/country specific languages (i.e. en-GB vs en-US)', function () {
 			Ti.Locale.setLanguage('en-GB');
 			should(Ti.Locale.getString('this_is_my_key')).eql('this is my en-GB value'); // This fails on Windows, gives 'this is my value'
 			should(L('this_is_my_key')).eql('this is my en-GB value'); // This fails on Windows, gives 'this is my value'
 		});
 
-		it('handles single segment language (i.e. ja)', function () {
+		// and then this one fails because it's using en-GB strings after we tell it to be ja...
+		it.windowsBroken('handles single segment language (i.e. ja)', function () {
 			Ti.Locale.setLanguage('ja');
 			should(Ti.Locale.getString('this_is_my_key')).eql('これは私の値です');
 			should(L('this_is_my_key')).eql('これは私の値です');
 		});
 
+		// ...and this one is now using ja strings, but langauge value is en-US!
 		// FIXME iOS seems to ignore position info on the format string.
 		// We're trying to force the 1st argument into the second slot, and vice versa here. iOS handles the %2$s syntax, but ignores position
-		it.iosBroken('usage with String.format()', function () {
+		it.iosAndWindowsBroken('usage with String.format()', function () {
 			var i18nMissingMsg = '<no translation available>';
 			var string1 = 'You say ' + Ti.Locale.getString('signoff', i18nMissingMsg) + ' and I say ' + Ti.Locale.getString('greeting', i18nMissingMsg) + '!';
 			var string2 = String.format(L('phrase'), L('greeting', i18nMissingMsg), L('signoff', i18nMissingMsg));

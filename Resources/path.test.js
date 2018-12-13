@@ -383,7 +383,7 @@ describe('path', function () {
 				process.cwd = function () {
 					return __dirname;
 				};
-				path.posix.resolve('wwwroot', 'static_files/png/', '../gif/image.gif').should.eql(path.join(__dirname, 'wwwroot/static_files/gif/image.gif'));
+				path.posix.resolve('wwwroot', 'static_files/png/', '../gif/image.gif').should.eql(path.posix.join(__dirname, 'wwwroot/static_files/gif/image.gif'));
 			} finally {
 				process.cwd = originalCwd;
 			}
