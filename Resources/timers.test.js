@@ -167,7 +167,7 @@ describe('Timers', function () {
 		});
 	});
 
-	it.windowsBroken('should be able to override', function () {
+	it('should be able to override', function () {
 		const methodNames = [ 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval' ];
 		for (const methodName of methodNames) {
 			const descriptor = Object.getOwnPropertyDescriptor(global, methodName);
