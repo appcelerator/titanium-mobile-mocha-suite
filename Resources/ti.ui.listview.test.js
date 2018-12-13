@@ -943,4 +943,10 @@ describe('Titanium.UI.ListView', function () {
 		win.add(listView);
 		win.open();
 	});
+
+	it.android('.fastScroll', function () {
+		var listView = Ti.UI.createListView();
+		should(listView.fastScroll).be.eql(false);
+		should(listView.setFastScroll).be.a.Function;
+	});
 });

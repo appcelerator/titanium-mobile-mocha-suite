@@ -65,6 +65,7 @@ require('./es6.string.interpolation.test');
 // node-compat core modules
 require('./path.test');
 // Titanium APIs
+require('./core.runtime.test'); // tests on how proxies behave w/regard to hasOwnProperty
 require('./ti.accelerometer.test');
 require('./ti.analytics.test');
 require('./ti.android.test');
