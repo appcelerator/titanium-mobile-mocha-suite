@@ -39,11 +39,9 @@
     "@seadub/danger-plugin-eslint": "^0.3.0",
     "@seadub/danger-plugin-junit": "0.0.2",
     "danger": "^6.1.8",
+    "eslint": "^5.10.0",
     "eslint-config-axway": "^4.1.1",
     "eslint-plugin-mocha": "^5.0.0",
-    "grunt": "^1.0.3",
-    "grunt-appc-js": "^2.1.0",
-    "grunt-cli": "^1.2.0",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0"
   },
@@ -51,8 +49,9 @@
     "node": ">=6.0"
   },
   "scripts": {
-    "test": "grunt",
-    "integration": "node scripts/test.js -p android,ios -b master"
+    "integration": "node scripts/test.js -p android,ios -b master",
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
   "husky": {
     "hooks": {

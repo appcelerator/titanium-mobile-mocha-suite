@@ -2,3 +2,4 @@ Resources/ti-mocha.js
 Resources/should.js
 Resources/node_modules/*
 scripts/mocha/
+node_modules/
