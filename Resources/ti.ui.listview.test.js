@@ -10,7 +10,7 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-describe.windowsBroken('Titanium.UI.ListView', function () {
+describe('Titanium.UI.ListView', function () {
 	var win;
 	this.timeout(6e4);
 
