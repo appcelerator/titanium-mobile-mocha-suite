@@ -13,7 +13,7 @@
 var should = require('./utilities/assertions');
 var utilities = require('./utilities/utilities');
 
-describe('Core', () => {
+describe.windowsBroken('Core', () => {
 	describe('Runtime', () => {
 		describe('hasProperty', () => {
 			describe('Top-Module', () => {
