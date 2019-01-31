@@ -182,20 +182,36 @@ function addTiAppProperties(platforms, next) {
 	next();
 }
 
-function copyDir(src, dest) {
-	fs.copySync(src, dest);
+function npmInstall(dir, next) {
+	exec('npm install --production', { cwd: dir }, next);
 }
 
 function copyMochaAssets(next) {
-	copyDir(path.join(SOURCE_DIR, 'Resources'), path.join(PROJECT_DIR, 'Resources'));
-	// TODO if path.join(PROJECT_DIR, 'Resources/package.json') exists, run npm install --production
-	// copy modules so we can test those too
-	copyDir(path.join(SOURCE_DIR, 'modules'), path.join(PROJECT_DIR, 'modules'));
-	// copy plugins so we can test those too
-	copyDir(path.join(SOURCE_DIR, 'plugins'), path.join(PROJECT_DIR, 'plugins'));
-	// copy i18n so we can test those too
-	copyDir(path.join(SOURCE_DIR, 'i18n'), path.join(PROJECT_DIR, 'i18n'));
-	next();
+	async.parallel([
+		function (cb) { // Resources
+			const resourcesDir = path.join(PROJECT_DIR, 'Resources');
+			fs.copy(path.join(SOURCE_DIR, 'Resources'), resourcesDir, function (err) {
+				if (err) {
+					return cb(err);
+				}
+				// TODO Need to handle our hacky fake node modules we have!
+				if (fs.pathExistsSync(path.join(resourcesDir, 'package.json'))) {
+					npmInstall(resourcesDir, cb);
+				} else {
+					cb();
+				}
+			});
+		},
+		function (cb) { // modules
+			fs.copy(path.join(SOURCE_DIR, 'modules'), path.join(PROJECT_DIR, 'modules'), cb);
+		},
+		function (cb) { // plugins
+			fs.copy(path.join(SOURCE_DIR, 'plugins'), path.join(PROJECT_DIR, 'plugins'), cb);
+		},
+		function (cb) { // i18n
+			fs.copy(path.join(SOURCE_DIR, 'i18n'), path.join(PROJECT_DIR, 'i18n'), cb);
+		}
+	], next);
 }
 
 function killiOSSimulator(next) {
