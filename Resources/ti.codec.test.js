@@ -242,7 +242,7 @@ describe('Titanium.Codec', function () {
 			type: Ti.Codec.TYPE_FLOAT,
 			byteOrder: Ti.Codec.LITTLE_ENDIAN
 		});
-		should(n.toFixed(4)).eql(1.2345);
+		should(n.toFixed(4)).eql('1.2345');
 	});
 
 	it('testEncodeString', function () {
