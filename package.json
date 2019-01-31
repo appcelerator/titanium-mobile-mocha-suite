@@ -30,9 +30,9 @@
     "colors": "*",
     "commander": "*",
     "ejs": "~2.6.1",
+    "fs-extra": "^7.0.1",
     "stream-splitter": "~0.3.2",
-    "titanium": "^5.2.0",
-    "wrench": "~1.5.4"
+    "titanium": "^5.2.0"
   },
   "devDependencies": {
     "@seadub/danger-plugin-dependencies": "0.1.0",

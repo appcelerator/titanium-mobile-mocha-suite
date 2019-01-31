@@ -6,9 +6,8 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const async = require('async');
-const wrench = require('wrench');
 const colors = require('colors'); // eslint-disable-line no-unused-vars
 const ejs = require('ejs');
 const StreamSplitter = require('stream-splitter');
@@ -23,7 +22,7 @@ const JUNIT_TEMPLATE = path.join(__dirname, 'junit.xml.ejs');
 function clearPreviousApp(next) {
 	// If the project already exists, wipe it
 	if (fs.existsSync(PROJECT_DIR)) {
-		wrench.rmdirSyncRecursive(PROJECT_DIR);
+		fs.removeSync(PROJECT_DIR);
 	}
 	next();
 }
@@ -184,13 +183,15 @@ function addTiAppProperties(platforms, next) {
 }
 
 function copyDir(src, dest) {
-	wrench.copyDirSyncRecursive(src, dest, {
-		forceDelete: true
-	});
+	fs.copySync(src, dest);
 }
 
 function copyMochaAssets(next) {
 	copyDir(path.join(SOURCE_DIR, 'Resources'), path.join(PROJECT_DIR, 'Resources'));
+	if (fs.pathExistsSync()) {
+
+	}
+	// TODO If PROJECT_DIR
 	// copy modules so we can test those too
 	copyDir(path.join(SOURCE_DIR, 'modules'), path.join(PROJECT_DIR, 'modules'));
 	// copy plugins so we can test those too
@@ -374,9 +375,9 @@ function outputJUnitXML(jsonResults, prefix, next) {
  */
 function cleanNonGaSDKs(sdkPath, next) {
 	// FIXME Use fork since we're spawning off another node process!
-	exec('node "' + titanium + '" sdk list -o json', function (error, stdout) {
+	exec(`node "${titanium}" sdk list -o json`, function (error, stdout) {
 		if (error !== null) {
-			return next('Failed to get list of SDKs: ' + error);
+			return next(`Failed to get list of SDKs: ${error}`);
 		}
 
 		const out = JSON.parse(stdout);
@@ -390,8 +391,8 @@ function cleanNonGaSDKs(sdkPath, next) {
 			if (thisSDKPath === sdkPath) { // skip SDK we just installed
 				return callback(null);
 			}
-			console.log('Removing ' + thisSDKPath);
-			wrench.rmdirRecursive(thisSDKPath, callback);
+			console.log(`Removing ${thisSDKPath}`);
+			fs.remove(thisSDKPath, callback);
 		}, function (err) {
 			next(err);
 		});
@@ -403,7 +404,7 @@ function cleanNonGaSDKs(sdkPath, next) {
  */
 function sdkDir() {
 	return new Promise((resolve) => {
-		exec('node "' + titanium + '" config sdk.defaultInstallLocation -o json', function (error, stdout) {
+		exec(`node "${titanium}" config sdk.defaultInstallLocation -o json`, function (error, stdout) {
 			if (error) {
 				const osName = require('os').platform();
 				if (osName === 'win32') {
@@ -425,17 +426,17 @@ function cleanupModules(next) {
 		const pluginDir = path.join(sdkDir, 'plugins');
 		try {
 			if (fs.existsSync(moduleDir)) {
-				console.log('Removing ' + moduleDir);
-				wrench.rmdirSyncRecursive(moduleDir);
+				console.log(`Removing ${moduleDir}`);
+				fs.removeSync(moduleDir);
 			} else {
-				console.log(moduleDir + ' doesnt exist');
+				console.log(`${moduleDir} doesnt exist`);
 			}
 
 			if (fs.existsSync(pluginDir)) {
-				console.log('Removing ' + pluginDir);
-				wrench.rmdirSyncRecursive(pluginDir);
+				console.log(`Removing ${pluginDir}`);
+				fs.removeSync(pluginDir);
 			} else {
-				console.log(pluginDir + ' doesnt exist');
+				console.log(`${pluginDir} doesnt exist`);
 			}
 
 			return next();
