@@ -1,6 +1,6 @@
 'use strict';
-var should = require('../should'),
-	utilities = require('./utilities');
+const should = require('should');
+const utilities = require('./utilities');
 
 // Copied from newer should.js
 // Verifies the descriptor for an own property on a target

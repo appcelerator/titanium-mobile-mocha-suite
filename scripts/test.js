@@ -194,7 +194,6 @@ function copyMochaAssets(next) {
 				if (err) {
 					return cb(err);
 				}
-				// TODO Need to handle our hacky fake node modules we have!
 				if (fs.pathExistsSync(path.join(resourcesDir, 'package.json'))) {
 					npmInstall(resourcesDir, cb);
 				} else {

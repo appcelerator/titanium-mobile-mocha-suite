@@ -5,6 +5,7 @@
         "abbrev": "file:fake_node_modules/abbrev",
         "bar": "file:fake_node_modules/bar",
         "baz": "file:fake_node_modules/baz",
-        "foo": "file:fake_node_modules/foo"
+        "foo": "file:fake_node_modules/foo",
+        "should": "^13.2.3"
     }
 }
