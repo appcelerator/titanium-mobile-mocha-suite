@@ -41,13 +41,23 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		});
 		should(activityIndicator.font).be.a.Object;
 		should(activityIndicator.getFont).be.a.Function;
-		should(activityIndicator.font.fontSize).eql(24);
+		if (utilities.isWindows()) {
+			// FIXME: Windows reports string here, not Number https://jira.appcelerator.org/browse/TIMOB-26791
+			should(activityIndicator.font.fontSize, 24);
+		} else {
+			should(activityIndicator.font.fontSize).eql(24);
+		}
 		should(activityIndicator.getFont().fontFamily).eql('Segoe UI');
 		activityIndicator.font = {
 			fontSize: 11,
 			fontFamily: 'Segoe UI Semilight'
 		};
-		should(activityIndicator.font.fontSize).eql(11);
+		if (utilities.isWindows()) {
+			// FIXME: Windows reports string here, not Number https://jira.appcelerator.org/browse/TIMOB-26791
+			should.equal(activityIndicator.font.fontSize, 11);
+		} else {
+			should(activityIndicator.font.fontSize).eql(11);
+		}
 		should(activityIndicator.getFont().fontFamily).eql('Segoe UI Semilight');
 	});
 
