@@ -377,7 +377,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	it.windowsDesktopBroken('animate (top)', function (finish) {
+	it.windowsBroken('animate (top)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -422,7 +422,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	it.windowsDesktopBroken('animate (left)', function (finish) {
+	it.windowsBroken('animate (left)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -522,7 +522,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	// FIXME Android reports 90% for one of comparisons to 0 (view.left?)
-	it.windowsDesktopBroken('animate (left %)', function (finish) {
+	it.windowsBroken('animate (left %)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -564,7 +564,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	// FIXME Android reports 90% for one of comparisons to 0 (view.top?)
-	it.windowsDesktopBroken('animate (top %)', function (finish) {
+	it.windowsBroken('animate (top %)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
