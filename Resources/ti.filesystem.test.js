@@ -134,10 +134,9 @@ describe('Titanium.Filesystem', function () {
 	});
 
 	// TIMOB-10107
-	// FIXME Windows is broken here
-	it.windowsBroken('multiLingualFilename', function () {
+	it('multiLingualFilename', function () {
 		var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, '網上廣東話輸入法.txt');
-		should(msg.write('Appcelerator', true)).be.true; // Fails on Windows, is 'false'
+		should(msg.write('Appcelerator', true)).be.true;
 		should(msg.exists()).be.true;
 		should(msg.deleteFile()).be.true;
 		should(msg.exists()).be.false;

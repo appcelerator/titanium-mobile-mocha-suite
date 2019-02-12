@@ -139,7 +139,7 @@ describe('Titanium.Locale', function () {
 		});
 
 		// FIXME: returns null - we can fix this in a cross-platform way via same extension we used for Android to fix issue
-		it.windowsBroken('returns key if supplied default is not a String and key/value pair not found', function () {
+		it('returns key if supplied default is not a String and key/value pair not found', function () {
 			should(Ti.Locale.getString('this_should_not_be_found', null)).eql('this_should_not_be_found');
 			should(L('this_should_not_be_found', null)).eql('this_should_not_be_found');
 			should(Ti.Locale.getString('this_should_not_be_found', 123)).eql('this_should_not_be_found');
@@ -147,17 +147,14 @@ describe('Titanium.Locale', function () {
 		});
 
 		// https://jira.appcelerator.org/browse/TIMOB-26651
-		// Windows seems to have a "delayed reaction" to setting the language
-		// It doesn't pick up the new language's strings immediately, but does on the next test
-		// so here it still uses en-US strings, despite being set to en-GB...
-		it.windowsBroken('handles locale/country specific languages (i.e. en-GB vs en-US)', function () {
+		it('handles locale/country specific languages (i.e. en-GB vs en-US)', function () {
 			Ti.Locale.setLanguage('en-GB');
 			should(Ti.Locale.getString('this_is_my_key')).eql('this is my en-GB value'); // This fails on Windows, gives 'this is my value'
 			should(L('this_is_my_key')).eql('this is my en-GB value'); // This fails on Windows, gives 'this is my value'
 		});
 
 		// and then this one fails because it's using en-GB strings after we tell it to be ja...
-		it.windowsBroken('handles single segment language (i.e. ja)', function () {
+		it('handles single segment language (i.e. ja)', function () {
 			Ti.Locale.setLanguage('ja');
 			should(Ti.Locale.getString('this_is_my_key')).eql('これは私の値です');
 			should(L('this_is_my_key')).eql('これは私の値です');

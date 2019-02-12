@@ -723,8 +723,7 @@ describe('Titanium.Filesystem.File', function () {
 			result.length.should.eql(0);
 		});
 
-		// FIXME Windows returns empty array
-		it.windowsBroken('returns null for non-existent directory', function () {
+		it('returns null for non-existent directory', function () {
 			var nonExistentDir = Ti.Filesystem.getFile('madeup');
 			var result = nonExistentDir.getDirectoryListing();
 			should(nonExistentDir).be.ok;
@@ -732,8 +731,7 @@ describe('Titanium.Filesystem.File', function () {
 			should.not.exist(result); // null or undefined // FIXME: ios returns undefined, test checked for exactly null before
 		});
 
-		// FIXME Windows returns empty array
-		it.windowsBroken('returns null for file', function () {
+		it('returns null for file', function () {
 			var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 			var result = file.getDirectoryListing();
 			should(file).be.ok;
@@ -742,8 +740,7 @@ describe('Titanium.Filesystem.File', function () {
 			should.not.exist(result); // null or undefined // FIXME: ios returns undefined, test checked for exactly null before
 		});
 
-		// Windows fails to find fixture directory. May be that it doesn't report trailing separator while other platforms do?
-		it.windowsBroken('can access resource directory files', function () {
+		it('can access resource directory files', function () {
 			let rootDir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory),
 				rootPath,
 				filesFound = {};

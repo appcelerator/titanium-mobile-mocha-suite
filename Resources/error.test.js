@@ -12,7 +12,7 @@ var should = require('./utilities/assertions'), // eslint-disable-line no-unused
 	utilities = require('./utilities/utilities');
 
 describe('Error', function () {
-	it.windowsMissing('JS error thrown', function () {
+	it('JS error thrown', function () {
 		var e = {};
 
 		try {
@@ -39,7 +39,7 @@ describe('Error', function () {
 		}
 	});
 
-	it.windowsMissing('Native exception surfaced', function () {
+	it('Native exception surfaced', function () {
 		try {
 			Ti.Geolocation.accuracy = null; // The test assumes this will error out on the native side...
 			should.fail('Expected to throw exception');
@@ -50,6 +50,8 @@ describe('Error', function () {
 				ex.message.should.equal('Unable to convert null');
 			} else if (utilities.isIOS()) {
 				ex.message.should.equal('Invalid type passed to function');
+			} else if (utilities.isWindows()) {
+				ex.message.should.equal('Ti.Geolocation.accuracy expects Number');
 			}
 
 			// has typical stack property for JS

@@ -134,8 +134,7 @@ describe('Titanium.Utils', function () {
 		should(blob.text).eql('ZEdWemRBPT0=');
 	});
 
-	// FIXME: base64encode accepts Ti.File as a parameter on iOS/Android, but not on Windows.
-	it.windowsBroken('#base64encode(Ti.Filesystem.File)', function () {
+	it('#base64encode(Ti.Filesystem.File)', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/decodedFile.txt');
 		var blob = Ti.Utils.base64encode(f);
 
@@ -145,8 +144,7 @@ describe('Titanium.Utils', function () {
 		should(blob.text).eql('SSBhbSBub3QgZW5jb2RlZCB5ZXQu');
 	});
 
-	// FIXME: base64decode accepts Ti.File as a parameter on iOS/Android, but not on Windows.
-	it.windowsBroken('#base64decode(Ti.Filesystem.File with text data)', function () {
+	it('#base64decode(Ti.Filesystem.File with text data)', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/encodedFile.txt');
 		var blob = Ti.Utils.base64decode(f);
 
@@ -236,8 +234,7 @@ describe('Titanium.Utils', function () {
 		should(Ti.Utils.sha256(blob)).eql('54be80ae48e4242d56170248e730ffac60a2828d07260a048e2ac0fd62386234');
 	});
 
-	// FIXME Android and iOS do no newlines for longer output, Windows does. Need to get parity
-	it.windowsBroken('TIMOB-25513', function () {
+	it('TIMOB-25513', function () {
 		var shortString = 'ABCDEFGHIJ1234567890ABCDEFGHIJ12|psndemo2|abcd:1',
 			longString = 'ABCDEFGHIJ1234567890ABCDEFGHIJ12|psndemo2|abcd:12345678901234567890',
 			tiBase64ShortResult = Ti.Utils.base64encode(shortString),

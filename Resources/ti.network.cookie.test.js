@@ -10,8 +10,7 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-// FIXME Windows does not implement Ti.Network.Cookie!
-describe.windowsMissing('Titanium.Network.Cookie', function () {
+describe('Titanium.Network.Cookie', function () {
 	it('apiName', function () {
 		var client = Ti.Network.createHTTPClient();
 		should(client).have.a.readOnlyProperty('apiName').which.is.a.String;
