@@ -8,7 +8,7 @@
 /* global Ti, L */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-const should = require('./utilities/assertions');
+const should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
 const CloudPush = require('ti.cloudpush');
 
 describe('ti.cloudpush', () => {
