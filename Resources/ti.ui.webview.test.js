@@ -471,6 +471,14 @@ describe('Titanium.UI.WebView', function () {
 		webView.addEventListener('sslerror', function () {
 			finish();
 		});
+
+		webView.addEventListener('error', function () {
+			setTimeout(() => {
+				console.warn('failed to load url, retrying...');
+				webView.url = webView.url; // eslint-disable-line no-self-assign
+			}, 5000);
+		});
+
 		win.add(webView);
 		win.open();
 	});
@@ -527,6 +535,13 @@ describe('Titanium.UI.WebView', function () {
 
 		webView.addEventListener('sslerror', function (e) {
 			finish(e);
+		});
+
+		webView.addEventListener('error', function () {
+			setTimeout(() => {
+				console.warn('failed to load url, retrying...');
+				webView.url = webView.url; // eslint-disable-line no-self-assign
+			}, 5000);
 		});
 
 		win.add(webView);
