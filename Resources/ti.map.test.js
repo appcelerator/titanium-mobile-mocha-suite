@@ -12,6 +12,41 @@ var should = require('./utilities/assertions'),
 	Map = require('ti.map');
 
 describe('Titanium.Map', function () {
+	let win;
+	let rootWindow;
+
+	this.timeout(5000);
+
+	// Create and open a root window for the rest of the below child window tests to use as a parent.
+	// We're not going to close this window until the end of this test suite.
+	// Note: Android needs this so that closing the last window won't back us out of the app.
+	before(function (finish) {
+		rootWindow = Ti.UI.createWindow();
+		rootWindow.addEventListener('open', function () {
+			finish();
+		});
+		rootWindow.open();
+	});
+
+	after(function (finish) {
+		rootWindow.addEventListener('close', function () {
+			finish();
+		});
+		rootWindow.close();
+	});
+
+	afterEach(function (done) {
+		if (win) {
+			win.close();
+		}
+		win = null;
+
+		// timeout to allow window to close
+		setTimeout(() => {
+			done();
+		}, 500);
+	});
+
 	// FIXME Gives bad value for Android
 	it.androidBroken('apiName', function () {
 		should(Map).have.a.readOnlyProperty('apiName').which.is.a.String;
@@ -133,6 +168,32 @@ describe('Titanium.Map', function () {
 
 	it('#createAnnotation()', function () {
 		should(Map.createAnnotation).be.a.Function;
+
+		win = Ti.UI.createWindow();
+
+		const annotation = Map.createAnnotation({
+			latitude: 37.3689,
+			longitude: -122.0353,
+			title: 'Mountain View',
+			subtitle: 'Mountain View city',
+		});
+		should(annotation).be.a.Object;
+
+		const view = Map.createView({
+			mapType: Map.NORMAL_TYPE,
+			region: { // Mountain View
+				latitude: 37.3689,
+				longitude: -122.0353,
+				latitudeDelta: 0.1,
+				longitudeDelta: 0.1
+			}
+		});
+		should(view).be.a.Object;
+
+		view.addAnnotation(annotation);
+
+		win.add(view);
+		win.open();
 	});
 
 	// Intentional skip for Android, not supported
@@ -147,11 +208,21 @@ describe('Titanium.Map', function () {
 	it('#createView()', function () {
 		should(Map.createView).be.a.Function;
 
-		// var view = Map.createView({mapType: Map.NORMAL_TYPE});
+		win = Ti.UI.createWindow();
 
-		// Confirm 'view' is an object
-		// should(view).be.a.Object;
-		// TODO Confirm that it has certain properties, etc.
+		const view = Map.createView({
+			mapType: Map.NORMAL_TYPE,
+			region: { // Mountain View
+				latitude: 37.3689,
+				longitude: -122.0353,
+				latitudeDelta: 0.1,
+				longitudeDelta: 0.1
+			}
+		});
+		should(view).be.a.Object;
+
+		win.add(view);
+		win.open();
 	});
 
 	// Intentional skip, constant only for Android
