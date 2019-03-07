@@ -238,7 +238,7 @@ describe('Titanium.UI.TabGroup', () => {
 			});
 
 			tabGroup.addEventListener('blur', () => finish());
-			tab.addEventListener('open', () => {
+			tabGroup.addEventListener('open', () => {
 				setTimeout(() => tabGroup.close(), 1);
 			});
 
