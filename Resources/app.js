@@ -56,6 +56,7 @@ require('./string.test');
 require('./timers.test');
 // ES6 syntax/compatability tests
 require('./es6.arrows.test');
+require('./es6.async.await.test');
 require('./es6.class.test');
 require('./es6.default.args.test');
 require('./es6.import.test');
@@ -63,8 +64,10 @@ require('./es6.rest.args.test');
 require('./es6.spread.args.test');
 require('./es6.string.interpolation.test');
 // node-compat core modules
+require('./assert.test');
 require('./os.test');
 require('./path.test');
+require('./util.test');
 // Titanium APIs
 require('./core.runtime.test'); // tests on how proxies behave w/regard to hasOwnProperty
 require('./ti.accelerometer.test');
@@ -112,6 +115,7 @@ require('./ti.stream.test');
 require('./ti.test');
 require('./ti.ui.test');
 require('./ti.ui.2dmatrix.test');
+require('./ti.ui.matrix2d.test');
 require('./ti.ui.activityindicator.test');
 require('./ti.ui.alertdialog.test');
 require('./ti.ui.android.drawerlayout.test');
@@ -123,6 +127,8 @@ require('./ti.ui.imageview.test');
 require('./ti.ui.ios.test');
 require('./ti.ui.ios.navigationwindow.test');
 require('./ti.ui.ios.previewcontext.test');
+require('./ti.ui.ios.splitwindow.test');
+require('./ti.ui.ios.webviewconfiguration.test');
 require('./ti.ui.label.test');
 require('./ti.ui.layout.test');
 require('./ti.ui.listview.test');
@@ -145,7 +151,6 @@ require('./ti.ui.textfield.test');
 require('./ti.ui.toolbar.test');
 require('./ti.ui.view.test');
 require('./ti.ui.webview.test');
-require('./ti.ui.ios.webviewconfiguration.test');
 require('./ti.ui.window.test');
 require('./ti.ui.windows.commandbar.test');
 require('./ti.utils.test');
