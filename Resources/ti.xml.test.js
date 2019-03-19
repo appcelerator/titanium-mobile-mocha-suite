@@ -10,7 +10,7 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-describe.windowsDesktopBroken('Titanium.XML', function () {
+describe.windowsBroken('Titanium.XML', function () {
 	var testSource = {},
 		invalidSource = {};
 
