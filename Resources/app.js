@@ -45,120 +45,122 @@ describe('__filename', function () {
 	});
 });
 
-// ============================================================================
-// Add the tests here using "require"
-// Global behavior (top-level timers, functions, types)
-require('./console.test');
-require('./error.test');
-require('./global.test');
-require('./require.test');
-require('./string.test');
-require('./timers.test');
-// ES6 syntax/compatability tests
-require('./es6.arrows.test');
-require('./es6.async.await.test');
-require('./es6.class.test');
-require('./es6.default.args.test');
-require('./es6.import.test');
-require('./es6.rest.args.test');
-require('./es6.spread.args.test');
-require('./es6.string.interpolation.test');
-// node-compat core modules
-require('./assert.test');
-require('./os.test');
-require('./path.test');
-require('./util.test');
-// Titanium APIs
-require('./core.runtime.test'); // tests on how proxies behave w/regard to hasOwnProperty
-require('./ti.accelerometer.test');
-require('./ti.analytics.test');
-require('./ti.android.test');
-require('./ti.android.notificationmanager.test');
-require('./ti.android.service.test');
-require('./ti.api.test');
-require('./ti.app.test');
-require('./ti.app.android.test');
-require('./ti.app.ios.test');
-require('./ti.app.ios.searchquery.test');
-require('./ti.app.ios.useractivity.test');
-require('./ti.app.properties.test');
-require('./ti.app.windows.backgroundservice.test');
-require('./ti.blob.test');
-require('./ti.bootstrap.test');
-require('./ti.buffer.test');
-require('./ti.calendar.calendar.test');
-require('./ti.codec.test');
-require('./ti.contacts.test');
-require('./ti.contacts.group.test');
-require('./ti.contacts.person.test');
-require('./ti.database.test');
-require('./ti.filesystem.test');
-require('./ti.filesystem.file.test');
-require('./ti.filesystem.filestream.test');
-require('./ti.geolocation.test');
-require('./ti.gesture.test');
-require('./ti.locale.test');
-require('./ti.map.test');
-require('./ti.media.test');
-require('./ti.media.audioplayer.test');
-require('./ti.media.sound.test');
-require('./ti.media.videoplayer.test');
-require('./ti.network.test');
-require('./ti.network.cookie.test');
-require('./ti.network.httpclient.test');
-require('./ti.network.socket.tcp.test');
-require('./ti.network.socket.udp.test');
-require('./ti.platform.test');
-require('./ti.platform.displaycaps.test');
-require('./ti.proxy.test');
-require('./ti.stream.test');
-require('./ti.test');
-require('./ti.ui.test');
-require('./ti.ui.2dmatrix.test');
-require('./ti.ui.matrix2d.test');
-require('./ti.ui.activityindicator.test');
-require('./ti.ui.alertdialog.test');
-require('./ti.ui.android.drawerlayout.test');
-require('./ti.ui.attributedstring.test');
-require('./ti.ui.button.test');
-require('./ti.ui.constants.test');
-require('./ti.ui.emaildialog.test');
-require('./ti.ui.imageview.test');
-require('./ti.ui.ios.test');
-require('./ti.ui.ios.navigationwindow.test');
-require('./ti.ui.ios.previewcontext.test');
-require('./ti.ui.ios.splitwindow.test');
-require('./ti.ui.ios.webviewconfiguration.test');
-require('./ti.ui.label.test');
-require('./ti.ui.layout.test');
-require('./ti.ui.listview.test');
-require('./ti.ui.maskedimage.test');
-require('./ti.ui.navigationwindow.test');
-require('./ti.ui.optiondialog.test');
-require('./ti.ui.picker.test');
-require('./ti.ui.progressbar.test');
-require('./ti.ui.scrollableview.test');
-require('./ti.ui.scrollview.test');
-require('./ti.ui.searchbar.test');
-require('./ti.ui.slider.test');
-require('./ti.ui.switch.test');
-require('./ti.ui.tab.test');
-require('./ti.ui.tabbedbar.test');
-require('./ti.ui.tabgroup.test');
-require('./ti.ui.tableview.test');
-require('./ti.ui.textarea.test');
-require('./ti.ui.textfield.test');
-require('./ti.ui.toolbar.test');
-require('./ti.ui.view.test');
-require('./ti.ui.webview.test');
-require('./ti.ui.window.test');
-require('./ti.ui.windows.commandbar.test');
-require('./ti.utils.test');
-require('./ti.xml.test');
+function loadTests() {
+	// ============================================================================
+	// Add the tests here using "require"
+	// Global behavior (top-level timers, functions, types)
+	require('./console.test');
+	require('./error.test');
+	require('./global.test');
+	require('./require.test');
+	require('./string.test');
+	require('./timers.test');
+	// ES6 syntax/compatability tests
+	require('./es6.arrows.test');
+	require('./es6.async.await.test');
+	require('./es6.class.test');
+	require('./es6.default.args.test');
+	require('./es6.import.test');
+	require('./es6.rest.args.test');
+	require('./es6.spread.args.test');
+	require('./es6.string.interpolation.test');
+	// node-compat core modules
+	require('./assert.test');
+	require('./os.test');
+	require('./path.test');
+	require('./util.test');
+	// Titanium APIs
+	require('./core.runtime.test'); // tests on how proxies behave w/regard to hasOwnProperty
+	require('./ti.accelerometer.test');
+	require('./ti.analytics.test');
+	require('./ti.android.test');
+	require('./ti.android.notificationmanager.test');
+	require('./ti.android.service.test');
+	require('./ti.api.test');
+	require('./ti.app.test');
+	require('./ti.app.android.test');
+	require('./ti.app.ios.test');
+	require('./ti.app.ios.searchquery.test');
+	require('./ti.app.ios.useractivity.test');
+	require('./ti.app.properties.test');
+	require('./ti.app.windows.backgroundservice.test');
+	require('./ti.blob.test');
+	require('./ti.bootstrap.test');
+	require('./ti.buffer.test');
+	require('./ti.calendar.calendar.test');
+	require('./ti.codec.test');
+	require('./ti.contacts.test');
+	require('./ti.contacts.group.test');
+	require('./ti.contacts.person.test');
+	require('./ti.database.test');
+	require('./ti.filesystem.test');
+	require('./ti.filesystem.file.test');
+	require('./ti.filesystem.filestream.test');
+	require('./ti.geolocation.test');
+	require('./ti.gesture.test');
+	require('./ti.locale.test');
+	require('./ti.map.test');
+	require('./ti.media.test');
+	require('./ti.media.audioplayer.test');
+	require('./ti.media.sound.test');
+	require('./ti.media.videoplayer.test');
+	require('./ti.network.test');
+	require('./ti.network.cookie.test');
+	require('./ti.network.httpclient.test');
+	require('./ti.network.socket.tcp.test');
+	require('./ti.network.socket.udp.test');
+	require('./ti.platform.test');
+	require('./ti.platform.displaycaps.test');
+	require('./ti.proxy.test');
+	require('./ti.stream.test');
+	require('./ti.test');
+	require('./ti.ui.test');
+	require('./ti.ui.2dmatrix.test');
+	require('./ti.ui.matrix2d.test');
+	require('./ti.ui.activityindicator.test');
+	require('./ti.ui.alertdialog.test');
+	require('./ti.ui.android.drawerlayout.test');
+	require('./ti.ui.attributedstring.test');
+	require('./ti.ui.button.test');
+	require('./ti.ui.constants.test');
+	require('./ti.ui.emaildialog.test');
+	require('./ti.ui.imageview.test');
+	require('./ti.ui.ios.test');
+	require('./ti.ui.ios.navigationwindow.test');
+	require('./ti.ui.ios.previewcontext.test');
+	require('./ti.ui.ios.splitwindow.test');
+	require('./ti.ui.ios.webviewconfiguration.test');
+	require('./ti.ui.label.test');
+	require('./ti.ui.layout.test');
+	require('./ti.ui.listview.test');
+	require('./ti.ui.maskedimage.test');
+	require('./ti.ui.navigationwindow.test');
+	require('./ti.ui.optiondialog.test');
+	require('./ti.ui.picker.test');
+	require('./ti.ui.progressbar.test');
+	require('./ti.ui.scrollableview.test');
+	require('./ti.ui.scrollview.test');
+	require('./ti.ui.searchbar.test');
+	require('./ti.ui.slider.test');
+	require('./ti.ui.switch.test');
+	require('./ti.ui.tab.test');
+	require('./ti.ui.tabbedbar.test');
+	require('./ti.ui.tabgroup.test');
+	require('./ti.ui.tableview.test');
+	require('./ti.ui.textarea.test');
+	require('./ti.ui.textfield.test');
+	require('./ti.ui.toolbar.test');
+	require('./ti.ui.view.test');
+	require('./ti.ui.webview.test');
+	require('./ti.ui.window.test');
+	require('./ti.ui.windows.commandbar.test');
+	require('./ti.utils.test');
+	require('./ti.xml.test');
 
-// Load in any of the files added to the test/Resources folder of the SDK repos
+	// Load in any of the files added to the test/Resources folder of the SDK repos
 
-loadAddonTestFiles(Ti.Filesystem.resourcesDirectory);
+	loadAddonTestFiles(Ti.Filesystem.resourcesDirectory);
+}
 
 function loadAddonTestFiles (name) {
 	var info = Ti.Filesystem.getFile(name);
@@ -326,16 +328,23 @@ win = Ti.UI.createWindow({
 	keepScreenOn: true
 });
 win.addEventListener('open', function () {
-	// Start executing the test suite.
-	mocha.run(function () {
-		// We've finished executing all tests.
-		win.backgroundColor = failed ? 'red' : 'green';
-		Ti.API.info('!TEST_RESULTS_STOP!');
-		if (utilities.isWindows()) {
-			if (Ti.App.Windows.closeExtendedExecution) {
-				Ti.App.Windows.closeExtendedExecution();
+	setTimeout(function () {
+		mocha.setup({
+			reporter: $Reporter,
+			quiet: true
+		});
+		loadTests();
+		// Start executing the test suite.
+		mocha.run(function () {
+			// We've finished executing all tests.
+			win.backgroundColor = failed ? 'red' : 'green';
+			Ti.API.info('!TEST_RESULTS_STOP!');
+			if (utilities.isWindows()) {
+				if (Ti.App.Windows.closeExtendedExecution) {
+					Ti.App.Windows.closeExtendedExecution();
+				}
 			}
-		}
-	});
+		});
+	}, 25);
 });
 win.open();
