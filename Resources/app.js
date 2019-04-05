@@ -153,7 +153,7 @@ function loadTests() {
 	require('./ti.ui.windows.commandbar.test');
 	require('./ti.utils.test');
 	require('./ti.xml.test');
-	
+
 	// Load in any of the files added to the test/Resources folder of the SDK repos
 
 	loadAddonTestFiles(Ti.Filesystem.resourcesDirectory);
