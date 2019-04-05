@@ -311,11 +311,6 @@ function $Reporter(runner) {
 	});
 }
 
-mocha.setup({
-	reporter: $Reporter,
-	quiet: true
-});
-
 if (utilities.isWindows()) {
 	if (Ti.App.Windows.requestExtendedExecution) {
 		Ti.App.Windows.requestExtendedExecution();
