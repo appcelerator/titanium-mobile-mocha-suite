@@ -262,7 +262,7 @@ describe('Titanium.UI.WebView', function () {
 		w.open();
 	});
 
-	it.windows('url (ms-appx-data)', function (finish) {
+	it.windowsBroken('url (ms-appx-data)', function (finish) {
 		var w,
 			webview;
 
