@@ -352,7 +352,7 @@ describe('Titanium.Codec', function () {
 		should(str).eql('The system is down');
 	});
 
-	describe('#encodeNumber', function () {
+	describe.windowsBroken('#encodeNumber', function () {
 		it('should throw Error when "dest" not specified', function () {
 			should(function () {
 				Ti.Codec.encodeNumber({
@@ -387,7 +387,7 @@ describe('Titanium.Codec', function () {
 		});
 	});
 
-	describe('#decodeNumber', function () {
+	describe.windowsBroken('#decodeNumber', function () {
 		it('should throw Error when "source" not specified', function () {
 			should(function () {
 				var buffer = Ti.createBuffer({
