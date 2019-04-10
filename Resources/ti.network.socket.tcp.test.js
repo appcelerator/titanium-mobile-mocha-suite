@@ -75,7 +75,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 
 	// FIXME: iOS fires the connected event twice
 	// FIXME: Android chokes with : android.os.NetworkOnMainThreadException
-	it.windowsBroken('#connect() and receive data', function (finish) {
+	it('#connect() and receive data', function (finish) {
 		var buffer = '';
 		socket = Ti.Network.Socket.createTCP({
 			host: 'pastebin.com', port: 80,
@@ -113,7 +113,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 		socket.connect();
 	});
 
-	it.windowsMissing('#connect() and #write() async', function (finish) {
+	it('#connect() and #write() async', function (finish) {
 		socket = Ti.Network.Socket.createTCP({
 			host: 'www.appcelerator.com',
 			port: 80,
@@ -139,7 +139,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 		socket.connect();
 	});
 
-	it.windowsBroken('#connect(), #write(), #pump() async', function (finish) {
+	it('#connect(), #write(), #pump() async', function (finish) {
 		var buffer = '';
 		socket = Ti.Network.Socket.createTCP({
 			host: 'pastebin.com',

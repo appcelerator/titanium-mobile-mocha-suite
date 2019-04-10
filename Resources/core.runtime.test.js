@@ -76,8 +76,7 @@ describe.windowsBroken('Core', () => {
 						view.foo.should.be.equal('bar');
 					});
 
-					// FIXME: Windows returns object instead of string
-					it.windowsBroken('should properly handle properties with value of nil (TIMOB-26452)', () => {
+					it('should properly handle properties with value of nil (TIMOB-26452)', () => {
 						should(Ti.Geolocation).have.property('lastGeolocation');
 						if (utilities.isIOS()) {
 							should.not.exist(Ti.Geolocation.lastGeolocation);
