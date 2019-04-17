@@ -14,6 +14,39 @@ const utilities = require('./utilities/utilities');
 
 let util;
 
+/**
+ * Compares two version strings and returns true if the actual version is
+ * greater than or equal to the expected version
+ * @param {string} version actual version we're checking
+ * @param {string} expected version to match against
+ * @returns {boolean}
+ */
+function greaterOrEqualTo(version, expected) {
+	const expectedParts = expected.split('.');
+	const actualParts = version.split('.');
+	// Pad shorter array with 0s
+	while (expectedParts.length > actualParts.length) {
+		actualParts.push(0);
+	}
+	while (actualParts.length > expectedParts.length) {
+		expectedParts.push(0);
+	}
+	// shoudl be the same length now
+	const length = expectedParts.length;
+	for (let i = 0; i < length; i++) {
+		const actualNum = Number.parseInt(actualParts[i]);
+		const expectedNum = Number.parseInt(expectedParts[i]);
+		if (actualNum > expectedNum) {
+			return true;
+		}
+		if (actualNum < expectedNum) {
+			return false;
+		}
+		// else, continue to next segment
+	}
+	return true; // everything matched
+}
+
 describe('util', () => {
 	it('should be required as core module', () => {
 		util = require('util');
@@ -603,11 +636,13 @@ describe('util', () => {
 				foobar: 1,
 				func: function () {}
 			};
-			// In Node 10+, we can sort the properties to ensure order to match, otheerwise JSC/V8 return arguments/caller in different order on Functions
+			// In Node 10+, we can sort the properties to ensure order to match, otherwise JSC/V8 return arguments/caller in different order on Functions
 			let expected = '{ foo: \'bar\', foobar: 1, func: { [Function: func] [arguments]: null, [caller]: null, [length]: 0, [name]: \'func\', [prototype]: func { [constructor]: [Circular] } } }';
 			if (utilities.isAndroid()) {
 				// FIXME: On V8/Android we are not getting 'arguments' and 'caller' properties!
 				// This may be because in newer specs/strict mode they shouldn't be accessible?
+				expected = '{ foo: \'bar\', foobar: 1, func: { [Function: func] [length]: 0, [name]: \'func\', [prototype]: func { [constructor]: [Circular] } } }';
+			} else if (utilities.isIOS() && greaterOrEqualTo(Ti.Platform.version, '12.2')) { // iOS 12.2 removed arguments/caller
 				expected = '{ foo: \'bar\', foobar: 1, func: { [Function: func] [length]: 0, [name]: \'func\', [prototype]: func { [constructor]: [Circular] } } }';
 			}
 			util.inspect(obj, { showHidden: true, breakLength: Infinity })
@@ -626,6 +661,8 @@ describe('util', () => {
 			if (utilities.isAndroid()) {
 				// FIXME: On V8/Android we are not getting 'arguments' and 'caller' properties!
 				// This may be because in newer specs/strict mode they shouldn't be accessible?
+				expected = '{ foo: \'bar\', foobar: 1, func: [ { a: { [Function: a] [length]: 0, [name]: \'a\', [prototype]: a { [constructor]: [Circular] } } }, [length]: 1 ] }';
+			} else if (utilities.isIOS() && greaterOrEqualTo(Ti.Platform.version, '12.2')) { // iOS 12.2 removed arguments/caller
 				expected = '{ foo: \'bar\', foobar: 1, func: [ { a: { [Function: a] [length]: 0, [name]: \'a\', [prototype]: a { [constructor]: [Circular] } } }, [length]: 1 ] }';
 			}
 
