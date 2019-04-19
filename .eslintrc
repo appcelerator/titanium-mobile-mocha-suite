@@ -15,6 +15,13 @@
   },
   "overrides": [
     {
+      "files": [ "plugins/*/hooks/*.js" ],
+      "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "module"
+      }
+    },
+    {
       "files": [ "Resources/es6.*.js" ],
       "parserOptions": {
         "ecmaVersion": 2017,
