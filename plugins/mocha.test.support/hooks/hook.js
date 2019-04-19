@@ -7,7 +7,6 @@
 'use strict';
 
 const appc = require('node-appc');
-const async = require('async');
 const path = require('path');
 
 exports.cliVersion = '>=3.2';
@@ -15,7 +14,7 @@ exports.cliVersion = '>=3.2';
 let ANDROID_SDK = process.env.ANDROID_SDK; // eslint-disable-line no-undef
 let ADB_PATH;
 
-exports.init = function (logger, config, cli) {
+exports.init = (logger, config, cli) => {
 
 	// Obtain Android SDK used by CLI
 	if (cli.argv['android-sdk']) {
@@ -25,39 +24,46 @@ exports.init = function (logger, config, cli) {
 	// Set ADB path
 	ADB_PATH = path.join(ANDROID_SDK, 'platform-tools', 'adb');
 
-	cli.on('build.post.compile', function (builder, done) {
+	cli.on('build.post.compile', async (builder, done) => {
 		if (builder.platformName === 'android') {
-			dismissAndroidScreenLock(logger, builder, done);
-		} else {
-			done();
+			await wakeDevices(logger, builder).catch(e => console.warn(`could not wake ${builder.deviceId}: ${e}`));
 		}
+		done();
 	});
 };
 
-function adbRun(argumentArray, callback) {
-	appc.subprocess.run(ADB_PATH, argumentArray, { shell: false, windowsHide: true }, callback);
+async function adbRun(argumentArray) {
+	return new Promise(resolve => appc.subprocess.run(ADB_PATH, argumentArray, { shell: false, windowsHide: true }, resolve));
 }
 
-function dismissAndroidScreenLock(logger, builder, callback) {
-	const deviceId = builder.target === 'emulator' ? [] : [ '-s', builder.deviceId ];
-	logger.info(`Dismissing Android screen-lock for ${builder.deviceId}`);
-	async.series([
-		function (next) {
-			// Power on the screen if currently off.
-			adbRun(deviceId.concat([ 'shell', 'input', 'keyevent', 'KEYCODE_MENU' ]), next);
-		},
-		function (next) {
-			// Remove the screen-lock and show the home screen.
-			adbRun(deviceId.concat([ 'shell', 'input', 'keyevent', 'KEYCODE_MENU' ]), next);
-		},
-		function (next) {
-			// If the screen-lock was never shown to begin with, then the above might show
-			// the home screen's page selection interface. Clear out of it with the home key.
-			adbRun(deviceId.concat([ 'shell', 'input', 'keyevent', 'KEYCODE_HOME' ]), next);
-		},
-		function (next) {
-			// Set the device's screen idle timer to 30 minutes. (The default is 30 seconds.)
-			adbRun(deviceId.concat([ 'shell', 'settings', 'put', 'system', 'screen_off_timeout', '1800000' ]), next);
-		},
-	], callback);
+async function wakeDevices(logger, builder) {
+
+	async function wake(device) {
+		logger.info(`Waking up ${device}`);
+
+		const deviceId = device !== 'emulator' ? [ '-s', device ] : [];
+
+		// Power on the screen if currently off.
+		await adbRun([ ...deviceId, 'shell', 'input', 'keyevent', 'KEYCODE_MENU' ]);
+
+		// Remove the screen-lock and show the home screen.
+		await adbRun([ ...deviceId, 'shell', 'input', 'keyevent', 'KEYCODE_MENU' ]);
+
+		// If the screen-lock was never shown to begin with, then the above might show
+		// the home screen's page selection interface. Clear out of it with the home key.
+		await adbRun([ ...deviceId, 'shell', 'input', 'keyevent', 'KEYCODE_HOME' ]);
+
+		// Set the device's screen idle timer to 30 minutes. (The default is 30 seconds.)
+		await adbRun([ ...deviceId, 'shell', 'settings', 'put', 'system', 'screen_off_timeout', '1800000' ]);
+	}
+
+	if (builder.deviceId === 'all') {
+		for (const device of builder.devices) {
+			if (device.id !== 'all') {
+				await wake(device.id);
+			}
+		}
+	} else {
+		await wake(builder.deviceId);
+	}
 }
