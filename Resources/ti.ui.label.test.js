@@ -148,7 +148,7 @@ describe('Titanium.UI.Label', function () {
 
 	// set ellipsize in the label
 	// Default: Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_END
-	it.windowsBroken('ellipsize', function () {
+	it('ellipsize', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
