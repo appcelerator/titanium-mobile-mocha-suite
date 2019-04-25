@@ -11,10 +11,6 @@
 var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
-// NOTE: Windows is reporting String values for top/left/bottom/right when other platforms report Numbers
-// https://jira.appcelerator.org/browse/TIMOB-26791
-// for now, I've made the tests use loose comparions to coerce implicitly
-
 describe('Titanium.UI.View', function () {
 	var rootWindow,
 		win,
@@ -398,14 +394,8 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.rect.x).be.eql(100);
 						should(view.rect.y).be.eql(150); // Android reports 100
-						if (utilities.isWindows()) {
-							// Windows reports String values, so we need loose equality
-							should.equal(view.left, 100);
-							should.equal(view.top, 100);
-						} else {
-							should(view.left).be.eql(100);
-							should(view.top).be.eql(100);
-						}
+						should(view.left).be.eql(100);
+						should(view.top).be.eql(100);
 
 						finish();
 					} catch (err) {
@@ -444,14 +434,8 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.rect.x).be.eql(150); // Android reports 100
 						should(view.rect.y).be.eql(100);
-						if (utilities.isWindows()) {
-							// Windows reports String values, so we need loose equality
-							should.equal(view.left, 100);
-							should.equal(view.top, 100);
-						} else {
-							should(view.left).be.eql(100);
-							should(view.top).be.eql(100);
-						}
+						should(view.left).be.eql(100);
+						should(view.top).be.eql(100);
 
 						finish();
 					} catch (err) {
@@ -541,14 +525,8 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.rect.x).be.approximately(view.rect.width * 9, 10);
 						should(view.rect.y).be.eql(0);
-						if (utilities.isWindows()) {
-							// Windows reports String values, so we need loose equality
-							should.equal(view.left, 0);
-							should.equal(view.top, 0);
-						} else {
-							should(view.left).be.eql(0);
-							should(view.top).be.eql(0);
-						}
+						should(view.left).be.eql(0);
+						should(view.top).be.eql(0);
 
 						finish();
 					} catch (err) {
@@ -583,14 +561,8 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.rect.x).be.eql(0);
 						should(view.rect.y).be.approximately(view.rect.height * 9, 10);
-						if (utilities.isWindows()) {
-							// Windows reports String values, so we need loose equality
-							should.equal(view.left, 0);
-							should.equal(view.top, 0);
-						} else {
-							should(view.left).be.eql(0);
-							should(view.top).be.eql(0);
-						}
+						should(view.left).be.eql(0);
+						should(view.top).be.eql(0);
 
 						finish();
 					} catch (err) {

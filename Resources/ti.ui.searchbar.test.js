@@ -282,12 +282,7 @@ describe('Titanium.UI.SearchBar', function () {
 				win.remove(table);
 				win.add(table);
 
-				if (utilities.isWindows()) {
-					// FIXME: https://github.com/appcelerator/titanium-mobile-mocha-suite/pull/115
-					should.equal(sb.getHeight(), 44);
-				} else {
-					should(sb.getHeight()).eql(44);
-				}
+				should(sb.getHeight()).eql(44);
 				should(sb.getShowCancel()).be.false;
 				should(sb.getBarColor()).eql('blue');
 				finish();

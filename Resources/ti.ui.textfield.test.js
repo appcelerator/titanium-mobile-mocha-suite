@@ -225,12 +225,7 @@ describe('Titanium.UI.TextField', function () {
 
 		win.addEventListener('focus', function () {
 			try {
-				if (utilities.isWindows()) {
-					// FIXME: https://jira.appcelerator.org/browse/TIMOB-26791
-					should.equal(bgView.height, 100);
-				} else {
-					should(bgView.height).be.eql(100);
-				}
+				should(bgView.height).be.eql(100);
 				should(textfield.height).not.be.greaterThan(100);
 				return finish();
 			} catch (err) {
