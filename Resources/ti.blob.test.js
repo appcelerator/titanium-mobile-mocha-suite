@@ -13,9 +13,14 @@ var should = require('./utilities/assertions');
 describe('Titanium.Blob', function () {
 	var win;
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});

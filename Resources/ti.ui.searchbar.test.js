@@ -14,9 +14,14 @@ var utilities = require('./utilities/utilities');
 describe('Titanium.UI.SearchBar', function () {
 	var win;
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});

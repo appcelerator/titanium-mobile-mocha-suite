@@ -26,9 +26,14 @@ describe('Titanium.UI.Layout', function () {
 		didPostlayout = false;
 	});
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});

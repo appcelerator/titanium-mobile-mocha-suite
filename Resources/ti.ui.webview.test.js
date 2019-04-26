@@ -16,9 +16,14 @@ describe('Titanium.UI.WebView', function () {
 	this.slow(3000);
 	this.timeout(30000);
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});

@@ -14,9 +14,14 @@ describe('Titanium.UI.Button', function () {
 	var win;
 	this.timeout(5000);
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});

@@ -17,9 +17,14 @@ describe('Titanium.UI.Picker', function () {
 
 	this.timeout(10000);
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});

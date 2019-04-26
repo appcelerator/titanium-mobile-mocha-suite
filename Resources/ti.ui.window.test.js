@@ -11,39 +11,20 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.Window', function () {
-	var win,
-		rootWindow;
+	var win;
 
 	this.timeout(5000);
 
-	// Create and open a root window for the rest of the below child window tests to use as a parent.
-	// We're not going to close this window until the end of this test suite.
-	// Note: Android needs this so that closing the last window won't back us out of the app.
-	before(function (finish) {
-		rootWindow = Ti.UI.createWindow();
-		rootWindow.addEventListener('open', function () {
-			finish();
-		});
-		rootWindow.open();
-	});
-
-	after(function (finish) {
-		rootWindow.addEventListener('close', function () {
-			finish();
-		});
-		rootWindow.close();
-	});
-
 	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
-
-		// timeout to allow window to close
-		setTimeout(() => {
-			done();
-		}, 500);
 	});
 
 	it('.title', function () {
@@ -678,10 +659,10 @@ describe('Titanium.UI.Window', function () {
 			try {
 				var padding = win.safeAreaPadding;
 				should(padding).be.a.Object;
-				should(padding.top).be.greaterThan(0);
-				should(padding.bottom).be.greaterThan(0);
-				should(padding.left >= 0).be.true;
-				should(padding.right >= 0).be.true;
+				should(padding.top).be.aboveOrEqual(0);
+				should(padding.bottom).be.aboveOrEqual(0);
+				should(padding.left).be.aboveOrEqual(0);
+				should(padding.right).be.aboveOrEqual(0);
 				finish();
 			} catch (err) {
 				finish(err);

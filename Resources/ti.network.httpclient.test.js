@@ -587,7 +587,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			}
 		};
 
-		xhr.open('GET', 'https://www.nasa.gov/sites/default/files/thumbnails/image/sun_0.jpg');
+		xhr.open('GET', 'https://upload.wikimedia.org/wikipedia/commons/d/db/Titan-crystal_bar.JPG');
 		xhr.send();
 	});
 

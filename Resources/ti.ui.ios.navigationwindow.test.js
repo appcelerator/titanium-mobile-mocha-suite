@@ -17,7 +17,7 @@ describe.ios('Titanium.UI.iOS.NavigationWindow', function () {
 	this.timeout(10000);
 
 	afterEach(function () {
-		if (nav !== null) {
+		if (nav) {
 			nav.close();
 		}
 		nav = null;

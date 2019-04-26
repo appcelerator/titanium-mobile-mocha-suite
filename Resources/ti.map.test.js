@@ -13,38 +13,19 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.Map', function () {
 	let win;
-	let rootWindow;
 
 	this.timeout(5000);
 
-	// Create and open a root window for the rest of the below child window tests to use as a parent.
-	// We're not going to close this window until the end of this test suite.
-	// Note: Android needs this so that closing the last window won't back us out of the app.
-	before(function (finish) {
-		rootWindow = Ti.UI.createWindow();
-		rootWindow.addEventListener('open', function () {
-			finish();
-		});
-		rootWindow.open();
-	});
-
-	after(function (finish) {
-		rootWindow.addEventListener('close', function () {
-			finish();
-		});
-		rootWindow.close();
-	});
-
 	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
-
-		// timeout to allow window to close
-		setTimeout(() => {
-			done();
-		}, 500);
 	});
 
 	// FIXME Gives bad value for Android
@@ -226,7 +207,8 @@ describe('Titanium.Map', function () {
 	});
 
 	// Intentional skip, constant only for Android
-	it.android('#isGooglePlayServicesAvailable()', function () {
+	// NOTE: Skipping. ti.playservices.isGooglePlayServicesAvailable() should be used instead!
+	it.skip('#isGooglePlayServicesAvailable()', function () { // eslint-disable-line mocha/no-skipped-tests
 		var value;
 		should(Map.isGooglePlayServicesAvailable).be.a.Function;
 

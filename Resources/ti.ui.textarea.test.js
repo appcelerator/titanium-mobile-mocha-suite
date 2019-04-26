@@ -13,9 +13,14 @@ var should = require('./utilities/assertions');
 describe('Titanium.UI.TextArea', function () {
 	var win;
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});
@@ -207,8 +212,8 @@ describe('Titanium.UI.TextArea', function () {
 			subwin = Ti.UI.createWindow({ backgroundColor: 'blue' });
 
 			subwin.addEventListener('open', function () {
+				tabGroup.close();
 				finish();
-				// TODO: Clean up the tab group!
 			});
 
 			typingView = Ti.UI.createView();

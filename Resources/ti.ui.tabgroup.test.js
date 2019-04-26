@@ -13,17 +13,17 @@ const should = require('./utilities/assertions'); // eslint-disable-line no-unus
 // skipping many test on Windows due to lack of event firing, see https://jira.appcelerator.org/browse/TIMOB-26690
 describe('Titanium.UI.TabGroup', () => {
 	let tabGroup;
-	let tab;
 
-	afterEach(() => {
+	afterEach(function (done) {
 		if (tabGroup) {
-			if (tab) {
-				tabGroup.removeTab(tab);
-			}
+			tabGroup.addEventListener('close', function () {
+				done();
+			});
 			tabGroup.close();
 			tabGroup = null;
+		} else {
+			done();
 		}
-		tab = null;
 	});
 
 	it.windowsBroken('add Map.View to TabGroup', function (finish) {
@@ -37,7 +37,7 @@ describe('Titanium.UI.TabGroup', () => {
 		win.add(mapView);
 
 		tabGroup = Ti.UI.createTabGroup();
-		tab = Ti.UI.createTab({
+		const tab = Ti.UI.createTab({
 			title: 'Tab',
 			window: win
 		});
@@ -47,9 +47,9 @@ describe('Titanium.UI.TabGroup', () => {
 	});
 
 	it.ios('.tabs', () => {
-		var win = Ti.UI.createWindow();
+		const win = Ti.UI.createWindow();
 		tabGroup = Ti.UI.createTabGroup();
-		tab = Ti.UI.createTab({
+		const tab = Ti.UI.createTab({
 			title: 'Tab',
 			window: win
 		});
@@ -61,11 +61,11 @@ describe('Titanium.UI.TabGroup', () => {
 	});
 
 	it.ios('.allowUserCustomization', () => {
-		var win = Ti.UI.createWindow();
+		const win = Ti.UI.createWindow();
 		tabGroup = Ti.UI.createTabGroup({
 			allowUserCustomization: true
 		});
-		tab = Ti.UI.createTab({
+		const tab = Ti.UI.createTab({
 			title: 'Tab',
 			window: win
 		});
@@ -77,11 +77,11 @@ describe('Titanium.UI.TabGroup', () => {
 	});
 
 	it.ios('.tabsTranslucent', () => {
-		var win = Ti.UI.createWindow();
+		const win = Ti.UI.createWindow();
 		tabGroup = Ti.UI.createTabGroup({
 			tabsTranslucent: true
 		});
-		tab = Ti.UI.createTab({
+		const tab = Ti.UI.createTab({
 			title: 'Tab',
 			window: win
 		});
@@ -144,7 +144,7 @@ describe('Titanium.UI.TabGroup', () => {
 	});
 
 	it.android('#disableTabNavigation()', function (finish) {
-		var winA = Ti.UI.createWindow(),
+		const winA = Ti.UI.createWindow(),
 			tabA = Ti.UI.createTab({
 				title: 'Tab A',
 				window: winA
@@ -196,9 +196,9 @@ describe('Titanium.UI.TabGroup', () => {
 
 		// FIXME Windows doesn't fire open/close events
 		it.windowsMissing('close', finish => {
-			var win = Ti.UI.createWindow();
+			const win = Ti.UI.createWindow();
 			tabGroup = Ti.UI.createTabGroup();
-			tab = Ti.UI.createTab({
+			const tab = Ti.UI.createTab({
 				title: 'Tab',
 				window: win
 			});
@@ -215,9 +215,9 @@ describe('Titanium.UI.TabGroup', () => {
 		// times out, presumably doesn't fire event?
 		// intermittently times out on Android
 		it.windowsBroken('focus', finish => {
-			var win = Ti.UI.createWindow();
+			const win = Ti.UI.createWindow();
 			tabGroup = Ti.UI.createTabGroup();
-			tab = Ti.UI.createTab({
+			const tab = Ti.UI.createTab({
 				window: win,
 				title: 'Tab'
 			});
@@ -234,9 +234,9 @@ describe('Titanium.UI.TabGroup', () => {
 
 		// times out, presumably doesn't fire event?
 		it.windowsBroken('blur', finish => {
-			var win = Ti.UI.createWindow();
+			const win = Ti.UI.createWindow();
 			tabGroup = Ti.UI.createTabGroup();
-			tab = Ti.UI.createTab({
+			const tab = Ti.UI.createTab({
 				title: 'Tab',
 				window: win
 			});
@@ -425,7 +425,7 @@ describe('Titanium.UI.TabGroup', () => {
 	});
 
 	it('title after drawing the TabGroup', () => {
-		var winA = Ti.UI.createWindow(),
+		const winA = Ti.UI.createWindow(),
 			winB = Ti.UI.createWindow(),
 			tabA = Ti.UI.createTab({ title: 'titleA', window: winA }),
 			tabB = Ti.UI.createTab({ title: 'titleB', window: winB }),

@@ -19,9 +19,14 @@ describe('Titanium.UI.Label', function () {
 		didPostLayout = false;
 	});
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});
@@ -69,7 +74,7 @@ describe('Titanium.UI.Label', function () {
 		win.add(label2);
 		win.addEventListener('postlayout', function () {
 			// Both labels are expected to be 1 line tall.
-			should(label1.size.height).eql(label2.size.height);
+			should(label1.size.height).be.approximately(label2.size.height, 1);
 			finish();
 		});
 		win.open();
@@ -254,8 +259,7 @@ describe('Titanium.UI.Label', function () {
 
 	// Intermittent timeout on Android. FIXME Shoudl be using postlayout event, not open
 	it.androidBroken('border (without width/height)', function (finish) {
-		var win,
-			label;
+		var label;
 		this.timeout(3000);
 		win = Ti.UI.createWindow();
 		label = Ti.UI.createLabel({

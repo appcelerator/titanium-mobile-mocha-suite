@@ -12,32 +12,18 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI', function () {
-	var win,
-		rootWindow;
+	var win;
 
 	this.timeout(5000);
 
-	// Create and open a root window for the rest of the below child window tests to use as a parent.
-	// We're not going to close this window until the end of this test suite.
-	// Note: Android needs this so that closing the last window won't back us out of the app.
-	before(function (finish) {
-		rootWindow = Ti.UI.createWindow();
-		rootWindow.addEventListener('open', function () {
-			finish();
-		});
-		rootWindow.open();
-	});
-
-	after(function (finish) {
-		rootWindow.addEventListener('close', function () {
-			finish();
-		});
-		rootWindow.close();
-	});
-
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});

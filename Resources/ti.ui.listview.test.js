@@ -14,9 +14,14 @@ describe('Titanium.UI.ListView', function () {
 	var win;
 	this.timeout(6e4);
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});
@@ -896,10 +901,10 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	it.android('listView with Ti.UI.Android.CardView', function (finish) {
-		var win = Ti.UI.createWindow({
-				backgroundColor: 'gray'
-			}),
-			listView = Ti.UI.createListView({
+		win = Ti.UI.createWindow({
+			backgroundColor: 'gray'
+		});
+		var listView = Ti.UI.createListView({
 				templates: {
 					test: {
 						childTemplates: [ {

@@ -12,35 +12,24 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.View', function () {
-	var rootWindow,
-		win,
+	var win,
 		didPostLayout = false;
 
 	this.slow(2000);
 	this.timeout(10000);
 
-	before(function (finish) {
-		rootWindow = Ti.UI.createWindow();
-		rootWindow.addEventListener('open', function () {
-			finish();
-		});
-		rootWindow.open();
-	});
-
-	after(function (finish) {
-		rootWindow.addEventListener('close', function () {
-			finish();
-		});
-		rootWindow.close();
-	});
-
 	beforeEach(function () {
 		didPostLayout = false;
 	});
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
+			win.addEventListener('close', function () {
+				done();
+			});
 			win.close();
+		} else {
+			done();
 		}
 		win = null;
 	});
@@ -773,7 +762,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	it.ios('.horizontalMotionEffect, .verticalMotionEffect', function (finish) {
-		var win = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 
