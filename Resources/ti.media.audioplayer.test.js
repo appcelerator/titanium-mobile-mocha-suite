@@ -19,11 +19,16 @@ describe('Titanium.Media', function () {
 describe('Titanium.Media.AudioPlayer', function () {
 	var audioPlayer;
 
+	this.timeout(5000);
+
 	beforeEach(function () {
 		audioPlayer = Ti.Media.createAudioPlayer({ url: '/sample.mp3' });
 	});
 
 	afterEach(function () {
+		if (audioPlayer) {
+			audioPlayer.release();
+		}
 		audioPlayer = null;
 	});
 
@@ -96,7 +101,6 @@ describe('Titanium.Media.AudioPlayer', function () {
 	});
 
 	it.windowsMissing('.duration', function (finish) {
-		this.timeout(2000);
 		audioPlayer.start();
 
 		setTimeout(function () {
