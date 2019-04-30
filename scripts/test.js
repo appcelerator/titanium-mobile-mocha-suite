@@ -294,12 +294,13 @@ function handleBuild(prc, next) {
 	// Set encoding on the splitter Stream, so tokens come back as a String.
 	splitter.encoding = 'utf8';
 
-	function tryParsingTestResult(resultJSON) {
+	function tryParsingTestResult(resultJSON, device) {
 		//  grab out the JSON and add to our result set
 		try {
 			const result = JSON.parse(massageJSONString(resultJSON));
 			result.stdout = output; // record what we saw in output during the test
 			result.stderr = stderr; // record what we saw in output during the test
+			result.device = device; // specify device if available
 			results.push(result);
 			output = ''; // reset output
 			stderr = ''; // reset stderr
@@ -335,7 +336,12 @@ function handleBuild(prc, next) {
 		// check for test end
 		const testEndIndex = token.indexOf('!TEST_END: ');
 		if (testEndIndex !== -1) {
-			tryParsingTestResult(token.slice(testEndIndex + 11).trim());
+			const deviceStartIndex = token.indexOf('[', 1);
+			const deviceEndIndex = testEndIndex - 2;
+			const deviceName = deviceStartIndex > 0 && deviceStartIndex < testEndIndex ?
+				token.slice(deviceStartIndex + 1, deviceEndIndex).trim() : undefined;
+
+			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), deviceName);
 			return;
 		}
 
