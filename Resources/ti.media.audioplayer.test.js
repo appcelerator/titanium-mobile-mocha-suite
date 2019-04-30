@@ -26,7 +26,8 @@ describe('Titanium.Media.AudioPlayer', function () {
 	});
 
 	afterEach(function () {
-		if (audioPlayer) {
+		// FIXME: calling release() on iOS is broken
+		if (audioPlayer && Ti.App.Android) {
 			audioPlayer.release();
 		}
 		audioPlayer = null;
