@@ -212,6 +212,7 @@ describe('Titanium.UI.TextArea', function () {
 			subwin = Ti.UI.createWindow({ backgroundColor: 'blue' });
 
 			subwin.addEventListener('open', function () {
+				subwin.close();
 				tabGroup.close();
 				finish();
 			});
