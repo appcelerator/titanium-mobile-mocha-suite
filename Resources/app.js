@@ -317,6 +317,9 @@ if (utilities.isWindows()) {
 	}
 }
 
+// Emit OS version
+Ti.API.info('OS_VERSION: ' + Ti.Platform.version);
+
 // Display a window to host the test and show the final result.
 win = Ti.UI.createWindow({
 	backgroundColor: 'yellow',

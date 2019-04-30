@@ -289,18 +289,20 @@ function handleBuild(prc, next) {
 	let stderr = '';
 	let sawTestEnd = false;
 	let partialTestEnd = '';
+	let os_versions = {};
 
 	const splitter = prc.stdout.pipe(StreamSplitter('\n'));
 	// Set encoding on the splitter Stream, so tokens come back as a String.
 	splitter.encoding = 'utf8';
 
-	function tryParsingTestResult(resultJSON, device) {
+	function tryParsingTestResult(resultJSON, device, os_version) {
 		//  grab out the JSON and add to our result set
 		try {
 			const result = JSON.parse(massageJSONString(resultJSON));
 			result.stdout = output; // record what we saw in output during the test
 			result.stderr = stderr; // record what we saw in output during the test
-			result.device = device; // specify device if available
+			result.device = device && device.length ? device : undefined; // specify device if available
+			result.os_version = os_version; // specify os version if available
 			results.push(result);
 			output = ''; // reset output
 			stderr = ''; // reset stderr
@@ -313,6 +315,14 @@ function handleBuild(prc, next) {
 			sawTestEnd = true;
 			return false;
 		}
+	}
+
+	function getDeviceName(token) {
+		let segments = token.split(']');
+		if (segments.length > 1 && segments[1].includes(':') && segments[1].includes('[')) {
+			return segments[1].split('[')[1].trim();
+		}
+		return '';
 	}
 
 	splitter.on('token', function (token) {
@@ -333,15 +343,18 @@ function handleBuild(prc, next) {
 			return;
 		}
 
+		// obtain os version
+		if (token.includes('OS_VERSION')) {
+			const device = getDeviceName(token);
+			os_versions[device] = token.slice(token.indexOf('OS_VERSION') + 12).trim();
+			return;
+		}
+
 		// check for test end
 		const testEndIndex = token.indexOf('!TEST_END: ');
 		if (testEndIndex !== -1) {
-			const deviceStartIndex = token.indexOf('[', 1);
-			const deviceEndIndex = testEndIndex - 2;
-			const deviceName = deviceStartIndex > 0 && deviceStartIndex < testEndIndex ?
-				token.slice(deviceStartIndex + 1, deviceEndIndex).trim() : undefined;
-
-			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), deviceName);
+			const device = getDeviceName(token);
+			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, os_versions[device]);
 			return;
 		}
 

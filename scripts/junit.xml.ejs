@@ -20,10 +20,19 @@ suites.forEach(function(currentSuite)
 <%
 	} else {
 		currentSuite.tests.forEach(function(test) {
+
+		let title = test.title;
+		if (test.device) {
+			title += ` (${test.device}`;
+			if (test.os_version) {
+				title += ` - ${test.os_version}`;
+			}
+			title += ')';
+		}
 -%>
 		<testcase
 		 classname="<%= prefix ? (prefix + '.') : '' %><%= currentSuite.suite %>"
-		 name="<%= test.title + (test.device ? ` (${test.device})` : '') %>"
+		 name="<%= title %>"
 		 time="<%= (test.duration / 1000.0) %>">
 <% 			if (test.state == "failed") {
 				if (test.error.name === 'AssertionError') { -%>
