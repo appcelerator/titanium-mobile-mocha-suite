@@ -660,7 +660,7 @@ describe('Titanium.UI.Layout', function () {
 	});
 
 	// functional test #1044 CenterXPrecedence
-	it.androidAndWindowsBroken('centerXPrecedence', function (finish) {
+	it.androidBroken('centerXPrecedence', function (finish) {
 		var view = Ti.UI.createView({
 				height: 200,
 				width: 200,
@@ -750,7 +750,7 @@ describe('Titanium.UI.Layout', function () {
 	});
 
 	// functional test #1048 CenterYPrecedence
-	it.androidAndWindowsBroken('centerYPrecedence', function (finish) {
+	it.androidBroken('centerYPrecedence', function (finish) {
 		var view = Ti.UI.createView({
 				height: 200,
 				width: 200,
