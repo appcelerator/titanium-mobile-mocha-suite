@@ -197,7 +197,7 @@ describe('Titanium.UI.TextField', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(win.width).be.greaterThan(100);
-				should(textfield.width).not.be.greaterThan(win.width);
+				should(textfield.width).eql(Ti.UI.SIZE);
 				return finish();
 			} catch (err) {
 				finish(err);
