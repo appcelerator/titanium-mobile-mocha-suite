@@ -181,9 +181,8 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintType()).eql(Ti.UI.HINT_TYPE_STATIC);
 	});
 
-	// FIXME win.width is undefined on Android and iOS here. Test needs to be rewritten. Likely need to use postlayout to get values?
-	// FIXME Windows Desktop gives: expected '' to be above 100
-	it.allBroken('width', function (finish) {
+	// TODO: This works on iOS and Windows. Need to be tested on Android.
+	it.androidBroken('width', function (finish) {
 		var textfield;
 		this.timeout(5000);
 		textfield = Ti.UI.createTextField({
@@ -194,10 +193,10 @@ describe('Titanium.UI.TextField', function () {
 			backgroundColor: '#ddd'
 		});
 		win.add(textfield);
-		win.addEventListener('focus', function () {
+		win.addEventListener('postlayout', function () {
 			try {
-				should(win.width).be.greaterThan(100);
-				should(textfield.width).not.be.greaterThan(win.width);
+				should(win.rect.width).be.greaterThan(100);
+				should(textfield.rect.width).not.be.greaterThan(win.rect.width);
 				return finish();
 			} catch (err) {
 				finish(err);
