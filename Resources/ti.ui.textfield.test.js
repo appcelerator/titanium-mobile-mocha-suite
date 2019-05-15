@@ -181,8 +181,7 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintType()).eql(Ti.UI.HINT_TYPE_STATIC);
 	});
 
-	// TODO: This works on iOS and Windows. Need to be tested on Android.
-	it.androidBroken('width', function (finish) {
+	it('width', function (finish) {
 		var textfield;
 		this.timeout(5000);
 		textfield = Ti.UI.createTextField({
