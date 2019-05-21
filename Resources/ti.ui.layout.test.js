@@ -1885,46 +1885,46 @@ describe('Titanium.UI.Layout', function () {
 	// TIMOB-23305
 	//
 	// Label width should be updated when setting new text
-    it('TIMOB-23305', function (finish) {
-        var label = Ti.UI.createLabel({
-            text: 'Lorem ipsum dolor sit amet',
-            backgroundColor: 'orange',
-        }),
-            savedRect = {};
+	it('TIMOB-23305', function (finish) {
+		var label = Ti.UI.createLabel({
+			text: 'Lorem ipsum dolor sit amet',
+			backgroundColor: 'orange',
+		}),
+			savedRect = {};
 
-        win = createWindow();
+		win = createWindow();
 
-        win.addEventListener('postlayout', function () {
-            if (didPostlayout) {
-                return;
-            }
-            didPostlayout = true;
-            try {
-                savedRect = label.rect;
-                should(label.rect.width).not.eql(0);
-                should(label.rect.height).not.eql(0);
-                label.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mollis rutrum dignissim.';
-            } catch (err) {
-                finish(err);
-            }
+		win.addEventListener('postlayout', function () {
+			if (didPostlayout) {
+				return;
+			}
+			didPostlayout = true;
+			try {
+				savedRect = label.rect;
+				should(label.rect.width).not.eql(0);
+				should(label.rect.height).not.eql(0);
+				label.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mollis rutrum dignissim.';
+			} catch (err) {
+				finish(err);
+			}
 
-            setTimeout(function () {
-                try {
-                    should(label.rect.width).not.eql(0);
-                    should(label.rect.height).not.eql(0);
-                    should(label.rect.width).greaterThan(savedRect.width);
-                    if (utilities.isWindowsPhone()) {
-                        should(label.rect.height).greaterThan(savedRect.height);
-                    }
-                    finish();
-                } catch (err) {
-                    finish(err);
-                }
-            }, 1000);
-        });
-        win.add(label);
-        win.open();
-    });
+			setTimeout(function () {
+				try {
+					should(label.rect.width).not.eql(0);
+					should(label.rect.height).not.eql(0);
+					should(label.rect.width).greaterThan(savedRect.width);
+					if (utilities.isWindowsPhone()) {
+						should(label.rect.height).greaterThan(savedRect.height);
+					}
+					finish();
+				} catch (err) {
+					finish(err);
+				}
+			}, 1000);
+		});
+		win.add(label);
+		win.open();
+	});
 
 	// TIMOB-23225
 	it('TIMOB-23225', function (finish) {
