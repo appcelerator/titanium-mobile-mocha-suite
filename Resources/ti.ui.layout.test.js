@@ -1887,9 +1887,9 @@ describe('Titanium.UI.Layout', function () {
 	// Label width should be updated when setting new text
 	it('TIMOB-23305', function (finish) {
 		var label = Ti.UI.createLabel({
-			text: 'Lorem ipsum dolor sit amet',
-			backgroundColor: 'orange',
-		}),
+				text: 'Lorem ipsum dolor sit amet',
+				backgroundColor: 'orange',
+			}),
 			savedRect = {};
 
 		win = createWindow();
