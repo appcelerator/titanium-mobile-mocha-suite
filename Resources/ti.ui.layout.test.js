@@ -1885,53 +1885,46 @@ describe('Titanium.UI.Layout', function () {
 	// TIMOB-23305
 	//
 	// Label width should be updated when setting new text
-	// FIXME Get working on iOS and Android. We can't rely on rect/size being valid in focus event!
-	// This is a bad test. Can't rely on values in focus event!
-	it.allBroken('TIMOB-23305', function (finish) {
-		var label = Ti.UI.createLabel({
-				text: 'Lorem ipsum dolor sit amet',
-				backgroundColor: 'orange',
-			}),
-			savedRect = {},
-			error;
+    it('TIMOB-23305', function (finish) {
+        var label = Ti.UI.createLabel({
+            text: 'Lorem ipsum dolor sit amet',
+            backgroundColor: 'orange',
+        }),
+            savedRect = {};
 
-		win = createWindow();
+        win = createWindow();
 
-		// FIXME Make sure we call finish after both events/assertion blocks happen!
-		// FIXME we can't rely on size/rect being valid on a focus event!
-		win.addEventListener('focus', function () {
-			Ti.API.info('Got focus event');
-			try {
-				should(label.rect.width).not.eql(0);
-				should(label.rect.height).not.eql(0);
-				should(label.rect.width).greaterThan(savedRect.width);
-				if (utilities.isWindowsPhone()) {
-					should(label.rect.height).greaterThan(savedRect.height);
-				}
-			} catch (err) {
-				error = err;
-			}
+        win.addEventListener('postlayout', function () {
+            if (didPostlayout) {
+                return;
+            }
+            didPostlayout = true;
+            try {
+                savedRect = label.rect;
+                should(label.rect.width).not.eql(0);
+                should(label.rect.height).not.eql(0);
+                label.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mollis rutrum dignissim.';
+            } catch (err) {
+                finish(err);
+            }
 
-			finish(error);
-		});
-		label.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
-
-			try {
-				savedRect = label.rect;
-				should(label.rect.width).not.eql(0);
-				should(label.rect.height).not.eql(0);
-				label.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mollis rutrum dignissim.';
-			} catch (err) {
-				error = err;
-			}
-		});
-		win.add(label);
-		win.open();
-	});
+            setTimeout(function () {
+                try {
+                    should(label.rect.width).not.eql(0);
+                    should(label.rect.height).not.eql(0);
+                    should(label.rect.width).greaterThan(savedRect.width);
+                    if (utilities.isWindowsPhone()) {
+                        should(label.rect.height).greaterThan(savedRect.height);
+                    }
+                    finish();
+                } catch (err) {
+                    finish(err);
+                }
+            }, 1000);
+        });
+        win.add(label);
+        win.open();
+    });
 
 	// TIMOB-23225
 	it('TIMOB-23225', function (finish) {
