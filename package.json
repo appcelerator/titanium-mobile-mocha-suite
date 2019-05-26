@@ -26,7 +26,7 @@
     "url": "https://github.com/appcelerator/titanium-mobile-mocha-suite/issues"
   },
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^3.0.1",
     "colors": "^1.3.3",
     "commander": "^2.20.0",
     "ejs": "~2.6.1",
