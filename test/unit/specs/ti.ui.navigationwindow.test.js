@@ -201,4 +201,21 @@ describe('Titanium.UI.Window', function () {
 
 		nav.open();
 	});
+
+	it('open window from open event of window (TIMOB-26838)', function (finish) {
+		var window = Ti.UI.createWindow();
+		nav = Ti.UI.createNavigationWindow({
+			window: window
+		});
+
+		var nextWindow = Ti.UI.createWindow();
+
+		nextWindow.addEventListener('open', function () {
+			finish();
+		});
+		window.addEventListener('open', function () {
+			nav.openWindow(nextWindow, { animated: true });
+		});
+		nav.open();
+	});
 });

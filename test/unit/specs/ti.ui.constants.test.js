@@ -21,6 +21,20 @@ describe('Titanium.UI', function () {
 		should(Ti.UI).have.a.constant('AUTOFILL_TYPE_ONE_TIME_CODE').which.is.a.String;
 	});
 
+	it.androidMissing('TEXT_STYLE_* constants', function () {
+		should(Ti.UI.TEXT_STYLE_HEADLINE).be.a.String;
+		should(Ti.UI.TEXT_STYLE_SUBHEADLINE).be.a.String;
+		should(Ti.UI.TEXT_STYLE_BODY).be.a.String;
+		should(Ti.UI.TEXT_STYLE_FOOTNOTE).be.a.String;
+		should(Ti.UI.TEXT_STYLE_CAPTION1).be.a.String;
+		should(Ti.UI.TEXT_STYLE_CAPTION2).be.a.String;
+		should(Ti.UI.TEXT_STYLE_CALLOUT).be.a.String;
+		should(Ti.UI.TEXT_STYLE_TITLE1).be.a.String;
+		should(Ti.UI.TEXT_STYLE_TITLE2).be.a.String;
+		should(Ti.UI.TEXT_STYLE_TITLE3).be.a.String;
+		should(Ti.UI.TEXT_STYLE_LARGE_TITLE).be.a.String;
+	});
+
 	// TODO Use the JSCA file to generate tests!
 	var ALL = [ 'iphone', 'ipad', 'android', 'mobileweb', 'windowsstore', 'windowsphone' ],
 		NOT_ANDROID = [ 'iphone', 'ipad', 'mobileweb', 'windowsstore', 'windowsphone' ],

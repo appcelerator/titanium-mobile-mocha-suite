@@ -5,8 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti, global */
-
+/* global global, setImmediate, clearImmediate */
+/* eslint no-unused-expressions: "off" */
 'use strict';
 
 describe('Timers', function () {
@@ -45,6 +45,12 @@ describe('Timers', function () {
 					finish(err);
 				}
 			}, 1, 2, '3', { name: 'four' });
+		});
+
+		it.allBroken('if callback is not a function TypeError is thrown', () => {
+			should.throws(() => {
+				setTimeout(1, 100);
+			}, TypeError);
 		});
 	});
 
@@ -112,6 +118,12 @@ describe('Timers', function () {
 				}
 			}, 10, 2, '3', { name: 'four' });
 		});
+
+		it.allBroken('if callback is not a function TypeError is thrown', () => {
+			should.throws(() => {
+				setInterval(1, 100);
+			}, TypeError);
+		});
 	});
 
 	describe('#clearTimeout', function () {
@@ -175,5 +187,50 @@ describe('Timers', function () {
 			should(descriptor.enumerable).be.true;
 			should(descriptor.writable).be.true;
 		}
+	});
+
+	describe('#setImmediate()', () => {
+		it('is a function', () => {
+			should(global.setImmediate).be.a.Function;
+		});
+
+		it('accepts callback', finish => {
+			setImmediate(() => finish());
+		});
+
+		it('accepts callback and arguments', finish => {
+			setImmediate((one, two, three) => {
+				try {
+					one.should.eql(1);
+					two.should.eql('2');
+					three.should.eql([ 3 ]);
+					finish();
+				} catch (e) {
+					finish(e);
+				}
+			}, 1, '2', [ 3 ]);
+		});
+
+		it('if callback is not a function TypeError is thrown', () => {
+			should.throws(() => {
+				setImmediate(1, '2', [ 3 ]);
+			}, TypeError);
+		});
+	});
+
+	describe('#clearImmediate()', () => {
+		it('is a function', () => {
+			should(global.clearImmediate).be.a.Function;
+		});
+
+		it('clears immediate created with #setImmediate()', finish => {
+			const immediate = setImmediate(() => {
+				finish(new Error('setImmediate should have never fired!'));
+			});
+			clearImmediate(immediate);
+			setTimeout(() => {
+				finish();
+			}, 20);
+		});
 	});
 });
