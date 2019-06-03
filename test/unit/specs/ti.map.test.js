@@ -5,15 +5,12 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti, L */
 
 'use strict';
 
 var Map = require('ti.map');
 
 describe('Titanium.Map', function () {
-	let win;
-
 	// FIXME Gives bad value for Android
 	it.androidBroken('apiName', function () {
 		should(Map).have.a.readOnlyProperty('apiName').which.is.a.String;

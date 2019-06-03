@@ -5,7 +5,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti, process */
+/* global process */
 
 'use strict';
 

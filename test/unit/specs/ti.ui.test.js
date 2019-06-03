@@ -9,8 +9,6 @@
 
 'use strict';
 
-var utilities = require('./utilities/utilities');
-
 describe('Titanium.UI', function () {
 	var win;
 
