@@ -201,7 +201,7 @@ function test(branch, karmaConfigPath, browsers, skipSdkInstall, cleanup, callba
 		if (browsers) {
 			args.push('--browsers', browsers);
 		}
-		const child = fork(path.join('node_modules', '.bin', 'karma'), args);
+		const child = fork(path.resolve(__dirname, '..', 'node_modules', '.bin', 'karma'), args);
 		child.on('exit', code => {
 			if (code !== 0) {
 				return next(new Error(`Karma exited with non-zero exit code ${code}.`));
