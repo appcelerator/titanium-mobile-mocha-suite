@@ -1,6 +1,6 @@
 {
   "name": "titanium-mobile-mocha-suite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Build script to test the SDK API using mocha tests.",
   "author": {
     "name": "Appcelerator, Inc.",
@@ -8,12 +8,12 @@
   },
   "maintainers": [
     {
-      "name": "Chee Kiat Ng",
-      "email": "cng@appcelerator.com"
-    },
-    {
       "name": "Chris Williams",
       "email": "cwilliams@appcelerator.com"
+    },
+    {
+      "name": "Jan Vennemann",
+      "email": "jvennemann@axway.com"
     }
   ],
   "repository": {
@@ -26,11 +26,22 @@
     "url": "https://github.com/appcelerator/titanium-mobile-mocha-suite/issues"
   },
   "dependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "async": "^2.6.2",
     "colors": "^1.3.3",
     "commander": "^2.20.0",
     "ejs": "~2.6.1",
-    "fs-extra": "^7.0.1",
+    "fs-extra": "^8.0.1",
+    "karma": "^4.1.0",
+    "karma-babel-preprocessor": "^8.0.0",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-should": "^1.0.0",
+    "karma-titanium-launcher": "^0.7.3",
+    "mocha": "^6.1.4",
+    "should": "^13.2.3",
     "stream-splitter": "~0.3.2",
     "titanium": "^5.2.1"
   },
@@ -46,10 +57,10 @@
     "lint-staged": "^8.1.7"
   },
   "engines": {
-    "node": ">=6.0"
+    "node": ">=8.11"
   },
   "scripts": {
-    "integration": "node scripts/test.js -p android,ios -b master",
+    "integration": "node scripts/test.js -B android,ios -b master",
     "lint": "eslint .",
     "test": "npm run lint"
   },

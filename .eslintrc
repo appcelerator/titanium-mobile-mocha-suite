@@ -34,6 +34,19 @@
         "ecmaVersion": 2017,
         "sourceType": "module"
       }
+    },
+    {
+      "files": [ "test/unit/specs/es6.*.js" ],
+      "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "module"
+      }
+    },
+    {
+      "files": [ "test/unit/specs/**/*.js" ],
+      "rules": {
+        "no-unused-expressions": "off"
+      }
     }
   ]
 }
