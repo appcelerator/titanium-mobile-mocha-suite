@@ -8,7 +8,6 @@
 /* global Ti */
 
 'use strict';
-var should = require('./utilities/assertions');
 
 describe('Titanium.UI.SearchBar', function () {
 	var win;
