@@ -1,6 +1,5 @@
-Resources/ti-mocha.js
-Resources/should.js
+build/
+modules/
+node_modules/
 Resources/node_modules/*
 Resources/fake_node_modules/abbrev
-scripts/mocha/
-node_modules/

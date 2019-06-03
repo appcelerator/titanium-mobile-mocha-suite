@@ -24,16 +24,15 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 				try {
 					if ('ws-local'.equals(target)) {
 						timeout(30) {
-							bat "node test.js -p ${os} -b ${testSuiteBranch} -T ${target}"
+							bat "node test.js -b ${testSuiteBranch} -B windowsLocal"
 						}
 					} else if ('wp-emulator'.equals(target)) {
 						timeout(30) {
-							bat "node test.js -p ${os} -b ${testSuiteBranch} -T ${target} -C 10-0-1"
+							bat "node test.js -b ${testSuiteBranch} -B windowsEmulator"
 						}
 					} else {
 						timeout(20) {
-							// We know we wont need to use the target here for iOS/Android
-							sh "node test.js -p ${os} -b ${testSuiteBranch}"
+							sh "node test.js -b ${testSuiteBranch} -B ${os}"
 						} // timeout
 					}
 				} catch (e) {
@@ -86,9 +85,9 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 					}
 					// if
 				} // finally
-				junit 'junit.*.xml'
+				junit 'TESTS-*.xml'
 				// save the junit reports as artifacts explicitly so danger.js can use them later
-				stash includes: 'junit.*.xml', name: "test-report-${os}-${target}"
+				stash includes: 'TESTS-*.xml', name: "test-report-${os}-${target}"
 			} // dir('scripts')
 		} // nodejs
 	} finally {

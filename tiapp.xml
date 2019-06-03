@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app
+  xmlns:ti="http://ti.appcelerator.org">
+  <id>com.appcelerator.testApp.testings</id>
+  <name>Ti Unit Test Suite</name>
+  <version>1.0</version>
+  <publisher>not specified</publisher>
+  <url>unspecified</url>
+  <description/>
+  <copyright>not specified</copyright>
+  <icon>appicon.png</icon>
+  <fullscreen>false</fullscreen>
+  <navbar-hidden>false</navbar-hidden>
+  <analytics>true</analytics>
+  <transpile>true</transpile>
+  <guid>cd064de9-d38f-4ae2-c888-b3189586ea5a</guid>
+  <property name="ti.ui.defaultunit" type="string">dp</property>
+  <property name="presetBool" type="bool">true</property>
+  <property name="presetDouble" type="double">1.23456</property>
+  <property name="presetInt" type="int">1337</property>
+  <property name="presetString" type="string">Hello!</property>
+  <transpile>true</transpile>
+  <ios>
+    <use-app-thinning>false</use-app-thinning>
+    <min-ios-ver>9.0</min-ios-ver>
+    <plist>
+      <dict>
+        <key>UISupportedInterfaceOrientations~iphone</key>
+        <array>
+          <string>UIInterfaceOrientationPortrait</string>
+        </array>
+        <key>UISupportedInterfaceOrientations~ipad</key>
+        <array>
+          <string>UIInterfaceOrientationPortrait</string>
+          <string>UIInterfaceOrientationPortraitUpsideDown</string>
+          <string>UIInterfaceOrientationLandscapeLeft</string>
+          <string>UIInterfaceOrientationLandscapeRight</string>
+        </array>
+        <key>UIRequiresPersistentWiFi</key>
+        <false/>
+        <key>UIPrerenderedIcon</key>
+        <false/>
+        <key>UIStatusBarHidden</key>
+        <false/>
+        <key>UIStatusBarStyle</key>
+        <string>UIStatusBarStyleDefault</string>
+      </dict>
+    </plist>
+  </ios>
+  <android
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <manifest>
+      <application android:theme="@style/Theme.AppCompat.Light">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN_aC6RMaynan8YzsO1HNHbhsr9ZADDlY"/>
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+      </application>
+      <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    </manifest>
+    <services>
+      <service url="ti.android.service.normal.js"/>
+      <service url="ti.android.service.interval.js" type="interval"/>
+    </services>
+  </android>
+  <modules>
+    <module>commonjs.index_js</module>
+		<module>commonjs.index_json</module>
+		<module>commonjs.legacy</module>
+		<module>commonjs.legacy.index_js</module>
+		<module>commonjs.legacy.index_json</module>
+		<module>commonjs.legacy.package</module>
+		<module>commonjs.package</module>
+		<module platform="android">ti.map</module>
+		<module platform="ios">ti.map</module>
+		<module platform="android">ti.touchid</module>
+		<module platform="ios">ti.touchid</module>
+		<module platform="android">ti.playservices</module>
+		<module platform="android">ti.cloudpush</module>
+  </modules>
+  <plugins>
+  </plugins>
+  <deployment-targets>
+    <target device="android">true</target>
+    <target device="ipad">false</target>
+    <target device="iphone">true</target>
+  </deployment-targets>
+  <!-- The SDK version can be overriden by the karma-titanium-launcher -->
+  <!-- See test/unit/karma.unit.config.js how to set the SDK version in unit tests-->
+  <sdk-version>8.0.1.GA</sdk-version>
+</ti:app>
