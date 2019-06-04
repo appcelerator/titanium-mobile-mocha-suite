@@ -202,12 +202,16 @@ function test(branch, karmaConfigPath, browsers, skipSdkInstall, cleanup, callba
 			args.push('--browsers', browsers);
 		}
 		let command = 'node';
+		const options = {
+			cwd: projectPath
+		};
 		if (process.platform === 'win32') {
 			command = 'karma';
+			options.shell = true;
 		} else {
 			args.unshift(path.resolve(projectPath, 'node_modules', '.bin', 'karma'));
 		}
-		const child = spawn(command, args, { cwd: projectPath });
+		const child = spawn(command, args, options);
 		child.on('exit', code => {
 			if (code !== 0) {
 				return next(new Error(`Karma exited with non-zero exit code ${code}.`));
