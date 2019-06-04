@@ -12,7 +12,6 @@
 var utilities = require('./utilities/utilities');
 
 function createWindow(_args) {
-	console.log('createWindow');
 	_args = _args || {};
 	_args.backgroundColor = _args.backgroundColor || 'red';
 	return Ti.UI.createWindow(_args);

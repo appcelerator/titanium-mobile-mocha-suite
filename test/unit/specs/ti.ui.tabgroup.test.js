@@ -234,7 +234,6 @@ describe('Titanium.UI.TabGroup', () => {
 		// times out, presumably doesn't fire event?
 		// intermittently times out on Android
 		it.windowsBroken('focus', finish => {
-			console.log('focus test start');
 			const win = Ti.UI.createWindow();
 			tabGroup = Ti.UI.createTabGroup();
 			const tab = Ti.UI.createTab({
@@ -243,7 +242,6 @@ describe('Titanium.UI.TabGroup', () => {
 			});
 
 			function done() {
-				console.log('focus test event triggered');
 				tabGroup.removeEventListener('focus', done);
 				finish();
 			}

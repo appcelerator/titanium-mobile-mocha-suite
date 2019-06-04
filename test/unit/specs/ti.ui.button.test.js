@@ -82,7 +82,6 @@ describe('Titanium.UI.Button', function () {
 			}
 		});
 		win.open();
-		console.log('win.open()');
 	});
 
 	// Skip on Windows 10 and 8.1 desktop for now, it hangs

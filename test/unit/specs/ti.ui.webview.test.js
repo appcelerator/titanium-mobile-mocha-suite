@@ -430,7 +430,6 @@ describe('Titanium.UI.WebView', function () {
 			webView = Ti.UI.createWebView({
 				top: 30
 			});
-		console.log('test1');
 		webView.addEventListener('error', function () {
 			finish('Failed to load HTML file from URL with spaces in path');
 		});
@@ -456,8 +455,6 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 
 		webView.url = URL;
-
-		console.log('test2');
 	});
 
 	it.ios('startListeningToProperties', function (finish) {

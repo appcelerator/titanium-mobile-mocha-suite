@@ -73,10 +73,7 @@ describe.windowsBroken('Titanium.Blob', function () {
 
 	it('.text', function () {
 		const file = Ti.Filesystem.getFile('app.js');
-		console.log(file.nativePath);
-		console.log(file.exists());
 		var blob = Ti.Filesystem.getFile('app.js').read();
-		console.log(blob);
 		should(blob.text).be.a.String;
 		should(blob.text.length).be.above(0);
 		should(blob.text).equal(blob.toString());

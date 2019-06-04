@@ -9,8 +9,6 @@
 
 'use strict';
 
-console.log(Object.keys(describe));
-
 describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 	let win;
 	this.timeout(5000);
