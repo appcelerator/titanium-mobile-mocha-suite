@@ -20,6 +20,9 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 		nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 			ensureNPM(npmVersion)
 			command('npm ci')
+			if (os.equals('windows')) {
+				sh "npm i -g karma-cli"
+			}
 			dir('scripts') {
 				try {
 					if ('ws-local'.equals(target)) {
