@@ -10,7 +10,6 @@ const fs = require('fs-extra');
 const async = require('async');
 const spawn = require('child_process').spawn; // eslint-disable-line security/detect-child-process
 const exec = require('child_process').exec; // eslint-disable-line security/detect-child-process
-const fork = require('child_process').fork; // eslint-disable-line security/detect-child-process
 const titanium = require.resolve('titanium');
 
 function installSDK(sdkVersion, next) {
@@ -202,8 +201,13 @@ function test(branch, karmaConfigPath, browsers, skipSdkInstall, cleanup, callba
 		if (browsers) {
 			args.push('--browsers', browsers);
 		}
-		const karmaBin = process.platform === 'win32' ? 'karma' : path.resolve(projectPath, 'node_modules', '.bin', 'karma');
-		const child = fork(karmaBin, args, { cwd: projectPath });
+		let command = 'node';
+		if (process.platform === 'win32') {
+			command = 'karma';
+		} else {
+			args.unshift(path.resolve(projectPath, 'node_modules', '.bin', 'karma'));
+		}
+		const child = spawn(command, args, { cwd: projectPath });
 		child.on('exit', code => {
 			if (code !== 0) {
 				return next(new Error(`Karma exited with non-zero exit code ${code}.`));
