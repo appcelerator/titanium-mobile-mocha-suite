@@ -12,6 +12,8 @@ const spawn = require('child_process').spawn; // eslint-disable-line security/de
 const exec = require('child_process').exec; // eslint-disable-line security/detect-child-process
 const titanium = require.resolve('titanium');
 
+const projectPath = path.resolve(__dirname, '..');
+
 function installSDK(sdkVersion, next) {
 	sdkDir().then(sdkDir => {
 		const args = [ titanium, 'sdk', 'install' ];
@@ -193,9 +195,12 @@ function test(branch, karmaConfigPath, browsers, skipSdkInstall, cleanup, callba
 		});
 	});
 
-	// @todo invoke Karma
+	tasks.push(next => {
+		const resourcesDir = path.join(projectPath, 'Resources');
+		exec('npm install --production', { cwd: resourcesDir }, next);
+	});
+
 	tasks.push(function (next) {
-		const projectPath = path.resolve(__dirname, '..');
 		const sdkVersion = path.basename(sdkPath);
 		const args = [ 'start', karmaConfigPath, '--titanium.sdkVersion', sdkVersion ];
 		if (browsers) {
@@ -220,6 +225,7 @@ function test(branch, karmaConfigPath, browsers, skipSdkInstall, cleanup, callba
 
 			next();
 		});
+		child.on('error', next);
 	});
 
 	if (cleanup) {
