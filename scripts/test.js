@@ -243,7 +243,7 @@ if (module.id === '.') {
 		program
 			.version(packageJson.version)
 			.option('-b, --branch [branchName]', 'Install a specific branch of the SDK to test with', 'master')
-			.option('-k, --karma-config [configPath]', 'Karma configuration file', 'test/unit/karma.ci.master.config.js')
+			.option('-k, --karma-config [configPath]', 'Karma configuration file', path.resolve(__dirname, '..', 'test', 'unit', 'karma.ci.master.config.js'))
 			.option('-B, --browsers <browser1,browser2>', 'Select individual browsers from the Karma config to launch')
 			.option('-s, --skip-sdk-install', 'Skip the SDK installation step')
 			.option('-c, --cleanup', 'Cleanup non-GA SDKs. Default is true if we install an SDK')
