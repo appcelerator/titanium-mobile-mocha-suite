@@ -30,5 +30,5 @@ module.exports = {
 	singleRun: true,
 	retryLimit: 0,
 	browserNoActivityTimeout: 120000,
-	captureTimeout: 300000
+	captureTimeout: 1200000
 };
