@@ -203,7 +203,8 @@ function test(branch, karmaConfigPath, browsers, skipSdkInstall, cleanup, callba
 		}
 		let command = 'node';
 		const options = {
-			cwd: projectPath
+			cwd: projectPath,
+			stdio: 'inherit'
 		};
 		if (process.platform === 'win32') {
 			command = 'karma';
