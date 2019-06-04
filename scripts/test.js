@@ -196,12 +196,13 @@ function test(branch, karmaConfigPath, browsers, skipSdkInstall, cleanup, callba
 
 	// @todo invoke Karma
 	tasks.push(function (next) {
+		const projectPath = path.resolve(__dirname, '..');
 		const sdkVersion = path.basename(sdkPath);
 		const args = [ 'start', karmaConfigPath, '--titanium.sdkVersion', sdkVersion ];
 		if (browsers) {
 			args.push('--browsers', browsers);
 		}
-		const child = fork(path.resolve(__dirname, '..', 'node_modules', '.bin', 'karma'), args);
+		const child = fork(path.resolve(projectPath, 'node_modules', '.bin', 'karma'), args, { cwd: projectPath });
 		child.on('exit', code => {
 			if (code !== 0) {
 				return next(new Error(`Karma exited with non-zero exit code ${code}.`));
