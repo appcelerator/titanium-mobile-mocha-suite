@@ -124,7 +124,7 @@ timestamps {
 					}
 				},
 				'iOS': {
-					node('osx && xcode-10') {
+					node('osx && xcode-10.2') {
 						unitTests('ios', scm, nodeVersion, npmVersion, targetBranch)
 					}
 				},
