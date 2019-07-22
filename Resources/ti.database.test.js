@@ -147,7 +147,7 @@ describe('Titanium.Database', function () {
 		});
 
 		// If the source db file was not found, then install() must throw an exception.
-		it('throws if missing source db', () => {
+		it.windowsBroken('throws if missing source db', () => {
 			should.throws(() => {
 				Ti.Database.install('BadFilePath.db', 'IShouldNotExist.db');
 			}, Error);
@@ -370,7 +370,7 @@ describe('Titanium.Database', function () {
 			}
 		});
 
-		it('throws Error for invalid SQL statement', () => { // eslint-disable-line mocha/no-identical-title
+		it.windowsBroken('throws Error for invalid SQL statement', () => { // eslint-disable-line mocha/no-identical-title
 			const db = Ti.Database.open('execute.db');
 			try {
 				should.throws(() => {
