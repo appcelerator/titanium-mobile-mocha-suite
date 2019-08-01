@@ -57,7 +57,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		}
 	});
 
-	it('fileStreamBasicTest', function () {
+	it.windowsBroken('fileStreamBasicTest', function () {
 		should(Ti.createBuffer).be.a.Function;
 		should(Ti.Filesystem.openStream).be.a.Function;
 		var resourceFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
@@ -104,7 +104,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		}
 	});
 
-	it('fileStreamWriteTest', function () {
+	it.windowsBroken('fileStreamWriteTest', function () {
 		var infile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
 		var instream = infile.open(Ti.Filesystem.MODE_READ);
 		var outfile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'fswritetest.jpg');
