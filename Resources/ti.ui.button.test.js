@@ -16,14 +16,28 @@ describe('Titanium.UI.Button', function () {
 
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	it('apiName', function () {

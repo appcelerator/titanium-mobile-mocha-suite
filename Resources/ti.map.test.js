@@ -18,14 +18,28 @@ describe('Titanium.Map', function () {
 
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	// FIXME Gives bad value for Android
@@ -184,26 +198,6 @@ describe('Titanium.Map', function () {
 
 	it('#createRoute()', function () {
 		should(Map.createRoute).be.a.Function;
-	});
-
-	it('#createView()', function () {
-		should(Map.createView).be.a.Function;
-
-		win = Ti.UI.createWindow();
-
-		const view = Map.createView({
-			mapType: Map.NORMAL_TYPE,
-			region: { // Mountain View
-				latitude: 37.3689,
-				longitude: -122.0353,
-				latitudeDelta: 0.1,
-				longitudeDelta: 0.1
-			}
-		});
-		should(view).be.a.Object;
-
-		win.add(view);
-		win.open();
 	});
 
 	// Intentional skip, constant only for Android

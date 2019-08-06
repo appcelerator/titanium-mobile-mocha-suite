@@ -16,14 +16,28 @@ describe('Titanium.UI.TextField', function () {
 
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	it('apiName', function () {
@@ -192,7 +206,8 @@ describe('Titanium.UI.TextField', function () {
 			backgroundColor: '#ddd'
 		});
 		win.add(textfield);
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 			try {
 				should(win.rect.width).be.greaterThan(100);
 				should(textfield.rect.width).not.be.greaterThan(win.rect.width);
@@ -270,7 +285,9 @@ describe('Titanium.UI.TextField', function () {
 		win.add(textField);
 
 		// Start the test when the window has been opened.
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			setTimeout(function () {
 				textField.focus();
 			}, 500);
@@ -290,7 +307,8 @@ describe('Titanium.UI.TextField', function () {
 			finish(new Error('TextField wrongly received focus on open.'));
 		});
 		win.add(textField);
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 			// If we made it this far, assume TextField did not receive focus.
 			finish();
 		});

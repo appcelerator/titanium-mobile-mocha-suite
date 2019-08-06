@@ -18,24 +18,33 @@ function createWindow(_args) {
 }
 
 describe('Titanium.UI.Layout', function () {
-	var win,
-		didPostlayout = false;
+	var win;
 	this.timeout(5000);
-
-	beforeEach(function () {
-		didPostlayout = false;
-	});
 
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	// functional test cases #1010, #1011, #1025, #1025a
@@ -54,11 +63,8 @@ describe('Titanium.UI.Layout', function () {
 
 		win.add(view);
 		win.add(label);
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				Ti.API.info('Got postlayout');
@@ -122,11 +128,8 @@ describe('Titanium.UI.Layout', function () {
 
 		win.add(view);
 		win.add(view2);
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.left).eql(10);
@@ -162,11 +165,8 @@ describe('Titanium.UI.Layout', function () {
 
 		win.add(view);
 		win.add(view2);
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.top).eql(10);
@@ -200,11 +200,8 @@ describe('Titanium.UI.Layout', function () {
 		win = createWindow();
 
 		win.add(view);
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.center.x).eql(50);
@@ -231,11 +228,8 @@ describe('Titanium.UI.Layout', function () {
 		win = createWindow();
 
 		win.add(view);
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.width).eql(10);
@@ -280,12 +274,8 @@ describe('Titanium.UI.Layout', function () {
 		win = createWindow();
 
 		win.add(view);
-		win.addEventListener('postlayout', function () {
-			// FIXME Never fires on iOS or Android! Maybe because window is the one firing the event?
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.left).eql('leftString');
@@ -331,11 +321,8 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view1.width).be.undefined;
@@ -381,11 +368,8 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view1.left).be.undefined;
@@ -419,11 +403,8 @@ describe('Titanium.UI.Layout', function () {
 	it('undefinedCenter', function (finish) {
 		var view = Ti.UI.createView({});
 		win = createWindow();
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.center).be.undefined;
@@ -449,11 +430,8 @@ describe('Titanium.UI.Layout', function () {
 			left: 10
 		});
 		win = createWindow();
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.right).be.undefined;
@@ -494,11 +472,8 @@ describe('Titanium.UI.Layout', function () {
 				bottom: 10
 			});
 		win = createWindow();
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view1.height).be.undefined;
@@ -540,11 +515,8 @@ describe('Titanium.UI.Layout', function () {
 				height: 100
 			});
 		win = createWindow();
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				// Static Tops
@@ -582,11 +554,8 @@ describe('Titanium.UI.Layout', function () {
 			top: 10
 		});
 		win = createWindow();
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.bottom).be.undefined;
@@ -611,11 +580,8 @@ describe('Titanium.UI.Layout', function () {
 			width: 10
 		});
 		win = createWindow();
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.size.width).eql(10);
@@ -641,11 +607,8 @@ describe('Titanium.UI.Layout', function () {
 		});
 		win = createWindow();
 
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.size.width).eql(40); // FIXME Android gives expected 210 to equal 40
@@ -674,11 +637,8 @@ describe('Titanium.UI.Layout', function () {
 				right: 50
 			});
 		win = createWindow();
-		viewChild.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		viewChild.addEventListener('postlayout', function listener () {
+			viewChild.removeEventListener('postlayout', listener);
 
 			try {
 				should(viewChild.size.width).eql(100); // FIXME Android/Windows give "expected 150 to equal 100"
@@ -702,11 +662,8 @@ describe('Titanium.UI.Layout', function () {
 			height: 10
 		});
 		win = createWindow();
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.size.height).eql(10);
@@ -731,11 +688,8 @@ describe('Titanium.UI.Layout', function () {
 			}
 		});
 		win = createWindow();
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.size.height).eql(40);// FIXME Android gives "expected 290 to equal 40"
@@ -764,11 +718,8 @@ describe('Titanium.UI.Layout', function () {
 				bottom: 50
 			});
 		win = createWindow();
-		viewChild.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		viewChild.addEventListener('postlayout', function listener () {
+			viewChild.removeEventListener('postlayout', listener);
 
 			try {
 				should(viewChild.size.height).eql(100); // FIXME "expected 150 to equal 100" on Android/Windows
@@ -827,11 +778,8 @@ describe('Titanium.UI.Layout', function () {
 		//	showVerticalScrollIndicator: true,
 		//	showHorizontalScrollIndicator: true
 		// });
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				// LABEL HAS SIZE AUTO BEHAVIOR.
@@ -913,11 +861,8 @@ describe('Titanium.UI.Layout', function () {
 				top: 50
 			});
 		win = createWindow();
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view1.zIndex).eql(0);
@@ -950,11 +895,8 @@ describe('Titanium.UI.Layout', function () {
 		parent.add(child);
 		win.add(parent);
 
-		parent.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		parent.addEventListener('postlayout', function listener () {
+			parent.removeEventListener('postlayout', listener);
 
 			try {
 				should(parent.size.width).eql(40);
@@ -994,11 +936,8 @@ describe('Titanium.UI.Layout', function () {
 		grandParent.add(parent);
 		win.add(grandParent);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(grandParent.size.width).eql(200);
@@ -1032,11 +971,8 @@ describe('Titanium.UI.Layout', function () {
 		parent.add(child);
 		win.add(parent);
 
-		parent.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		parent.addEventListener('postlayout', function listener () {
+			parent.removeEventListener('postlayout', listener);
 
 			try {
 				if (utilities.isAndroid()) {
@@ -1078,11 +1014,8 @@ describe('Titanium.UI.Layout', function () {
 		win.add(child1);
 		win.add(child2);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(child.size.width).not.be.eql(0); // FIXME Windows Desktop gives: expected 0 not to equal 0
@@ -1115,11 +1048,8 @@ describe('Titanium.UI.Layout', function () {
 		win = Ti.UI.createWindow();
 		scrollView.add(view2);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view2.size.width).eql(scrollView.size.width);
@@ -1145,11 +1075,8 @@ describe('Titanium.UI.Layout', function () {
 		win = Ti.UI.createWindow();
 		scrollView.add(view2);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view2.size.width).eql(scrollView.size.width);
@@ -1175,11 +1102,8 @@ describe('Titanium.UI.Layout', function () {
 		win = Ti.UI.createWindow();
 		scrollView.add(view2);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view2.size.width).eql(scrollView.size.width);
@@ -1206,11 +1130,8 @@ describe('Titanium.UI.Layout', function () {
 		win = Ti.UI.createWindow();
 		scrollView.add(view2);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view2.size.width).eql(scrollView.size.width);
@@ -1237,11 +1158,8 @@ describe('Titanium.UI.Layout', function () {
 		win = Ti.UI.createWindow();
 		scrollView.add(view2);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(view2.size.width).eql(scrollView.size.width);
@@ -1285,11 +1203,8 @@ describe('Titanium.UI.Layout', function () {
 		win.add(NavBarView);
 		win.add(scrollView);
 
-		scrollView.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		scrollView.addEventListener('postlayout', function listener () {
+			scrollView.removeEventListener('postlayout', listener);
 
 			try {
 				should(scrollView.size.height).eql(50);
@@ -1332,11 +1247,8 @@ describe('Titanium.UI.Layout', function () {
 		win.add(NavBarView);
 		win.add(scrollView);
 
-		scrollView.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		scrollView.addEventListener('postlayout', function listener () {
+			scrollView.removeEventListener('postlayout', listener);
 
 			try {
 				should(scrollView.size.height).eql(300);
@@ -1380,11 +1292,8 @@ describe('Titanium.UI.Layout', function () {
 			}));
 		}
 
-		scrollView.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		scrollView.addEventListener('postlayout', function listener () {
+			scrollView.removeEventListener('postlayout', listener);
 
 			try {
 				should(innerView.size.height).eql(1200); // FIXME iOS gives "expected 0 to equal 1200"
@@ -1412,11 +1321,8 @@ describe('Titanium.UI.Layout', function () {
 		view.add(inner_view);
 		win.add(view);
 
-		inner_view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		inner_view.addEventListener('postlayout', function listener () {
+			inner_view.removeEventListener('postlayout', listener);
 
 			try {
 				should(inner_view.size.width).eql(80);
@@ -1446,11 +1352,8 @@ describe('Titanium.UI.Layout', function () {
 		view.add(inner_view);
 		win.add(view);
 
-		inner_view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		inner_view.addEventListener('postlayout', function listener () {
+			inner_view.removeEventListener('postlayout', listener);
 
 			try {
 				should(inner_view.size.width).eql(80);
@@ -1487,11 +1390,8 @@ describe('Titanium.UI.Layout', function () {
 		win = createWindow();
 		view.add(innerView);
 
-		view.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				should(view.size.height).eql(innerView.size.height);
@@ -1526,7 +1426,9 @@ describe('Titanium.UI.Layout', function () {
 				bottom: 10,
 			});
 		win = createWindow();
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(a.rect.x).eql(10); // iOS gives 0
 				should(a.rect.y).eql(10);
@@ -1567,7 +1469,9 @@ describe('Titanium.UI.Layout', function () {
 			});
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1610,7 +1514,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1652,7 +1558,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1693,7 +1601,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1736,7 +1646,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1779,7 +1691,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(view.rect.x).eql(10);
 				should(view.rect.y).eql(10);
@@ -1812,7 +1726,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(label.rect.x).eql(10);
 				should(label.rect.width).eql(win.rect.width - 20);
@@ -1840,7 +1756,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(label.rect.x).eql(10);
 				should(label.rect.width).eql(win.rect.width - 20); // Android gives us 97, should be 1260
@@ -1868,7 +1786,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow({ layout: 'vertical' });
 
-		label.addEventListener('postlayout', function () {
+		label.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(label.rect.x).eql(10);
 				should(label.rect.width).eql(win.rect.width - 20);
@@ -1894,11 +1814,9 @@ describe('Titanium.UI.Layout', function () {
 
 		win = createWindow();
 
-		win.addEventListener('postlayout', function () {
-			if (didPostlayout) {
-				return;
-			}
-			didPostlayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				savedRect = label.rect;
 				should(label.rect.width).not.eql(0);
@@ -1944,7 +1862,9 @@ describe('Titanium.UI.Layout', function () {
 			backgroundColor: 'red',
 		});
 		win = createWindow();
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				should(v1.rect.x).eql(0);
 				should(v1.rect.y).eql(0);

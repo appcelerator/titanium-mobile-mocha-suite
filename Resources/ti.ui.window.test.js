@@ -17,14 +17,28 @@ describe('Titanium.UI.Window', function () {
 
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	it('.title', function () {
@@ -97,7 +111,9 @@ describe('Titanium.UI.Window', function () {
 			width: 100,
 			height: 100
 		});
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				win.size.width.should.eql(100);
 				win.size.height.should.eql(100);
@@ -129,8 +145,10 @@ describe('Titanium.UI.Window', function () {
 			left: 100,
 			right: 100
 		});
-		win.addEventListener('postlayout', function () {
-			var width,
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
+			let width,
 				height;
 			try {
 				win.rect.x.should.eql(100); // get 0 on Android
@@ -167,7 +185,9 @@ describe('Titanium.UI.Window', function () {
 			backgroundColor: 'gray'
 		});
 		view = Ti.UI.createView();
-		win.addEventListener('focus', function () {
+		win.addEventListener('focus', function listener () {
+			win.removeEventListener('focus', listener);
+
 			try {
 				should(win.children.length).be.eql(1);
 				win.remove(win.children[0]);
@@ -190,7 +210,9 @@ describe('Titanium.UI.Window', function () {
 			win = Ti.UI.createWindow({ backgroundColor: 'yellow' });
 
 			// Confirms that Ti.UI.Window fires postlayout event
-			win.addEventListener('postlayout', function () {
+			win.addEventListener('postlayout', function listener () {
+				win.removeEventListener('postlayout', listener);
+
 				finish();
 			});
 			win.open();
@@ -246,13 +268,14 @@ describe('Titanium.UI.Window', function () {
 			win = Ti.UI.createWindow({
 				backgroundColor: 'pink'
 			});
-			win.addEventListener('close', function () {
+			win.addEventListener('close', function listener () {
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
 				finish();
 			});
-			win.addEventListener('open', function () {
-				setTimeout(function () {
-					win.close();
-				}, 500);
+			win.addEventListener('open', function listener () {
+				win.close();
 			});
 			win.open();
 		});
@@ -628,10 +651,14 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it.android('.safeAreaPadding with extendSafeArea false', function (finish) {
+		this.slow(5000);
+
 		win = Ti.UI.createWindow({
 			extendSafeArea: false,
 		});
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				var padding = win.safeAreaPadding;
 				should(padding).be.a.Object;
@@ -649,13 +676,17 @@ describe('Titanium.UI.Window', function () {
 
 	// This test will only pass on Android 4.4 and higher since older versions do not support translucent bars.
 	it.android('.safeAreaPadding with extendSafeArea true', function (finish) {
+		this.slow(5000);
+
 		win = Ti.UI.createWindow({
 			extendSafeArea: true,
 			theme: 'Theme.AppCompat.NoTitleBar',
 			orientationModes: [ Ti.UI.PORTRAIT ],
 			windowFlags: Ti.UI.Android.FLAG_TRANSLUCENT_STATUS | Ti.UI.Android.FLAG_TRANSLUCENT_NAVIGATION
 		});
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+
 			try {
 				var padding = win.safeAreaPadding;
 				should(padding).be.a.Object;
@@ -678,7 +709,9 @@ describe('Titanium.UI.Window', function () {
 		win = Ti.UI.createNavigationWindow({
 			window: window
 		});
-		window.addEventListener('postlayout', function () {
+		window.addEventListener('postlayout', function listener () {
+			window.removeEventListener('postlayout', listener);
+
 			try {
 				var padding = window.safeAreaPadding;
 				should(padding).be.a.Object;

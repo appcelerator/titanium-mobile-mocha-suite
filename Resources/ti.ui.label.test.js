@@ -12,23 +12,32 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.Label', function () {
-	var win,
-		didPostLayout = false;
-
-	beforeEach(function () {
-		didPostLayout = false;
-	});
+	var win;
 
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	it('apiName', function () {
@@ -72,7 +81,9 @@ describe('Titanium.UI.Label', function () {
 			maxLines: 1,
 		});
 		win.add(label2);
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener() {
+			win.removeEventListener('postlayout', listener);
+
 			// Both labels are expected to be 1 line tall.
 			should(label1.size.height).be.approximately(label2.size.height, 1);
 			finish();
@@ -196,11 +207,8 @@ describe('Titanium.UI.Label', function () {
 			width: Ti.UI.SIZE
 		});
 		win.add(label);
-		win.addEventListener('postlayout', function () {
-			if (didPostLayout) {
-				return;
-			}
-			didPostLayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(label.size.width).not.be.greaterThan(win.size.width);
@@ -236,11 +244,8 @@ describe('Titanium.UI.Label', function () {
 		bgView.add(label);
 		win.add(bgView);
 
-		win.addEventListener('postlayout', function () {
-			if (didPostLayout) {
-				return;
-			}
-			didPostLayout = true;
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 
 			try {
 				should(bgView.size.height).be.eql(100);
@@ -259,10 +264,8 @@ describe('Titanium.UI.Label', function () {
 
 	// Intermittent timeout on Android. FIXME Shoudl be using postlayout event, not open
 	it.androidBroken('border (without width/height)', function (finish) {
-		var label;
-		this.timeout(3000);
 		win = Ti.UI.createWindow();
-		label = Ti.UI.createLabel({
+		var label = Ti.UI.createLabel({
 			borderWidth: 5,
 			borderColor: 'yellow',
 			borderRadius: 5,
@@ -272,9 +275,8 @@ describe('Titanium.UI.Label', function () {
 			setTimeout(function () {
 				should(label.size.width).be.greaterThan(0);
 				should(label.size.height).be.greaterThan(0);
-				win.close();
 				finish();
-			}, 1000);
+			}, 200);
 		});
 		win.add(label);
 		win.open();

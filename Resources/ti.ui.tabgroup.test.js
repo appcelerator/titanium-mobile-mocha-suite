@@ -11,27 +11,47 @@
 const should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
 
 // skipping many test on Windows due to lack of event firing, see https://jira.appcelerator.org/browse/TIMOB-26690
-describe('Titanium.UI.TabGroup', () => {
+describe('Titanium.UI.TabGroup', function () {
 	let tabGroup;
+
+	this.timeout(5000);
 
 	afterEach(function (done) {
 		if (tabGroup) {
-			tabGroup.addEventListener('close', function () {
+			// If `tabGroup` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (tabGroup) {
+					tabGroup = null;
+					done();
+				}
+			}, 3000);
+
+			tabGroup.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (tabGroup) {
+					tabGroup.removeEventListener('close', listener);
+				}
+				tabGroup = null;
 				done();
 			});
 			tabGroup.close();
-			tabGroup = null;
 		} else {
+			tabGroup = null;
 			done();
 		}
 	});
 
 	it.windowsBroken('add Map.View to TabGroup', function (finish) {
+		this.slow(5000);
 		this.timeout(10000);
 
 		const map = require('ti.map');
 		const mapView = map.createView({ top: 0, height: '80%' });
-		mapView.addEventListener('complete', () => finish());
+		mapView.addEventListener('complete', function listener () {
+			mapView.removeEventListener('complete', listener);
+			finish();
+		});
 
 		const win = Ti.UI.createWindow();
 		win.add(mapView);
@@ -206,7 +226,10 @@ describe('Titanium.UI.TabGroup', () => {
 			tabGroup.addEventListener('open', () => {
 				setTimeout(() => tabGroup.close(), 1);
 			});
-			tabGroup.addEventListener('close', () => finish());
+			tabGroup.addEventListener('close', function listener () {
+				tabGroup.removeEventListener('close', listener);
+				finish();
+			});
 
 			tabGroup.addTab(tab);
 			tabGroup.open();
@@ -222,11 +245,10 @@ describe('Titanium.UI.TabGroup', () => {
 				title: 'Tab'
 			});
 
-			function done() {
-				tabGroup.removeEventListener('focus', done);
+			tabGroup.addEventListener('focus', function listener () {
+				tabGroup.removeEventListener('focus', listener);
 				finish();
-			}
-			tabGroup.addEventListener('focus', done);
+			});
 
 			tabGroup.addTab(tab);
 			tabGroup.open();

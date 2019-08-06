@@ -18,14 +18,28 @@ describe('Titanium.UI.WebView', function () {
 
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	// FIXME: I think we need to tweak the test here. Set URL property after adding the listeners!
@@ -575,7 +589,7 @@ describe('Titanium.UI.WebView', function () {
 	// Verifies local HTML file can access local JS file and invoke an HTML "onload" callback.
 	it.windowsMissing('html-script-tag', function (finish) {
 		this.slow(3000);
-		this.timeout(5000);
+		this.timeout(10000);
 
 		Ti.App.addEventListener('ti.ui.webview.script.tag:onPageLoaded', function () {
 			finish();

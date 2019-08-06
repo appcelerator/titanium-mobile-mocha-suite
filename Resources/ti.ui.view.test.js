@@ -13,8 +13,7 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.UI.View', function () {
 	var rootWindow,
-		win,
-		didPostLayout = false;
+		win;
 
 	this.slow(2000);
 	this.timeout(10000);
@@ -34,20 +33,30 @@ describe('Titanium.UI.View', function () {
 		rootWindow.close();
 	});
 
-	beforeEach(function () {
-		didPostLayout = false;
-	});
-
 	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
 				done();
 			});
 			win.close();
 		} else {
+			win = null;
 			done();
 		}
-		win = null;
 	});
 
 	it('backgroundColor/Image', function (finish) {
@@ -328,11 +337,8 @@ describe('Titanium.UI.View', function () {
 		view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
 		win.add(view);
 
-		view.addEventListener('postlayout', function () {
-			if (didPostLayout) {
-				return;
-			}
-			didPostLayout = true;
+		view.addEventListener('postlayout', function listener () {
+			view.removeEventListener('postlayout', listener);
 
 			try {
 				Ti.API.info('Got postlayout event');
@@ -666,16 +672,12 @@ describe('Titanium.UI.View', function () {
 		a.add(b);
 		win.add(a);
 
-		b.addEventListener('postlayout', function () {
-			var result;
-			if (didPostLayout) {
-				return;
-			}
-			didPostLayout = true;
+		b.addEventListener('postlayout', function listener () {
+			b.removeEventListener('postlayout', listener);
 
 			try {
 				Ti.API.info('Got postlayout event');
-				result = b.convertPointToView({ x: 123, y: 23 }, a);
+				let result = b.convertPointToView({ x: 123, y: 23 }, a);
 				should(result).be.an.Object;
 				should(result.x).be.a.Number; // Windows: expected '123.000000' to be a number
 				should(result.y).be.a.Number;

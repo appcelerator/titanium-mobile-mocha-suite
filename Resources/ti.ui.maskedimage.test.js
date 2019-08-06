@@ -14,15 +14,29 @@ var should = require('./utilities/assertions');
 describe.windowsMissing('Titanium.UI.MaskedImage', function () {
 	var win;
 
-	afterEach(function (finish) {
+	afterEach(function (done) {
 		if (win) {
-			win.addEventListener('close', function () {
-				finish();
+			// If `win` is already closed, we're done.
+			let t = setTimeout(function () {
+				if (win) {
+					win = null;
+					done();
+				}
+			}, 3000);
+
+			win.addEventListener('close', function listener () {
+				clearTimeout(t);
+
+				if (win) {
+					win.removeEventListener('close', listener);
+				}
+				win = null;
+				done();
 			});
 			win.close();
-			win = null;
 		} else {
-			finish();
+			win = null;
+			done();
 		}
 	});
 
@@ -54,7 +68,8 @@ describe.windowsMissing('Titanium.UI.MaskedImage', function () {
 			width: Ti.UI.FILL,
 			height: Ti.UI.FILL,
 		}));
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 			// Assume MaskedImage has rendered successfully by this point.
 			finish();
 		});
@@ -71,7 +86,8 @@ describe.windowsMissing('Titanium.UI.MaskedImage', function () {
 			width: Ti.UI.FILL,
 			height: Ti.UI.FILL,
 		}));
-		win.addEventListener('postlayout', function () {
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
 			// Assume MaskedImage has rendered successfully by this point.
 			finish();
 		});

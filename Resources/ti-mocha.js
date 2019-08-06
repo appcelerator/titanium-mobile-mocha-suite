@@ -4333,7 +4333,11 @@
 			function multiple(err) {
 				if (emitted) { return; }
 				emitted = true;
-				self.emit('error', err || new Error('done() called multiple times'));
+				if (err) {
+					self.emit('error', err);
+				} else {
+					Ti.API.warn('done() called multiple times');
+				}
 			}
 
 			// finished
