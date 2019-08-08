@@ -740,7 +740,7 @@ describe('Titanium.Filesystem.File', function () {
 			should.not.exist(result); // null or undefined // FIXME: ios returns undefined, test checked for exactly null before
 		});
 
-		it.windowsBroken('can access resource directory files', function () {
+		it('can access resource directory files', function () {
 			let rootDir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory),
 				rootPath,
 				filesFound = {};

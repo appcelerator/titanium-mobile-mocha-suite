@@ -17,7 +17,7 @@ describe('Titanium.Media', function () {
 	});
 });
 
-describe.windowsBroken('Titanium.Media.VideoPlayer', function () {
+describe('Titanium.Media.VideoPlayer', function () {
 	var win;
 
 	afterEach(function (done) {
