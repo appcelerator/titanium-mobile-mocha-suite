@@ -166,6 +166,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 	});
 
 	it('fileStreamPumpTest', function (finish) {
+		this.timeout(5000);
 		var pumpInputFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
 		should(pumpInputFile).be.an.Object;
 		should(pumpInputFile.open).be.a.Function;

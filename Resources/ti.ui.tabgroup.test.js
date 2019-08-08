@@ -10,7 +10,6 @@
 'use strict';
 const should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
 
-// skipping many test on Windows due to lack of event firing, see https://jira.appcelerator.org/browse/TIMOB-26690
 describe('Titanium.UI.TabGroup', function () {
 	let tabGroup;
 
@@ -462,7 +461,7 @@ describe('Titanium.UI.TabGroup', function () {
 		});
 	});
 
-	it.windowsBroken('icon-only tabs - default style', (finish) => { // https://jira.appcelerator.org/browse/TIMOB-27264
+	it('icon-only tabs - default style', (finish) => {
 		this.timeout(5000);
 		tabGroup = Ti.UI.createTabGroup({
 			tabs: [
