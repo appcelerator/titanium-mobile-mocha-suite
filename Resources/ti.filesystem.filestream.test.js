@@ -57,7 +57,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		}
 	});
 
-	it.windowsBroken('fileStreamBasicTest', function () {
+	it('fileStreamBasicTest', function () {
 		should(Ti.createBuffer).be.a.Function;
 		should(Ti.Filesystem.openStream).be.a.Function;
 		var resourceFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
@@ -104,7 +104,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		}
 	});
 
-	it.windowsBroken('fileStreamWriteTest', function () {
+	it('fileStreamWriteTest', function () {
 		var infile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
 		var instream = infile.open(Ti.Filesystem.MODE_READ);
 		var outfile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'fswritetest.jpg');
@@ -165,7 +165,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		instream.close();
 	});
 
-	it('fileStreamPumpTest', function () {
+	it('fileStreamPumpTest', function (finish) {
 		var pumpInputFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
 		should(pumpInputFile).be.an.Object;
 		should(pumpInputFile.open).be.a.Function;
@@ -182,6 +182,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 				pumpTotal += e.bytesProcessed;
 			} else { // EOF
 				Ti.API.info('Reached EOF in pumpCallback');
+				finish();
 			}
 		}
 		var pumpStream = pumpInputFile.open(Ti.Filesystem.MODE_READ);
