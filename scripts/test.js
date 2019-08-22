@@ -141,7 +141,7 @@ function addTiAppProperties(platforms, next) {
 			// force minimum ios sdk version of 12.0
 			content.push('\t\t<min-ios-ver>12.0</min-ios-ver>');
 		// app thinning breaks tests which expect image files to exist on filesystem normally!
-		} else if (isWindows) {
+		} else if (line.indexOf('</ios>') >= 0 && isWindows) {
 			// Force specific Windows SDK version because Windows Update messes default value
 			content.push('\t<windows>');
 			content.push('\t\t<TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>');
