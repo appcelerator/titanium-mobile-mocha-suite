@@ -125,10 +125,12 @@ function addTiAppProperties(platforms, next) {
 		content.push('\t\t\t<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>');
 	};
 
+	const isWindows = (platforms.length === 1 && platforms[0] === 'windows');
+
 	// Not so smart but this should work...
 	tiapp_xml_string.split(/\r?\n/).forEach(function (line) {
 		// Fix ti.ui.defaultunit for Windows. We should use 'px' only when platform equals windows
-		if (platforms.length === 1 && platforms[0] === 'windows' && line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
+		if (isWindows && line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
 			line = '\t<property name="ti.ui.defaultunit" type="string">px</property>';
 		}
 
@@ -139,6 +141,12 @@ function addTiAppProperties(platforms, next) {
 			// force minimum ios sdk version of 12.0
 			content.push('\t\t<min-ios-ver>12.0</min-ios-ver>');
 		// app thinning breaks tests which expect image files to exist on filesystem normally!
+		} else if (isWindows) {
+			// Force specific Windows SDK version because Windows Update messes default value
+			content.push('\t<windows>');
+			content.push('\t\t<TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>');
+			content.push('\t\t<TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>');
+			content.push('\t</windows>');
 		} else if (line.indexOf('<use-app-thinning>') >= 0) {
 			content.pop();
 			content.push('\t\t<use-app-thinning>false</use-app-thinning>');
