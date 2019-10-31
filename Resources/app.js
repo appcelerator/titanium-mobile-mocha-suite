@@ -173,20 +173,19 @@ function loadTests() {
 	loadAddonTestFiles(Ti.Filesystem.resourcesDirectory);
 }
 
-function loadAddonTestFiles (name) {
-	var info = Ti.Filesystem.getFile(name);
+function loadAddonTestFiles(name) {
+	const info = Ti.Filesystem.getFile(name);
 	if (!info) {
-		console.warn('could not load addon test files: ' + name);
+		console.warn(`could not load addon test files: ${name}`);
 		return;
 	}
 	if (info.isDirectory()) {
-		info.getDirectoryListing().forEach(function (listing) {
-			loadAddonTestFiles(listing);
-		});
-	// Only load the test files
-	} else if (/\w+.addontest\.js$/i.test(info.name)) {
+		info.getDirectoryListing().forEach(listing => loadAddonTestFiles(`${name}/${listing}`));
+	} else if (/\w+.addontest\.js$/i.test(info.name)) { // Only load the test files
 		try {
-			require(name.replace(/.js$/, '')); // eslint-disable-line security/detect-non-literal-require
+			// convert app:/// to just '/' on Android
+			const absolutePathWithoutExtension = name.replace(/.js$/, '').replace(Ti.Filesystem.resourcesDirectory, '/');
+			require(absolutePathWithoutExtension); // eslint-disable-line security/detect-non-literal-require
 		} catch (e) {
 			console.log(e);
 		}
