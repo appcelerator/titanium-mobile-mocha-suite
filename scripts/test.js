@@ -237,7 +237,15 @@ function killiOSSimulator(next) {
 	});
 }
 
-function runBuild(platform, target, deviceId, architecture, next) {
+/**
+ * @param {string} platform 'android' || 'ios' || 'windows'
+ * @param {string} [target] 'emulator' || 'simulator' || 'device' || 'wp-emulator'
+ * @param {string} [deviceId] uuid of device/simulator to launch
+ * @param {string} [architecture] only for 'windows' platform
+ * @param {string} [deploType] 'development' || 'test'
+ * @param {Function} next async callback
+ */
+function runBuild(platform, target, deviceId, architecture, deployType, next) {
 
 	if (target === undefined) {
 		switch (platform) {
@@ -258,9 +266,14 @@ function runBuild(platform, target, deviceId, architecture, next) {
 		'--project-dir', PROJECT_DIR,
 		'--platform', platform,
 		'--target', target,
-		'--deploy-type', 'test',
 		'--log-level', 'info'
 	];
+
+	if (deployType) {
+		args.push('--deploy-type');
+		args.push(deployType);
+	}
+
 	if (platform === 'ios') {
 		args.push('--hide-error-controller');
 		killiOSSimulator();
@@ -560,13 +573,19 @@ function cleanupModules(next) {
  * @param	{Boolean}			skipSdkInstall	Don't try to install an SDK from `branch`
  * @param	{Boolean}			cleanup	Delete all the non-GA SDKs when done? Defaults to true if we installed an SDK
  * @param	{String}			architecture	Target architecture to build. Only valid on Windows
- * @param	{Function} 			callback  	[description]
+ * @param   {string}            [deployType] deploy type to build
+ * @param	{Function} 			callback  	async callback
  */
-function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, callback) {
+function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, deployType, callback) {
 	let sdkPath;
 	// if we're not skipping sdk install and haven't specific whether to clean up or not, default to cleaning up non-GA SDKs
 	if (!skipSdkInstall && cleanup === undefined) {
 		cleanup = true;
+	}
+	// if they didn't specify a deploy type, set callback correctly
+	if (typeof deployType === 'function') {
+		callback = deployType;
+		deployType = undefined;
 	}
 
 	const tasks = [];
@@ -619,7 +638,7 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, arch
 	const results = {};
 	platforms.forEach(function (platform) {
 		tasks.push(function (next) {
-			runBuild(platform, target, deviceId, architecture, function (err, result) {
+			runBuild(platform, target, deviceId, architecture, deployType, function (err, result) {
 				if (err) {
 					return next(err);
 				}
@@ -732,6 +751,7 @@ if (module.id === '.') {
 			.option('-s, --skip-sdk-install', 'Skip the SDK installation step')
 			.option('-c, --cleanup', 'Cleanup non-GA SDKs. Default is true if we install an SDK')
 			.option('-a, --architecture [architecture]', 'Target architecture to build. Only valid on Windows')
+			.option('-D, --deploy-type <type>', 'the type of deployment', /^(test|development)$/)
 			.parse(process.argv);
 
 		const platforms = program.platforms.split(',');
@@ -746,7 +766,7 @@ if (module.id === '.') {
 			process.exit(1);
 		}
 
-		test(program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall, program.cleanup, program.architecture, function (err, results) {
+		test(program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall, program.cleanup, program.architecture, program.deployType, function (err, results) {
 			if (err) {
 				console.error(err.toString());
 				process.exit(1);
