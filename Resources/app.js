@@ -165,6 +165,8 @@ function loadTests() {
 	require('./ti.utils.test');
 	require('./ti.watchsession.test');
 	require('./ti.xml.test');
+	// Crash analytics tests
+	require('./aca.test');
 
 	// Load in any of the files added to the test/Resources folder of the SDK repos
 

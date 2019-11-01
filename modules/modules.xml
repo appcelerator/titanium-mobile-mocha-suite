@@ -12,4 +12,6 @@
 		<module platform="ios">ti.touchid</module>
 		<module platform="android">ti.playservices</module>
 		<module platform="android">ti.cloudpush</module>
+		<module platform="android">com.appcelerator.aca</module>
+		<module platform="ios">com.appcelerator.aca</module>
 	</modules>

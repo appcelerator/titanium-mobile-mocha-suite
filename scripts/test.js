@@ -134,6 +134,11 @@ function addTiAppProperties(platforms, next) {
 			line = '\t<property name="ti.ui.defaultunit" type="string">px</property>';
 		}
 
+		// replace generated guid with appc analytics app guid
+		if (line.indexOf('\t<guid>') >= 0) {
+			line = '\t<guid>1c4b748c-7c16-4df1-bd5c-4ffe6240286e</guid>';
+		}
+
 		content.push(line);
 		if (line.indexOf('<ios>') >= 0) {
 			// Force using the JScore on the emulator, not TiCore!
