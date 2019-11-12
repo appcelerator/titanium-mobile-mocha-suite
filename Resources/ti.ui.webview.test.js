@@ -639,7 +639,7 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	it('basic authentication should work properly', (done) => {
+	it.windowsBroken('basic authentication should work properly', (done) => {
 		const win = Ti.UI.createWindow();
 		const webView = Ti.UI.createWebView({
 			url: 'https://jigsaw.w3.org/HTTP/Basic/'
