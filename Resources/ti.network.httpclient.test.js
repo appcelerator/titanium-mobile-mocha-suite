@@ -672,7 +672,7 @@ describe('Titanium.Network.HTTPClient', function () {
 		client.send();
 	});
 
-	it('progress event', finish => {
+	it.windowsBroken('progress event', finish => {
 		let attempts = 3;
 		let progressVar = -1;
 		const xhr = Ti.Network.createHTTPClient();
