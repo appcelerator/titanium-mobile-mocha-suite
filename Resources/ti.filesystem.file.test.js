@@ -827,7 +827,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(destFile.exists()).eql(true);
 	});
 
-	describe('constructed via URIs', () => {
+	describe.windowsBroken('constructed via URIs', () => {
 		let noSchemeTempAppJS;
 		let fileURI;
 		before(() => {
