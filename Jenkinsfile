@@ -5,7 +5,7 @@ library 'pipeline-library'
 properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '3'))])
 
 // Variables we can change
-def nodeVersion = '8.9.1' // NOTE that changing this requires we set up the desired version on jenkins master first!
+def nodeVersion = '10.17.0' // NOTE that changing this requires we set up the desired version on jenkins master first!
 def npmVersion = 'latest' // We can change this without any changes to Jenkins. 5.7.1 is minimum to use 'npm ci'
 
 // Some branch flags to alter behavior
