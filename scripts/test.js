@@ -289,6 +289,13 @@ function runBuild(platform, target, deviceId, architecture, deployType, deviceFa
 		args.push('--hide-error-controller');
 		killiOSSimulator();
 
+		if (target === 'device') {
+			args.push('--developer-name');
+			args.push('QE Department (C64864TF2L)');
+			args.push('--pp-uuid');
+			args.push('20109694-2d18-4c78-ab6a-2195e3719c6b');
+		}
+
 		if (deviceFamily) {
 			args.push('--device-family');
 			args.push(deviceFamily);
