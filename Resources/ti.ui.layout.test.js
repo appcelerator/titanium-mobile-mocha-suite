@@ -1429,12 +1429,12 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(a.rect.x).eql(10); // iOS gives 0
-				should(a.rect.y).eql(10);
-				should(b.rect.x).eql(10);
-				should(b.rect.y).eql(10);
-				should(b.rect.width).eql(a.rect.width - 20);
-				should(b.rect.height).eql(a.rect.height - 20);
+				should(a.rect.x).be.approximately(10, 1); // iOS gives 0
+				should(a.rect.y).be.approximately(10, 1);
+				should(b.rect.x).be.approximately(10, 1);
+				should(b.rect.y).be.approximately(10, 1);
+				should(b.rect.width).be.approximately(a.rect.width - 20, 1);
+				should(b.rect.height).be.approximately(a.rect.height - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1472,11 +1472,11 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.rect.x).eql(10);
-				should(view.rect.y).eql(10);
-				should(label.rect.x).eql(10);
-				should(label.rect.y).eql(0);
-				should(label.rect.width).eql(view.rect.width - 20);
+				should(view.rect.x).be.approximately(10, 1);
+				should(view.rect.y).be.approximately(10, 1);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.y).be.approximately(0, 1);
+				should(label.rect.width).be.approximately(view.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1517,11 +1517,11 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.rect.x).eql(10);
-				should(view.rect.y).eql(10);
-				should(label.rect.x).eql(10);
-				should(label.rect.y).eql(0);
-				should(label.rect.width).eql(view.rect.width - 20);
+				should(view.rect.x).be.approximately(10, 1);
+				should(view.rect.y).be.approximately(10, 1);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.y).be.approximately(0, 1);
+				should(label.rect.width).be.approximately(view.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1561,11 +1561,11 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.rect.x).eql(10);
-				should(view.rect.y).eql(10);
-				should(label.rect.x).eql(10);
-				should(label.rect.y).eql(0);
-				should(label.rect.width).eql(view.rect.width - 20);
+				should(view.rect.x).be.approximately(10, 1);
+				should(view.rect.y).be.approximately(10, 1);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.y).be.approximately(0, 1);
+				should(label.rect.width).be.approximately(view.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1604,12 +1604,12 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.rect.x).eql(10);
-				should(view.rect.y).eql(10);
-				should(label.rect.x).eql(10);
-				should(label.rect.y).eql(0);
-				should(label.rect.width).eql(view.rect.width - 20);
-				should(view.rect.width).not.eql(win.rect.width - 20);
+				should(view.rect.x).be.approximately(10, 1);
+				should(view.rect.y).be.approximately(10, 1);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.y).be.approximately(0, 1);
+				should(label.rect.width).be.approximately(view.rect.width - 20, 1);
+				should(view.rect.width).not.be.approximately(win.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1649,12 +1649,12 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.rect.x).eql(10);
-				should(view.rect.y).eql(10);
-				should(label.rect.x).eql(10);
-				should(label.rect.y).eql(0);
-				should(label.rect.width).eql(view.rect.width - 20);
-				should(view.rect.width).not.eql(win.rect.width - 20);
+				should(view.rect.x).be.approximately(10, 1);
+				should(view.rect.y).be.approximately(10, 1);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.y).be.approximately(0, 1);
+				should(label.rect.width).be.approximately(view.rect.width - 20, 1);
+				should(view.rect.width).not.be.approximately(win.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1694,12 +1694,12 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.rect.x).eql(10);
-				should(view.rect.y).eql(10);
-				should(label.rect.x).eql(10);
-				should(label.rect.y).eql(0);
-				should(label.rect.width).eql(view.rect.width - 20);
-				should(view.rect.width).not.eql(win.rect.width - 20);
+				should(view.rect.x).be.approximately(10, 1);
+				should(view.rect.y).be.approximately(10, 1);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.y).be.approximately(0, 1);
+				should(label.rect.width).be.approximately(view.rect.width - 20, 1);
+				should(view.rect.width).not.be.approximately(win.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1729,8 +1729,8 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(label.rect.x).eql(10);
-				should(label.rect.width).eql(win.rect.width - 20);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.width).be.approximately(win.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1759,8 +1759,8 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(label.rect.x).eql(10);
-				should(label.rect.width).eql(win.rect.width - 20); // Android gives us 97, should be 1260
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.width).be.approximately(win.rect.width - 20, 1); // Android gives us 97, should be 1260
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1789,8 +1789,8 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(label.rect.x).eql(10);
-				should(label.rect.width).eql(win.rect.width - 20);
+				should(label.rect.x).be.approximately(10, 1);
+				should(label.rect.width).be.approximately(win.rect.width - 20, 1);
 				finish();
 			} catch (err) {
 				finish(err);
@@ -1867,12 +1867,12 @@ describe('Titanium.UI.Layout', function () {
 			try {
 				should(v1.rect.x).eql(0);
 				should(v1.rect.y).eql(0);
-				should(v1.rect.width).eql(parent.rect.width);
-				should(v1.rect.height).eql(parent.rect.height);
-				should(v2.rect.x).eql(parent.rect.width - v2.rect.width);
+				should(v1.rect.width).be.approximately(parent.rect.width, 1);
+				should(v1.rect.height).be.approximately(parent.rect.height, 1);
+				should(v2.rect.x).be.approximately(parent.rect.width - v2.rect.width, 1);
 				should(v2.rect.y).eql(0);
-				should(v2.rect.width).eql(50);
-				should(v2.rect.width).eql(50);
+				should(v2.rect.width).be.approximately(50, 1);
+				should(v2.rect.width).be.approximately(50, 1);
 				finish();
 			} catch (e) {
 				finish(e);
