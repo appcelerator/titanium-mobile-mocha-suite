@@ -298,7 +298,7 @@ describe('Titanium.UI.Picker', function () {
 
 	it('DatePicker minDate', function (finish) {
 		var dp = Ti.UI.createPicker({
-			titleype: Ti.UI.PICKER_TYPE_DATE
+			type: Ti.UI.PICKER_TYPE_DATE
 		});
 		var date = new Date(2018, 1, 1);
 		dp.setMinDate(date);
