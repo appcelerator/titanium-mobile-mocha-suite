@@ -325,13 +325,13 @@ describe('Titanium.UI.WebView', function () {
 		var webView = Ti.UI.createWebView({
 				userAgent: 'TEST AGENT'
 			}),
-			url = 'https://www.whoishostingthis.com/tools/user-agent/',
+			url = 'https://www.whatismybrowser.com/detect/what-is-my-user-agent',
 			retry = 3;
 
 		win = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		webView.addEventListener('load', function (e) {
-			var exp = /"info-box user-agent">(.*)<\/div>/g.exec(e.source.html),
+			var exp = /agent=yes">(.*)<\/a/m.exec(e.source.html),
 				userAgent = exp && exp.length > 1 ? exp[1] : undefined;
 			if (userAgent && userAgent === webView.userAgent) {
 				finish();

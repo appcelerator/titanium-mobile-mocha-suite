@@ -42,7 +42,7 @@ describe('Titanium.UI.TabGroup', function () {
 
 	it.windowsBroken('add Map.View to TabGroup', function (finish) {
 		this.slow(5000);
-		this.timeout(10000);
+		this.timeout(15000);
 
 		const map = require('ti.map');
 		const mapView = map.createView({ top: 0, height: '80%' });

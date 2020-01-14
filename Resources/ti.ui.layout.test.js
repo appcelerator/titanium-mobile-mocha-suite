@@ -136,7 +136,7 @@ describe('Titanium.UI.Layout', function () {
 				should(view.rect.width).eql(10);
 				should(view.right).be.undefined;
 				should(view2.right).eql(10);
-				should(view2.rect.x).eql(win.size.width - 20);
+				should(view2.rect.x).be.approximately(win.size.width - 20, 1);
 				should(view2.rect.width).eql(10);
 				should(view2.left).be.undefined;
 
@@ -1295,7 +1295,7 @@ describe('Titanium.UI.Layout', function () {
 			scrollView.removeEventListener('postlayout', listener);
 
 			try {
-				should(innerView.size.height).eql(1200); // FIXME iOS gives "expected 0 to equal 1200"
+				should(innerView.size.height).be.approximately(1200, 5); // FIXME iOS gives "expected 0 to equal 1200"
 				should(innerView.size.width).eql(scrollView.size.width);
 
 				finish();
