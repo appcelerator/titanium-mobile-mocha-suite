@@ -36,6 +36,7 @@ function installSDK(sdkVersion, next) {
 		args.push(sdkVersion);
 		args.push('-d'); // make default
 		// Add force flag if we find that the modules dir is blown away!
+		// eslint-disable-next-line promise/always-return
 		if (!fs.existsSync(path.join(sdkDir, 'modules'))) {
 			args.push('--force'); // make default
 		}
@@ -50,12 +51,15 @@ function installSDK(sdkVersion, next) {
 		});
 		prc.on('exit', function (code) {
 			if (code !== 0) {
+				// eslint-disable-next-line promise/no-callback-in-promise
 				next('Failed to install SDK');
 			} else {
+				// eslint-disable-next-line promise/no-callback-in-promise
 				next();
 			}
 		});
-	});
+	// eslint-disable-next-line promise/no-callback-in-promise
+	}).catch(err => next(err));
 }
 
 /**
@@ -378,7 +382,7 @@ function handleBuild(prc, next) {
 			deploy.stdout.on('data', data => {
 				result += data;
 			});
-			deploy.on('close', _ => {
+			deploy.on('close', _e => {
 				console.log(result);
 			});
 		}
@@ -597,12 +601,15 @@ function cleanupModules(next) {
 				console.log(`${pluginDir} doesnt exist`);
 			}
 
+			// eslint-disable-next-line promise/no-callback-in-promise
 			return next();
 		} catch (e) {
 			console.log(e);
+			// eslint-disable-next-line promise/no-callback-in-promise
 			return next(e);
 		}
-	});
+	// eslint-disable-next-line promise/no-callback-in-promise
+	}).catch(err => next(err));
 }
 
 /**
@@ -817,7 +824,6 @@ if (module.id === '.') {
 				if (err) {
 					console.error(err.toString());
 					process.exit(1);
-					return;
 				}
 
 				async.eachSeries(platforms, function (platform, next) {
@@ -831,7 +837,6 @@ if (module.id === '.') {
 					if (err) {
 						console.error(err.toString());
 						process.exit(1);
-						return;
 					}
 
 					process.exit(0);

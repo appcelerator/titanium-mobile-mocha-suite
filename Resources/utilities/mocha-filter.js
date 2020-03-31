@@ -29,6 +29,8 @@ module.exports = function (defaults) {
  * Adding filters to mocha tests does not persist across test
  * files, so any tests making use of the functions must call
  * this function to set them.
+ * @param {Object} [_checks] an object holding kay/value pairs of name to functions
+ * @param {Boolean} [skipOriginals=undefined] whether to skip including the default set of check functions
  */
 module.exports.setupMocha = function (_checks, skipOriginals) {
 	if (!_checks) {
@@ -43,17 +45,21 @@ module.exports.setupMocha = function (_checks, skipOriginals) {
 
 	/**
 	 * Process the checks
+	 * @param {Function} func mocha global function to extend (see above for the array of possibilities)
+	 * @param {boolean} notFailed whether the filter "passed"
+	 * @returns {object}
 	 */
 	function ext(func, notFailed) {
-		var check = this,
-			returnFunction = {};
+		var returnFunction = {};
 
 		/**
 		 * Parse the provided functions
+		 * @param {string} _key name of the filter function?
 		 */
 		function parseFunctions(_key) {
 			/**
 			 * Function to return when the checks have been processed
+			 * @returns {object}
 			 */
 			returnFunction[_key] = function () {
 				var passed = _checks[_key]();
@@ -77,6 +83,9 @@ module.exports.setupMocha = function (_checks, skipOriginals) {
 
 	/**
 	 * Populate the functions with the new checks
+	 * @param {number} _i index of function to decorate
+	 * @param {string} _extension name of extening filter function
+	 * @param {object} _extensions object to extend
 	 */
 	function populateFunctions(_i, _extension, _extensions) {
 		functions[_i][_extension] = _extensions[_extension];

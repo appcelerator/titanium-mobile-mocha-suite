@@ -632,7 +632,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 		const xhr = Ti.Network.createHTTPClient({});
 		xhr.setTimeout(6e4);
-		xhr.onload = function (e) {
+		xhr.onload = function (_e) {
 			try {
 				// verify that the destination file now exists
 				// TODO: Verify some known contents match?
@@ -665,7 +665,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				}
 			},
 			onerror:
-          e => { finish(new Error('Could not determine TLSv3 support.')); },
+          _e => { finish(new Error('Could not determine TLSv3 support.')); },
 			timeout: 8000
 		});
 		client.open('GET', 'https://ssllabs.com/ssltest/viewMyClient.html');
@@ -686,7 +686,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				finish(error);
 			}
 		};
-		xhr.onload = e => {
+		xhr.onload = _e => {
 			finish();
 		};
 		xhr.onerror = e => {

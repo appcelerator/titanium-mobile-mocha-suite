@@ -369,7 +369,7 @@ describe('assert', function () {
 			should.throws(function () {
 				assert.throws(
 					() => { throw err; },
-					function (error) {
+					function (_error) {
 						return false;
 					}
 				);
@@ -452,7 +452,7 @@ describe('assert', function () {
 		});
 
 		// FIXME: We don't support this yet!
-		it.skip('does not throw when matches Object using Regexp properties', () => {
+		it('does not throw when matches Object using Regexp properties', () => {
 			should.doesNotThrow(function () {
 				const err = new TypeError('Wrong value');
 				err.code = 404;

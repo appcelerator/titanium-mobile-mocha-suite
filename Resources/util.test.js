@@ -1220,7 +1220,7 @@ describe('util', () => {
 				util.types.isAnyArrayBuffer(ab).should.be.true;
 			});
 
-			it.skip('should return true for built-in SharedArrayBuffer', () => {
+			it('should return true for built-in SharedArrayBuffer', () => {
 				// SharedArrayBuffer is disabled in all major JS engines due to Spectre & Meltrdown vulnerabilities
 			});
 

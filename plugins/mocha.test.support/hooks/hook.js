@@ -33,7 +33,7 @@ exports.init = (logger, config, cli) => {
 };
 
 async function adb(argumentArray) {
-	return new Promise(resolve => appc.subprocess.run(ADB_PATH, argumentArray, { shell: false, windowsHide: true }, (error, stdout, stderr) => {
+	return new Promise(resolve => appc.subprocess.run(ADB_PATH, argumentArray, { shell: false, windowsHide: true }, (error, stdout, _stderr) => {
 		resolve(stdout);
 	}));
 }
@@ -46,7 +46,7 @@ async function wakeDevices(logger, builder) {
 		const deviceId = device !== 'emulator' ? [ '-s', device ] : [];
 
 		// Power on the screen if currently off.
-		const powerStatus = await adb([...deviceId, 'shell', 'dumpsys', 'power']);
+		const powerStatus = await adb([ ...deviceId, 'shell', 'dumpsys', 'power' ]);
 		if (powerStatus && powerStatus.includes('mHoldingDisplaySuspendBlocker=false')) {
 			await adb([ ...deviceId, 'shell', 'input', 'keyevent', 'KEYCODE_POWER' ]);
 		}
