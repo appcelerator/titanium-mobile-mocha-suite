@@ -661,11 +661,11 @@ describe('Titanium.Network.HTTPClient', function () {
 			onload: e => {
 				const html = e.source.responseText;
 				if (html.includes('protocol_tls1_3">Yes')) {
-					finish();
+					return finish();
 				}
+				finish(new Error(`Could not determine TLSv3 support: ${html}`));
 			},
-			onerror:
-          _e => { finish(new Error('Could not determine TLSv3 support.')); },
+			onerror: _e => finish(new Error('Could not determine TLSv3 support.')),
 			timeout: 8000
 		});
 		client.open('GET', 'https://ssllabs.com/ssltest/viewMyClient.html');
