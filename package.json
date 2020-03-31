@@ -1,6 +1,6 @@
 {
   "name": "titanium-mobile-mocha-suite",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Build script to test the SDK API using mocha tests.",
   "author": {
     "name": "Appcelerator, Inc.",
