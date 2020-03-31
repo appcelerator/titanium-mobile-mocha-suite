@@ -7,15 +7,15 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.Blob', function () {
-	var win;
+	let win;
 
 	afterEach(function (done) {
 		if (win) {
 			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
+			const t = setTimeout(function () {
 				if (win) {
 					win = null;
 					done();
@@ -38,15 +38,15 @@ describe('Titanium.Blob', function () {
 		}
 	});
 
-	it('.apiName', function () {
+	it('.apiName', () => {
 		// FIXME Should be able to do Ti.Blob.apiName
-		var blob = Ti.Filesystem.getFile('app.js').read();
+		const blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(blob.apiName).be.eql('Ti.Blob');
 	});
 
-	it('constructed from File.read()', function () {
-		var blob = Ti.Filesystem.getFile('app.js').read();
+	it('constructed from File.read()', () => {
+		const blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob).be.an.Object;
 		// should(blob).be.an.instanceof(Ti.Blob); // Crashes Windows, throws uncaught error on iOS & Android
 	});
@@ -85,8 +85,8 @@ describe('Titanium.Blob', function () {
 		win.open();
 	});
 
-	it('.text', function () {
-		var blob = Ti.Filesystem.getFile('app.js').read();
+	it('.text', () => {
+		const blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob.text).be.a.String;
 		should(blob.text.length).be.above(0);
 		should(blob.text).equal(blob.toString());
@@ -94,19 +94,19 @@ describe('Titanium.Blob', function () {
 	});
 
 	describe('#append()', function () {
-		it('is a Function', function () {
-			var blob = Ti.Filesystem.getFile('app.js').read();
+		it('is a Function', () => {
+			const blob = Ti.Filesystem.getFile('app.js').read();
 			should(blob.append).be.a.Function;
 		});
 
-		it('appends two files together', function () {
-			var appJsBlob = Ti.Filesystem.getFile('app.js').read();
+		it('appends two files together', () => {
+			const appJsBlob = Ti.Filesystem.getFile('app.js').read();
 			// FIXME Use __filename? That returns '/ti.blob.test.js' on iOS, which getFile doesn't handle correctly
-			var thisFile = Ti.Filesystem.getFile('ti.blob.test.js').read();
-			var originalLength = appJsBlob.length;
-			var originalText = appJsBlob.text;
-			var thisFileText = thisFile.text;
-			var thisFileLength = thisFile.length;
+			const thisFile = Ti.Filesystem.getFile('ti.blob.test.js').read();
+			const originalLength = appJsBlob.length;
+			const originalText = appJsBlob.text;
+			const thisFileText = thisFile.text;
+			const thisFileLength = thisFile.length;
 			appJsBlob.append(thisFile);
 			// Now the blob's text should be the concatentaion of the two blobs
 			appJsBlob.text.should.be.eql(originalText + thisFileText);
@@ -118,24 +118,25 @@ describe('Titanium.Blob', function () {
 		});
 	});
 
-	it('.nativePath', function () {
-		var blob = Ti.Filesystem.getFile('app.js').read();
+	it('.nativePath', () => {
+		const blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob.nativePath).be.a.String;
 		should(blob.nativePath.length).be.above(0);
 		// TODO Test that it's read-only
 	});
 
 	describe('.mimeType', function () {
-		it.windowsDesktopBroken('text/javascript', function () {
-			var blob = Ti.Filesystem.getFile('app.js').read();
+		it.windowsDesktopBroken('javascript file', () => {
+			const blob = Ti.Filesystem.getFile('app.js').read();
 			should(blob.mimeType).be.a.String;
 			should(blob.mimeType.length).be.above(0); // Windows desktop returns 0 here
-			should(blob.mimeType).be.eql('text/javascript');
-			// TODO Test that it's read-only
+			// Android is reporting 'application/javascript' now on Android 29+
+			// iOS/older Android report 'text/javascript'
+			[ 'text/javascript', 'application/javascript' ].should.containEql(blob.mimeType);
 		});
 
-		it('image/png', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
+		it('image/png', () => {
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
 			should(blob.mimeType).be.a.String;
 			should(blob.mimeType.length).be.above(0);
 			should(blob.mimeType).be.eql('image/png');
@@ -143,8 +144,8 @@ describe('Titanium.Blob', function () {
 		});
 	});
 
-	it('.length', function () {
-		var blob = Ti.Filesystem.getFile('app.js').read();
+	it('.length', () => {
+		const blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob.length).be.a.Number;
 		should(blob.length).be.above(0);
 		// TODO Test that it's read-only
@@ -152,8 +153,8 @@ describe('Titanium.Blob', function () {
 
 	// Parity issue, add to Android API
 	describe('.size', function () {
-		it('returns byte count of non-image (JS file)', function () {
-			var blob = Ti.Filesystem.getFile('app.js').read();
+		it('returns byte count of non-image (JS file)', () => {
+			const blob = Ti.Filesystem.getFile('app.js').read();
 			should(blob.size).be.a.Number;
 			should(blob.size).be.above(0);
 			should(blob.size).be.eql(blob.length); // size and length should be the same for non-images
@@ -161,8 +162,8 @@ describe('Titanium.Blob', function () {
 		});
 
 		// FIXME Returns 801 on Windows
-		it.windowsBroken('returns pixel count for image (PNG)', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
+		it.windowsBroken('returns pixel count for image (PNG)', () => {
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
 			should(blob.size).be.a.Number;
 			should(blob.size).equal(blob.width * blob.height);
 			// TODO Test that it's read-only
@@ -170,8 +171,8 @@ describe('Titanium.Blob', function () {
 	});
 
 	describe('.width', function () {
-		it('returns pixel count for PNG', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
+		it('returns pixel count for PNG', () => {
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
 			should(blob.width).be.a.Number;
 			should(blob.width).be.eql(150);
 			// TODO Test that it's read-only
@@ -186,15 +187,15 @@ describe('Titanium.Blob', function () {
 	});
 
 	describe('.height', function () {
-		it('returns pixel count for PNG', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
+		it('returns pixel count for PNG', () => {
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
 			should(blob.height).be.a.Number;
 			should(blob.height).be.eql(150);
 			// TODO Test that it's read-only
 		});
 
-		it('returns 0 for non-image (JS file)', function () {
-			var blob = Ti.Filesystem.getFile('app.js').read();
+		it('returns 0 for non-image (JS file)', () => {
+			const blob = Ti.Filesystem.getFile('app.js').read();
 			should(blob.height).be.a.Number;
 			should(blob.height).be.eql(0);
 			// TODO Test that it's read-only
@@ -325,73 +326,73 @@ describe('Titanium.Blob', function () {
 		});
 	});
 
-	describe('#imageWithRoundedCorner()', function () {
-		it('is a Function', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
+	describe('#imageWithRoundedCorner()', () => {
+		it('is a Function', () => {
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
 			should(blob.imageWithRoundedCorner).be.a.Function;
 		});
 
 		it.windowsBroken('with PNG generates rounded corner image with an additional default border of 1', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
-			var cornerSize = 4;
-			var borderSize = 1; // defaults to 1 when unspecified
-			var b = blob.imageWithRoundedCorner(cornerSize);
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
+			const cornerSize = 4;
+			const borderSize = 1; // defaults to 1 when unspecified
+			const b = blob.imageWithRoundedCorner(cornerSize);
 			should(b).be.an.Object;
 			should(b.width).be.eql(blob.width + (2 * borderSize));
 			should(b.height).be.eql(blob.height + (2 * borderSize));
 		});
 
-		it('with non-image (JS file) returns null', function () {
-			var blob = Ti.Filesystem.getFile('app.js').read();
-			var b = blob.imageWithRoundedCorner(1);
+		it('with non-image (JS file) returns null', () => {
+			const blob = Ti.Filesystem.getFile('app.js').read();
+			const b = blob.imageWithRoundedCorner(1);
 			should(b).not.exist;
 		});
 	});
 
-	describe('#imageWithTransparentBorder()', function () {
-		it('is a Function', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
+	describe('#imageWithTransparentBorder()', () => {
+		it('is a Function', () => {
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
 			should(blob.imageWithTransparentBorder).be.a.Function;
 		});
 
-		it.windowsBroken('with PNG adds border around original image', function () {
-			var blob = Ti.Filesystem.getFile('Logo.png').read();
-			var borderSize = 5;
-			var b = blob.imageWithTransparentBorder(borderSize);
+		it.windowsBroken('with PNG adds border around original image', () => {
+			const blob = Ti.Filesystem.getFile('Logo.png').read();
+			const borderSize = 5;
+			const b = blob.imageWithTransparentBorder(borderSize);
 			should(b).be.an.Object;
 			should(b.width).be.eql(blob.width + (2 * borderSize)); // border on each side
 			should(b.height).be.eql(blob.height + (2 * borderSize)); // border on top+bottom
 		});
 
-		it('with non-image (JS file) returns null', function () {
-			var blob = Ti.Filesystem.getFile('app.js').read();
-			var b = blob.imageWithTransparentBorder(1);
+		it('with non-image (JS file) returns null', () => {
+			const blob = Ti.Filesystem.getFile('app.js').read();
+			const b = blob.imageWithTransparentBorder(1);
 			should(b).not.exist;
 		});
 	});
 
-	describe('#toString()', function () {
-		it('is a Function', function () {
+	describe('#toString()', () => {
+		it('is a Function', () => {
 			const blob = Ti.Filesystem.getFile('app.js').read();
 			should(blob.toString).be.a.Function;
 		});
 
-		it('returns text value', function () {
+		it('returns text value', () => {
 			const blob = Ti.Filesystem.getFile('app.js').read();
 			should(blob.toString()).eql(blob.text);
 		});
 
-		it('returns "[object TiBlob] for binary content', function () {
+		it('returns "[object TiBlob] for binary content', () => {
 			const blob = Ti.Filesystem.getFile('SmallLogo.png').read();
 			should(blob.toString()).eql('[object TiBlob]');
 		});
 
-		it('returns empty string for buffer with empty string', function () {
+		it('returns empty string for buffer with empty string', () => {
 			const blob = Ti.createBuffer({ value: '' }).toBlob();
 			should(blob.toString()).eql('');
 		});
 
-		it('returns ascii text content for buffer with ascii text content', function () {
+		it('returns ascii text content for buffer with ascii text content', () => {
 			const blob = Ti.createBuffer({ value: 'test toString()' }).toBlob();
 			should(blob.toString()).eql('test toString()');
 		});
