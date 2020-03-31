@@ -221,10 +221,13 @@ describe('Titanium.UI.TabGroup', function () {
 				window: win
 			});
 
-			tabGroup.addEventListener('open', () => {
+			function closeTabGroup() {
 				setTimeout(() => tabGroup.close(), 1);
-			});
+			}
+
+			tabGroup.addEventListener('open', closeTabGroup);
 			tabGroup.addEventListener('close', function listener () {
+				tabGroup.removeEventListener('open', closeTabGroup);
 				tabGroup.removeEventListener('close', listener);
 				finish();
 			});
@@ -261,15 +264,18 @@ describe('Titanium.UI.TabGroup', function () {
 				window: win
 			});
 
+			function closeTabGroup() {
+				setTimeout(() => tabGroup.close(), 1);
+			}
+
 			function done() {
+				tabGroup.removeEventListener('open', closeTabGroup);
 				tabGroup.removeEventListener('blur', done);
 				finish();
 			}
 
 			tabGroup.addEventListener('blur', done);
-			tabGroup.addEventListener('open', () => {
-				setTimeout(() => tabGroup.close(), 1);
-			});
+			tabGroup.addEventListener('open', closeTabGroup);
 
 			tabGroup.addTab(tab);
 			tabGroup.open();
