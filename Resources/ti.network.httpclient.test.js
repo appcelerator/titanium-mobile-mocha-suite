@@ -660,9 +660,11 @@ describe('Titanium.Network.HTTPClient', function () {
 		const client = Ti.Network.createHTTPClient({
 			onload: e => {
 				const html = e.source.responseText;
-				if (html.includes('protocol_tls1_3">Yes')) {
+				if (html.includes('protocol_tls1_3">Yes')
+					|| html.includes('id="protocol_tls1_3"> <span  title="RFC 8446" ><font color=green>Yes</font>')) {
 					return finish();
 				}
+				// TDOO: Can we truncate the html somehow?
 				finish(new Error(`Could not determine TLSv3 support: ${html}`));
 			},
 			onerror: _e => finish(new Error('Could not determine TLSv3 support.')),
