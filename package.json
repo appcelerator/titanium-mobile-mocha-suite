@@ -46,7 +46,7 @@
     "lint-staged": "^10.1.0"
   },
   "engines": {
-    "node": ">=8.0"
+    "node": ">=10.0"
   },
   "scripts": {
     "integration": "node scripts/test.js -p android,ios -b master",
