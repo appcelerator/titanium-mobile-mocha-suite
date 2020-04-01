@@ -30,7 +30,7 @@
     "colors": "^1.4.0",
     "commander": "^5.0.0",
     "ejs": "~2.6.1",
-    "fs-extra": "^8.0.1",
+    "fs-extra": "^9.0.0",
     "stream-splitter": "~0.3.2",
     "titanium": "^5.2.2"
   },
