@@ -19,6 +19,8 @@ describe('Titanium', () => {
 		should(Ti).have.readOnlyProperty('version').which.is.a.String();
 		should(Ti.version).not.eql('__VERSION__'); // This is the placeholder value used in iOS, let's ensure we replaced it!
 		should(Ti.version).match(/\d+\.\d+\.\d+/); // i.e. '9.0.0' (the short version string, no timestamp qualifier)
+		// Build plugin "mocha.test.support" stores SDK version to app properties.
+		should(Ti.version).eql(Ti.App.Properties.getString('Ti.version'));
 	});
 
 	it('#getVersion()', () => {

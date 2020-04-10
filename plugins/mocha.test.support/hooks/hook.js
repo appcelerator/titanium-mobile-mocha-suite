@@ -24,6 +24,11 @@ exports.init = (logger, config, cli) => {
 	// Set ADB path
 	ADB_PATH = path.join(ANDROID_SDK, 'platform-tools', 'adb');
 
+	cli.on('build.pre.compile', async (builder, done) => {
+		builder.tiapp.properties['Ti.version'] = { type: 'string', value: builder.titaniumSdkVersion };
+		done();
+	});
+
 	cli.on('build.post.compile', async (builder, done) => {
 		if (builder.platformName === 'android') {
 			await wakeDevices(logger, builder).catch(e => logger.warn(`could not wake ${builder.deviceId}: ${e}`));
