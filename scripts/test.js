@@ -211,12 +211,24 @@ async function npmInstall(dir) {
  */
 async function copyMochaAssets() {
 	console.log('Copying resources to project...');
-	// TODO: Support root-level package.json!
-	const resourcesDir = path.join(PROJECT_DIR, 'Resources');
 	return Promise.all([
+		// root-level package.json stuff
+		(async () => {
+			// copy all files/dirs under root to root of project
+			const rootDir = path.join(SOURCE_DIR, 'root');
+			const subfiles = await fs.readdir(rootDir);
+			await Promise.all(subfiles.map(async f => {
+				return fs.copy(path.join(rootDir, f), path.join(PROJECT_DIR, f));
+			}));
+			// then run npm install in root of project
+			return npmInstall(PROJECT_DIR);
+		})(),
 		// Resources
 		(async () => {
+			// copy Resources into project
+			const resourcesDir = path.join(PROJECT_DIR, 'Resources');
 			await fs.copy(path.join(SOURCE_DIR, 'Resources'), resourcesDir);
+			// run npm install in project's Resource dir (if there is a package.json)
 			if (await fs.pathExists(path.join(resourcesDir, 'package.json'))) {
 				return npmInstall(resourcesDir);
 			}
