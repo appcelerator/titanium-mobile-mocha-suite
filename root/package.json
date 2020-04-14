@@ -7,5 +7,8 @@
         "baz": "file:fake_node_modules/baz",
         "foo": "file:fake_node_modules/foo",
         "should": "^13.2.3"
+    },
+    "devDependencies": {
+        "ms": "^2.1.2"
     }
 }
