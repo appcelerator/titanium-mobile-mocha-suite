@@ -3,3 +3,4 @@ scripts/mocha
 scripts/junit.*.xml
 /node_modules/
 Resources/node_modules/
+root/node_modules/
