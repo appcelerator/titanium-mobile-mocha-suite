@@ -9,24 +9,22 @@
 
 'use strict';
 
-var should = require('./utilities/assertions');
-var utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe.windowsBroken('Core', () => {
 	describe('Runtime', () => {
 		describe('hasProperty', () => {
 			describe('Top-Module', () => {
 				describe('Submodules', () => {
-					// @fixme the not.have.property check throws an error on android, crashes Windows
-					it.androidAndWindowsBroken('should check for sub-module', () => {
+					it('should check for sub-module', () => {
 						Ti.should.have.property('UI');
 						Ti.should.not.have.property('Foo');
 					});
 				});
 
 				describe('Custom properties', () => {
-					// @fixme the not.have.property check throws an error on android, crashes Windows
-					it.androidAndWindowsBroken('should check for custom properties', () => {
+					it('should check for custom properties', () => {
 						Ti.should.not.have.property('custom');
 						Ti.custom = {};
 						Ti.should.have.property('custom');
@@ -105,7 +103,7 @@ describe.windowsBroken('Core', () => {
 						const view = Ti.UI.createView();
 						view.should.not.have.property('addSomething');
 						view.should.have.property('add');
-						should(view.add).be.a.Function;
+						should(view.add).be.a.Function();
 					});
 				});
 
@@ -120,13 +118,15 @@ describe.windowsBroken('Core', () => {
 		});
 
 		describe('Static Method Reference', () => {
-			// Reference static method.
-			const createProxy = Ti.createProxy;
-			should(createProxy).be.a.Function;
+			it.iosBroken('should allow referencing static createProxy method and invoke it', () => {
+				// Reference static method.
+				const createBuffer = Ti.createBuffer;
+				should(createBuffer).be.a.Function();
 
-			// Attempt to call static method.
-			const result = createProxy({});
-			should(result).be.a.Object;
+				// Attempt to call static method.
+				const result = createBuffer({}); // ios fails with: "self type check failed for Objective-C instance method"
+				should(result).be.a.Object();
+			});
 		});
 	});
 });
