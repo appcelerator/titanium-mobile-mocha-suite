@@ -42,7 +42,7 @@
     "eslint-config-axway": "^4.6.0",
     "eslint-plugin-mocha": "^6.3.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.1.7"
+    "lint-staged": "^10.2.0"
   },
   "engines": {
     "node": ">=10.0"
