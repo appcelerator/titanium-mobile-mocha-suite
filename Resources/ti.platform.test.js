@@ -17,10 +17,10 @@ describe('Titanium.Platform', function () {
 		should(Ti.Platform.apiName).be.eql('Ti.Platform');
 	});
 
-	// TODO: Expose on Android as well?
-	it.androidMissing('canOpenURL()', () => {
-		should(Ti.Platform.canOpenURL).be.a.Function(); // Android gives undefined?
-		should(Ti.Platform.canOpenURL('http://www.appcelerator.com/')).be.a.Boolean();
+	it('canOpenURL()', () => {
+		should(Ti.Platform.canOpenURL).be.a.Function();
+		should(Ti.Platform.canOpenURL('http://www.appcelerator.com/')).be.eql(true);
+		should(Ti.Platform.canOpenURL('mocha://')).be.eql(true);
 	});
 
 	it('#createUUID()', () => {
@@ -35,8 +35,110 @@ describe('Titanium.Platform', function () {
 		should(result.charAt(result.length - 1)).not.eql('}');
 	});
 
-	it('#openURL()', () => {
-		should(Ti.Platform.openURL).be.a.Function();
+	describe('#openURL', () => {
+		// Checks if openURL() successfully opened this app with its own "mocha://" custom URL scheme.
+		function handleUrl(url, finish) {
+			if (utilities.isAndroid()) {
+				Ti.Android.rootActivity.addEventListener('newintent', function listener(e) {
+					try {
+						Ti.Android.rootActivity.removeEventListener('newintent', listener);
+						should(e.intent.data).be.eql(url);
+						finish();
+					} catch (err) {
+						finish(err);
+					}
+				});
+			} else if (utilities.isIOS()) {
+				Ti.App.iOS.addEventListener('handleurl', function listener(e) {
+					try {
+						Ti.App.iOS.removeEventListener('handleurl', listener);
+						should(e.launchOptions.url).be.eql(url);
+						finish();
+					} catch (err) {
+						finish(err);
+					}
+				});
+			} else {
+				finish(new Error('This test is not supported on this platform.'));
+			}
+		}
+
+		it('(url)', (finish) => {
+			const url = 'mocha://test1';
+			handleUrl(url, finish);
+			should(Ti.Platform.openURL).be.a.Function;
+			const wasOpened = Ti.Platform.openURL(url);
+			if (utilities.isIOS()) {
+				should(wasOpened).be.a.Boolean;
+			} else {
+				should(wasOpened).be.eql(true);
+			}
+		});
+
+		it('(url, callback)', (finish) => {
+			const url = 'mocha://test2';
+			let wasCallbackInvoked = false;
+			let wasUrlReceived = false;
+
+			handleUrl(url, (err) => {
+				wasUrlReceived = true;
+				if (err) {
+					finish(err);
+				} else if (wasCallbackInvoked) {
+					finish();
+				}
+			});
+			const wasOpened = Ti.Platform.openURL(url, (e) => {
+				try {
+					wasCallbackInvoked = true;
+					should(e.success).be.eql(true);
+					if (wasUrlReceived) {
+						finish();
+					}
+				} catch (err) {
+					finish(err);
+				}
+			});
+			if (utilities.isIOS()) {
+				should(wasOpened).be.a.Boolean;
+			} else {
+				should(wasOpened).be.eql(true);
+			}
+		});
+
+		it('(url, options, callback)', (finish) => {
+			const url = 'mocha://test3';
+			let wasCallbackInvoked = false;
+			let wasUrlReceived = false;
+
+			handleUrl(url, (err) => {
+				wasUrlReceived = true;
+				if (err) {
+					finish(err);
+				} else if (wasCallbackInvoked) {
+					finish();
+				}
+			});
+			const options = {
+				UIApplicationOpenURLOptionsOpenInPlaceKey: true
+			};
+			const wasOpened = Ti.Platform.openURL(url, options, (e) => {
+				try {
+					wasCallbackInvoked = true;
+					should(e.success).be.eql(true);
+					if (wasUrlReceived) {
+						finish();
+					}
+				} catch (err) {
+					finish(err);
+				}
+			});
+			if (utilities.isIOS()) {
+				should(wasOpened).be.a.Boolean;
+			} else {
+				should(wasOpened).be.eql(true);
+			}
+		});
 	});
 
 	it('#is24HourTimeFormat()', () => {

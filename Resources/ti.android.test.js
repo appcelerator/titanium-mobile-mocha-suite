@@ -34,8 +34,9 @@ describe.android('Titanium.Android', function () {
 		newIntent.putExtra('MyBoolean', true);
 		newIntent.putExtra('MyDouble', 123.456);
 		newIntent.putExtra('MyString', 'Hello World');
-		Ti.Android.rootActivity.addEventListener('newintent', function (e) {
+		Ti.Android.rootActivity.addEventListener('newintent', function listener(e) {
 			try {
+				Ti.Android.rootActivity.removeEventListener('newintent', listener);
 				function validateIntent(intent) {
 					should(intent).be.a.Object();
 					should(intent.action).eql(newIntent.action);
