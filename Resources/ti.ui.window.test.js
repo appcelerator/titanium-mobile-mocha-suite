@@ -710,6 +710,11 @@ describe('Titanium.UI.Window', function () {
 		const majorVersion = parseInt(matches[2], 10);
 		if (iPhoneOriPad === 'iPhone') {
 			const minorVersion = parseInt(matches[3], 10);
+			// iPhone SE 2 has a home button
+			if (majorVersion === 12 && minorVersion === 8) {
+				return true;
+			}
+
 			// iPhones after iPhone X have no home button
 			if (majorVersion > 10) {
 				return false;
@@ -718,6 +723,7 @@ describe('Titanium.UI.Window', function () {
 			if (majorVersion < 10) {
 				return true;
 			}
+			// at this point majorVersion is 10...
 			// iPhone X has no home button (but iPhone 8 does!)
 			if (minorVersion === 3 || minorVersion === 6) {
 				return false;
