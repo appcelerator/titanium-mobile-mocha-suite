@@ -212,7 +212,7 @@ describe('Titanium.UI', function () {
 	});
 
 	it('#fetchSemanticColor()', function () {
-		var isiOS13 = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') && (parseInt(Ti.Platform.version.split('.')[0]) >= 13);
+		const isiOS13 = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') && (parseInt(Ti.Platform.version.split('.')[0]) >= 13);
 		const semanticColors = require('./semantic.colors.json');
 
 		if (isiOS13) {
@@ -224,6 +224,20 @@ describe('Titanium.UI', function () {
 			should(Ti.UI.fetchSemanticColor('textColor')).equal(semanticColors.textColor.dark);
 
 		}
+	});
+
+	it('use semantic colors via color properties', function () {
+		should(function () {
+			const label = Ti.UI.createLabel({
+				color: 'textColor'
+			});
+
+			const view = Ti.UI.createView({
+				backgroundColor: '#fff'
+			});
+
+			view.add(label);
+		}).not.throw();
 	});
 
 	// TODO Write tests for Ti.UI.global properties below!
