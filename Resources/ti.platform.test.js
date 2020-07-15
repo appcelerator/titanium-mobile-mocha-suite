@@ -19,8 +19,8 @@ describe('Titanium.Platform', function () {
 
 	it('canOpenURL()', () => {
 		should(Ti.Platform.canOpenURL).be.a.Function();
-		should(Ti.Platform.canOpenURL('http://www.appcelerator.com/')).be.eql(true);
-		should(Ti.Platform.canOpenURL('mocha://')).be.eql(true);
+		should(Ti.Platform.canOpenURL('http://www.appcelerator.com/')).be.true();
+		should(Ti.Platform.canOpenURL('mocha://')).be.true();
 	});
 
 	it('#createUUID()', () => {
@@ -43,20 +43,20 @@ describe('Titanium.Platform', function () {
 					try {
 						Ti.Android.rootActivity.removeEventListener('newintent', listener);
 						should(e.intent.data).be.eql(url);
-						finish();
 					} catch (err) {
-						finish(err);
+						return finish(err);
 					}
+					finish();
 				});
 			} else if (utilities.isIOS()) {
 				Ti.App.iOS.addEventListener('handleurl', function listener(e) {
 					try {
 						Ti.App.iOS.removeEventListener('handleurl', listener);
 						should(e.launchOptions.url).be.eql(url);
-						finish();
 					} catch (err) {
-						finish(err);
+						return finish(err);
 					}
+					finish();
 				});
 			} else {
 				finish(new Error('This test is not supported on this platform.'));
@@ -66,12 +66,12 @@ describe('Titanium.Platform', function () {
 		it('(url)', (finish) => {
 			const url = 'mocha://test1';
 			handleUrl(url, finish);
-			should(Ti.Platform.openURL).be.a.Function;
+			should(Ti.Platform.openURL).be.a.Function();
 			const wasOpened = Ti.Platform.openURL(url);
 			if (utilities.isIOS()) {
-				should(wasOpened).be.a.Boolean;
+				should(wasOpened).be.a.Boolean();
 			} else {
-				should(wasOpened).be.eql(true);
+				should(wasOpened).be.true();
 			}
 		});
 
@@ -83,26 +83,27 @@ describe('Titanium.Platform', function () {
 			handleUrl(url, (err) => {
 				wasUrlReceived = true;
 				if (err) {
-					finish(err);
-				} else if (wasCallbackInvoked) {
+					return finish(err);
+				}
+				if (wasCallbackInvoked) {
 					finish();
 				}
 			});
 			const wasOpened = Ti.Platform.openURL(url, (e) => {
 				try {
 					wasCallbackInvoked = true;
-					should(e.success).be.eql(true);
-					if (wasUrlReceived) {
-						finish();
-					}
+					should(e.success).be.true();
 				} catch (err) {
-					finish(err);
+					return finish(err);
+				}
+				if (wasUrlReceived) {
+					finish();
 				}
 			});
 			if (utilities.isIOS()) {
 				should(wasOpened).be.a.Boolean;
 			} else {
-				should(wasOpened).be.eql(true);
+				should(wasOpened).be.true();
 			}
 		});
 
@@ -114,8 +115,9 @@ describe('Titanium.Platform', function () {
 			handleUrl(url, (err) => {
 				wasUrlReceived = true;
 				if (err) {
-					finish(err);
-				} else if (wasCallbackInvoked) {
+					return finish(err);
+				}
+				if (wasCallbackInvoked) {
 					finish();
 				}
 			});
@@ -125,12 +127,12 @@ describe('Titanium.Platform', function () {
 			const wasOpened = Ti.Platform.openURL(url, options, (e) => {
 				try {
 					wasCallbackInvoked = true;
-					should(e.success).be.eql(true);
-					if (wasUrlReceived) {
-						finish();
-					}
+					should(e.success).be.true();
 				} catch (err) {
-					finish(err);
+					return finish(err);
+				}
+				if (wasUrlReceived) {
+					finish();
 				}
 			});
 			if (utilities.isIOS()) {
@@ -188,9 +190,9 @@ describe('Titanium.Platform', function () {
 		should(Ti.Platform.batteryMonitoring).be.a.Boolean();
 		// Note: Windows 10 Mobile doesn't support battery monitoring
 		if (utilities.isWindowsPhone() && !/^10\./.test(Ti.Platform.version)) {
-			should(Ti.Platform.batteryMonitoring).be.eql(true);
+			should(Ti.Platform.batteryMonitoring).be.true();
 		} else if (utilities.isWindowsDesktop()) {
-			should(Ti.Platform.batteryMonitoring).be.eql(false);
+			should(Ti.Platform.batteryMonitoring).be.false();
 		}
 	});
 
